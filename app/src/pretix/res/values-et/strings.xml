@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="about_title">Programmist pretix Marketplace Client</string>
+    <string name="empty_installed_app_list">Mitte ühtegi rakendust ei ole paigaldatud.\n\nSinu seadmes on rakendusi,
+        kuid nad ei ole paigaldatud pretix Marketplace Clientist. Selle põhjuseks võib olla kas vajadus hoidlaid värskendada või sinu
+        rakenduste puudumine nendes hoidlates.
+    </string>
+    <string name="local_repo_running">pretix Marketplace Client on valmis vahetama</string>
+    <string name="crash_dialog_title">pretix Marketplace Clienti tabas krahh</string>
+    <string name="app_permission_storage">pretix Marketplace Client vajab sellele seadmele paigaldamisel salvestusõigust. Palun luba see järgmisel ekraanil, et jätkata paigaldust.</string>
+    <string name="send_installed_apps_csv">pretix Marketplace Clienti paigaldatud rakendused CSV failina</string>
+    <string name="send_to_fdroid_metrics_summary">Saada anonüümselt ja iganädalaselt pretix Marketplace Clienti meetrika (vajalik on paigaldamise ajaloo säilitamine)</string>
+</resources>

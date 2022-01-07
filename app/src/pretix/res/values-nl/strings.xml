@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Over pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client is klaar om apps uit te wisselen</string>
+    <string name="swap_welcome">Welkom bij pretix Marketplace Client!</string>
+    <string name="swap_nfc_description">Als uw vriend pretix Marketplace Client geïnstalleerd heeft en NFC ingeschakeld is, hou dan jullie apparaten tegen elkaar.</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_send_fdroid">Verstuur pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client is gecrasht</string>
+    <string name="app_permission_storage">pretix Marketplace Client heeft opslagtoestemming nodig om dit op de opslagruimte te installeren. Geef deze toestemming op het volgende scherm om de installatie verder te zetten.</string>
+    <string name="send_installed_apps_csv">Apps geïnstalleerd door pretix Marketplace Client als CSV-bestand</string>
+    <string name="send_to_fdroid_metrics_summary">Verstuur anonieme gegevens wekelijks naar pretix Marketplace Client Statistieken (vereist het Behoud van Installatie geschiedenis)</string>
+</resources>

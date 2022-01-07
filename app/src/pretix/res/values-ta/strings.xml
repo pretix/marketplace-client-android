@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="send_to_fdroid_metrics_summary">Anonymous தரவை வாரந்தோறும் pretix Marketplace Client அளவீடுகளுக்கு அனுப்புகிறது (வரலாற்றை நிறுவ வேண்டும்)</string>
+    <string name="swap_send_fdroid">அனுப்புக pretix Marketplace Client</string>
+    <string name="swap_nfc_description">உங்கள் நண்பருக்கு pretix Marketplace Client மற்றும் NFC இயக்கப்பட்டிருந்தால் உங்கள் சாதனங்களை ஒன்றாகத் தொடவும்.</string>
+</resources>

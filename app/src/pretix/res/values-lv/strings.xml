@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="system_installer_on">Izmantot pretix Marketplace Client Priviliģēto Papildinājumu, lai instalētu, atjauninātu un dzēstu pakotnes</string>
+    <string name="about_title">Par pretix Marketplace Client</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_send_fdroid">Sūtīt pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client beidza strādāt</string>
+    <string name="swap_welcome">Sveicināti pretix Marketplace Client!</string>
+    <string name="app_permission_storage">pretix Marketplace Client ir nepieciešams krātuves piekļuve lai ieinstalētu šo uz krātuves. Lūdzu atļaut to nākamējā paziņojumā lai varētu turpināt ar lejupielādi.</string>
+    <string name="send_to_fdroid_metrics_summary">Nosūta anonīmus datus katru nedēļu uz pretix Marketplace Client Rādītājiem (nepieciešams saglabāt instalāciju vēsturi)</string>
+    <string name="swap_nfc_description">Ja jūsu draugam ir pretix Marketplace Client un NFC ieslēgts salieciet savas ierīces kopā.</string>
+    <string name="local_repo_running">pretix Marketplace Client ir gatavs mijmaiņai</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">A pitzu de pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client est prontu pro imbiare cun swap</string>
+    <string name="swap_welcome">Benènnidu in pretix Marketplace Client!</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_send_fdroid">Imbia pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client s\'est serradu</string>
+    <string name="app_permission_storage">pretix Marketplace Client tenet bisòngiu de unu permissu pro installare custu in sa memòria. Pro praghere dae·liu in s\'ischermu chi benit pro sighire cun s\'installatzione.</string>
+    <string name="send_installed_apps_csv">Aplicatziones installadas dae pretix Marketplace Client comente unu documentu CSV</string>
+    <string name="send_to_fdroid_metrics_summary">Imbia in manera anònima datos cada chida a sas mètricas de pretix Marketplace Client (bisòngiat de su sarvamentu de sa cronologia de sas installatziones)</string>
+</resources>

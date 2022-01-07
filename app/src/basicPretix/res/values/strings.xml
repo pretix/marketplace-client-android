@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="about_title">About pretix Marketplace Client</string>
+    <string name="applicationId">eu.pretix.marketplace.client.android.basic</string>
+</resources>

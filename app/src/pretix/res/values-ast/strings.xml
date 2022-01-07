@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Tocante a pretix Marketplace Client</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="empty_installed_app_list">Nun hai aplicaciones instalaes.
+\n
+\nHai aplicaciones nel preséu pero nun tán disponibles en pretix Marketplace Client. Esto podría ser porque precises anovar los depósitos o amestar otros que tengan eses aplicaciones disponibles.</string>
+    <string name="crash_dialog_title">pretix Marketplace Client cascó</string>
+    <string name="app_permission_storage">pretix Marketplace Client precisa\'l permisu d\'almacenamientu pa instalar esto. Concéde-ylu na pantalla siguiente pa siguir cola instalación.</string>
+</resources>

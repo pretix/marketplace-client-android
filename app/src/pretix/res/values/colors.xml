@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <color name="unsigned">#ffCC0000</color>
+    <color name="unverified">#ff999999</color>
+    <color name="red">#ffC44F4F</color>
+
+    <color name="fdroid_blue_light">#ff7F4A91</color>
+    <color name="fdroid_blue">#ff3B1C4A</color>
+    <color name="fdroid_blue_dark">#ff3B1C4A</color>
+    <color name="fdroid_green_light">#6BDB8B</color>
+    <color name="fdroid_green">#ff50A167</color>
+
+</resources>

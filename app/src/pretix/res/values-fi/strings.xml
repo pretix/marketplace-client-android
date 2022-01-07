@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="system_installer_on">Käytä pretix Marketplace Clientin etuoikeutettuja laajennuksia pakettien asentamiseen, päivittämiseen ja poistamiseen</string>
+    <string name="about_title">Tietoa pretix Marketplace Clientista</string>
+    <string name="local_repo_running">pretix Marketplace Client on valmis vaihtamaan</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client on kaatunut</string>
+    <string name="empty_installed_app_list">Ei asennettuja sovelluksia.
+\n
+\nLaitteessasi on sovelluksia, mutta ne eivät ole saatavilla pretix Marketplace Clientissa. Tämä voi johtua joko siitä, että sovelluslähteesi tarvitsee päivittää tai sovelluslähteissä ei yksinkertaisesti ole sovelluksiasi saatavilla.</string>
+    <string name="app_permission_storage">pretix Marketplace Client tarvitsee tämän asentamiseen oikeuden tallennustilaan. Ole hyvä ja myönnä oikeus seuraavassa ruudussa jatkaaksesi asennusta.</string>
+    <string name="send_installed_apps_csv">Sovellukset, jotka pretix Marketplace Client asentanut CSV-tiedostona</string>
+</resources>

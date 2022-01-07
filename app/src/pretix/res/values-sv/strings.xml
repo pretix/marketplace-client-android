@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Om pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client är redo att utbyta</string>
+    <string name="swap_welcome">Välkommen till pretix Marketplace Client!</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_nfc_description">Om din vän har pretix Marketplace Client och NFC påslaget, lägg samman era enheter.</string>
+    <string name="swap_send_fdroid">Skicka pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client har kraschat</string>
+    <string name="app_permission_storage">pretix Marketplace Client behöver lagringstillstånd för att installera detta till lagring. Vänligen tillåt det på nästa skärm för att fortsätta med installationen.</string>
+    <string name="send_installed_apps_csv">Appar installerade av pretix Marketplace Client som CSV-fil</string>
+    <string name="send_to_fdroid_metrics_summary">Skickar anonyma data varje vecka till pretix Marketplace Client Metrics (kräver Behåll installationshistorik)</string>
+</resources>

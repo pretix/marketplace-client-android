@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Om pretix Marketplace Client</string>
+    <string name="swap_nfc_description">Hvis din venn har pretix Marketplace Client og NFC påslått, sammenfør enhetene.</string>
+    <string name="swap_welcome">Velkommen til pretix Marketplace Client!</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_send_fdroid">Oversend pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client har krasjet</string>
+    <string name="send_installed_apps_csv">Programmer installert av pretix Marketplace Client fra CSV-fil</string>
+    <string name="send_to_fdroid_metrics_summary">Sender anonym data ukentlig til pretix Marketplace Client Metrics (krever «Behold installasjonshistorikk»)</string>
+</resources>

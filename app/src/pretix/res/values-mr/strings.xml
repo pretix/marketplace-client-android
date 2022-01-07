@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="send_installed_apps_csv">pretix Marketplace Client द्वारे CSV फाईल प्रकारे स्थापित अँप्स</string>
+    <string name="app_permission_storage">pretix Marketplace Client ला स्टोरेज मध्ये स्थापित करण्यासाठी स्टोरेजच्या परवानगीची आवश्यकता असते. कृपया पुढील भागात परवानगी देत स्थापन प्रक्रिया पूर्ण करा.</string>
+    <string name="crash_dialog_title">pretix Marketplace Client कोसळला</string>
+    <string name="swap_send_fdroid">pretix Marketplace Client</string>
+    <string name="about_title">pretix Marketplace Client बद्दल</string>
+    <string name="swap_welcome">pretix Marketplace Client मध्ये आपलं स्वागत!</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client अदलाबदली साठी सज्ज आहे</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">关于 pretix Marketplace Client</string>
+    <string name="swap_welcome">欢迎使用 pretix Marketplace Client！</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client 已准备好交换应用</string>
+    <string name="swap_nfc_description">如果你朋友的设备上有 pretix Marketplace Client ，开启 NFC 并把你们的设备互相贴近。</string>
+    <string name="swap_send_fdroid">发送 pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client 已停止运行</string>
+    <string name="nearby_splash__download_apps_from_people_nearby">没有连上互联网？请从附近的 pretix Marketplace Client 用户那里获取应用！</string>
+    <string name="app_permission_storage">pretix Marketplace Client 需要存储权限以安装到存储。请在下一个界面允许此权限以继续进行安装。</string>
+    <string name="send_installed_apps_csv">通过 pretix Marketplace Client 安装的应用列表，以 CSV 格式文件存储</string>
+    <string name="send_to_fdroid_metrics_summary">每周发送匿名数据到 pretix Marketplace Client Metrics (需要保存安装历史)</string>
+</resources>

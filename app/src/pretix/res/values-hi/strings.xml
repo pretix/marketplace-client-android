@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">pretix Marketplace Client के बारे में</string>
+    <string name="crash_dialog_title">pretix Marketplace Client क्रैश हो गया है</string>
+    <string name="keep_install_history_summary">सभी स्थापनाओं और अस्थापनाओं के लॉग को pretix Marketplace Client में रखें</string>
+    <string name="local_repo_running">pretix Marketplace Client स्वैप करने के लिए तैयार है</string>
+    <string name="app_permission_storage">pretix Marketplace Client को स्टोरेज में इसे इंस्टॉल करने के लिए स्टोरेज अनुमति की आवश्यकता होती है। कृपया इसे अगली स्क्रीन पर संस्थापन के साथ आगे बढ़ने दें।</string>
+    <string name="send_installed_apps_csv">pretix Marketplace Client द्वारा CSV फ़ाइल के रूप में इंस्टॉल किए गए ऐप्स</string>
+</resources>

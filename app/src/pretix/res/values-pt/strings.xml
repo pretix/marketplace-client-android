@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_welcome">Bem-vindo a pretix Marketplace Client!</string>
+    <string name="about_title">Acerca de pretix Marketplace Client</string>
+    <string name="swap_send_fdroid">Enviar pretix Marketplace Client</string>
+    <string name="crash_dialog_title">O pretix Marketplace Client terminou abruptamente</string>
+    <string name="system_installer_on">Utilizar a extensão do pretix Marketplace Client com permissões de sistema para instalar, atualizar e remover pacotes</string>
+    <string name="app_permission_storage">pretix Marketplace Client necessita de aceder ao armazenamento. Por favor conceda essa permissão no próximo ecrã para continuar com a instalação.</string>
+    <string name="send_installed_apps_csv">Aplicações instaladas por pretix Marketplace Client como ficheiro CSV</string>
+    <string name="local_repo_running">pretix Marketplace Client está pronto para a troca</string>
+    <string name="swap_nfc_description">Se a outra pessoa tiver pretix Marketplace Client instalada e NFC ativo, aproximem os vossos aparelhos.</string>
+    <string name="send_to_fdroid_metrics_summary">Enviar semanalmente dados anónimos de métrica pretix Marketplace Client (requer Manter histórico de instalações)</string>
+</resources>

@@ -47,3 +47,5 @@ junit-report.xml
 captures/
 
 /fdroid/
+*.jks
+release.sh

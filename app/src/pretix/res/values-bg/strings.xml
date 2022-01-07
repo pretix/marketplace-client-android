@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Относно pretix Marketplace Client</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="empty_installed_app_list">Няма инсталирани приложения.
+\n
+\nСъществуващите приложения не са налични през pretix Marketplace Client. Вероятна причина може да бъде не обновени хранилища или просто хранилищата не предлагат приложенията, който ползвате.</string>
+    <string name="local_repo_running">pretix Marketplace Client e в готовност за размяна</string>
+    <string name="app_permission_storage">pretix Marketplace Client се нуждае от разрешение, за да инсталира приложението в хранилището. Моля, разрешете на следващия екран, за да продължи инсталирането.</string>
+    <string name="send_installed_apps_csv">Приложенията инсталирани от pretix Marketplace Client като CSV файл</string>
+</resources>

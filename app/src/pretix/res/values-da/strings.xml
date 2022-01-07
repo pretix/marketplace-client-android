@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="about_title">Om pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client er klar til at udveksle</string>
+    <string name="empty_installed_app_list">Ingen apps installeret.
+\n 
+\nDer er apps på din enhed, men de er ikke tilgængelige i pretix Marketplace Client. Det kan være fordi du skal opdatere dine depoter, eller også indeholder depoterne faktisk ikke dine apps.</string>
+    <string name="swap_nfc_description">Hvis din ven har pretix Marketplace Client og NFC slået til, så lad jeres enheder røre hinanden.</string>
+    <string name="crash_dialog_title">pretix Marketplace Client er gået ned</string>
+    <string name="app_permission_storage">pretix Marketplace Client skal have adgang til lagring for at installere til dette lagermedium. Tillad det på den næste skærm for at fortsætte installationen.</string>
+    <string name="send_installed_apps_csv">Apps installeret af pretix Marketplace Client som CSV-fil</string>
+</resources>

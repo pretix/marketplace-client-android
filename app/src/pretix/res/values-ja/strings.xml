@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">pretix Marketplace Clientについて</string>
+    <string name="local_repo_running">pretix Marketplace Clientは交換の準備ができました</string>
+    <string name="swap_nfc_description">友だちがpretix Marketplace ClientとNFCを持っているなら、一緒にお使いの端末をタッチしてください。</string>
+    <string name="swap_welcome">pretix Marketplace Clientへようこそ！</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_send_fdroid">pretix Marketplace Clientを送信</string>
+    <string name="crash_dialog_title">pretix Marketplace Client がクラッシュしました</string>
+    <string name="app_permission_storage">pretix Marketplace Clientがストレージにインストールするためにはストレージの権限が必要です。インストールを続行するには次の画面で許可してください。</string>
+    <string name="send_installed_apps_csv">pretix Marketplace Client によってインストールされたアプリを CSV ファイルとして</string>
+</resources>

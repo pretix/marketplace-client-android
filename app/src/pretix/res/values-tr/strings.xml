@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">pretix Marketplace Client Hakkında</string>
+    <string name="local_repo_running">pretix Marketplace Client takasa hazır</string>
+    <string name="swap_nfc_description">Arkadaşınızda pretix Marketplace Client varsa ve NFC açıksa aygıtlarınızı birbirine dokundurun.</string>
+    <string name="swap_welcome">pretix Marketplace Client\'e hoş geldiniz!</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_send_fdroid">pretix Marketplace Client\'i gönder</string>
+    <string name="crash_dialog_title">pretix Marketplace Client çöktü</string>
+    <string name="app_permission_storage">pretix Marketplace Client, bunu depolamaya kurmak için depolama iznine gereksinir. Lütfen kurulumu sürdürmek için sonraki ekranda izin verin.</string>
+    <string name="send_installed_apps_csv">pretix Marketplace Client tarafıdan kurulmuş uygulamalar, CSV dosyası olarak</string>
+    <string name="send_to_fdroid_metrics_summary">pretix Marketplace Client Ölçümleri\'ne haftalık olarak anonim veri gönderir (Yükleme geçmişini tut etkin olmalı)</string>
+</resources>

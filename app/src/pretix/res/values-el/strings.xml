@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Σχετικά με το pretix Marketplace Client</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="local_repo_running">Το pretix Marketplace Client είναι έτοιμο να ανταλλάξει</string>
+    <string name="empty_installed_app_list">Δεν έχουν εγκατασταθεί εφαρμογές.\n\nΥπάρχουν εφαρμογές στην συσκευή σας,
+        αλλά δεν είναι διαθέσιμες από το pretix Marketplace Client. Αυτό θα μπορούσε να είναι γιατί θα πρέπει να ενημερώσετε τα αποθετήριά
+        σας, ή τα αποθετήρια δεν περιέχουν τις εφαρμογές σας.
+    </string>
+    <string name="crash_dialog_title">Το pretix Marketplace Client σταμάτησε να λειτουργεί</string>
+    <string name="app_permission_storage">Το pretix Marketplace Client χρειάζεται άδεια για τον χώρο αποθήκευσης για να εγκαταστήσει αυτό. Παρακαλώ επιτρέψτε την άδεια στην επόμενη οθόνη για να προχωρήσει η εγκατάσταση.</string>
+    <string name="send_installed_apps_csv">Εφαρμογές εγκατεστημένες από το pretix Marketplace Client ως αρχείο CSV</string>
+</resources>

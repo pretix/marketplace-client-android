@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="system_installer_on">Utilizar la extensión de pretix Marketplace Client con permisos de sistema al instalar, actualizar,
+        y eliminar paquetes
+    </string>
+    <string name="about_title">Acerca de pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client está preparado para intercambiar</string>
+    <string name="swap_nfc_description">Si su amigo y usted tienen pretix Marketplace Client y han activado el NFC, pongan en contacto sus teléfonos.</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="empty_installed_app_list">No hay aplicaciones instaladas.
+\n
+\nHay aplicaciones en su dispositivo, pero no están disponibles desde pretix Marketplace Client. Esto podría ser porque necesita actualizar los repositorios, o porque los repositorios no tienen esas aplicaciones.</string>
+    <string name="crash_dialog_title">pretix Marketplace Client se ha detenido</string>
+    <string name="app_permission_storage">pretix Marketplace Client necesita permiso para instalar esto en su almacenamiento. Por favor, permita en la siguiente pantalla que se continúe con la instalación.</string>
+</resources>

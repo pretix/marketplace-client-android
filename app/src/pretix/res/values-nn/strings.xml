@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_welcome">Velkommen til pretix Marketplace Client!</string>
+    <string name="about_title">Om pretix Marketplace Client</string>
+    <string name="swap_send_fdroid">Oversend pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client har krasja</string>
+    <string name="app_permission_storage">pretix Marketplace Client treng lagringsløyve for å kunna installera til dette området. For å halda med installeringa, gje dette løyvet på neste skjermbilete.</string>
+    <string name="send_installed_apps_csv">Appar installerte av pretix Marketplace Client som CSV-fil</string>
+    <string name="local_repo_running">pretix Marketplace Client er klar til å utveksla appar</string>
+    <string name="swap_nfc_description">Viss vennen din har pretix Marketplace Client og har slått på NFC, hald einingane nært kvarandre.</string>
+    <string name="send_to_fdroid_metrics_summary">Send vekentleg anonyme data til pretix Marketplace Client Metrics (krev at «Behald installeringslogg» er slått på)</string>
+</resources>

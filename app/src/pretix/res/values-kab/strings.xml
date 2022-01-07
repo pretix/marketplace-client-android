@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Γef pretix Marketplace Client</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_welcome">Ansuf γer pretix Marketplace Client !</string>
+    <string name="swap_send_fdroid">Azen pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client yeγli</string>
+    <string name="local_repo_running">pretix Marketplace Client ihegga i umbaddal</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">À propos de pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client est prêt à l\'échange</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="empty_installed_app_list">Aucune application installée.
+\n 
+\nDes applications sont présentes sur votre appareil, mais aucune n\'est disponible sur pretix Marketplace Client. Vous devriez actualiser vos dépôts ou ajouter de nouveaux dépôts dans pretix Marketplace Client pour augmenter vos chances d\'obtenir des mises à jour pour vos applications.</string>
+    <string name="crash_dialog_title">pretix Marketplace Client s’est arrêté de manière inattendue</string>
+    <string name="app_permission_storage">pretix Marketplace Client requiert l\'accès au stockage pour effectuer l\'installation. Veuillez accorder cette autorisation sur l\'écran suivant afin de poursuivre  l\'installation.</string>
+    <string name="send_installed_apps_csv">Applis installées via pretix Marketplace Client comme fichier CSV</string>
+</resources>

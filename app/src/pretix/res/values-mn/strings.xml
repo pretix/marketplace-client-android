@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_nfc_description">Хэрэв таны найз pretix Marketplace Client ба NFC-г асаасан бол таны төхөөрөмжид хүрнэ үү.</string>
+    <string name="local_repo_running">pretix Marketplace Client-г солиход бэлэн боллоо</string>
+    <string name="send_installed_apps_csv">pretix Marketplace Client-ийг CSV файл болгон суулгасан програмууд</string>
+    <string name="app_permission_storage">Үүнийг хадгалах санд суулгахын тулд pretix Marketplace Client-д хадгалах зөвшөөрөл шаардлагатай. Суулгалтыг үргэлжлүүлэхийн тулд дараагийн дэлгэц дээр үүнийг зөвшөөрнө үү.</string>
+    <string name="crash_dialog_title">pretix Marketplace Client осолдсон</string>
+    <string name="swap_send_fdroid">pretix Marketplace Client илгээнэ үү</string>
+    <string name="about_title">pretix Marketplace Client-ийн тухай</string>
+    <string name="swap_welcome">pretix Marketplace Client-д тавтай морилно уу!</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">pretix Marketplace Client 정보</string>
+    <string name="local_repo_running">pretix Marketplace Client는 교환할 준비가 되었습니다</string>
+    <string name="swap_nfc_description">상대방이 pretix Marketplace Client를 가지고 있고 NFC가 켜져 있다면 두 기기를 서로 맞대세요.</string>
+    <string name="swap_welcome">pretix Marketplace Client에 오신 것을 환영합니다!</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_send_fdroid">pretix Marketplace Client 보내기</string>
+    <string name="crash_dialog_title">pretix Marketplace Client가 중지됨</string>
+    <string name="app_permission_storage">pretix Marketplace Client는 이것을 저장공간에 설치하려면 저장공간 권한이 필요합니다. 설치를 계속하려면 다음 화면에서 그것을 허용해주세요.</string>
+    <string name="send_installed_apps_csv">pretix Marketplace Client에 의해 CSV 파일로 설치된 앱</string>
+    <string name="send_to_fdroid_metrics_summary">익명으로 데이터를 매주 pretix Marketplace Client 메트릭으로 보냅니다 (설치 내역 유지 필요)</string>
+</resources>

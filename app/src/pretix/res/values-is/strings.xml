@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="about_title">Um pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client er tilbúið í forritaskipti</string>
+    <string name="swap_welcome">Velkomin í pretix Marketplace Client!</string>
+    <string name="swap_send_fdroid">Senda pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client hrundi</string>
+    <string name="app_permission_storage">pretix Marketplace Client þarf aðgang að gagnageymslum til að geta sett þetta upp í geymsluminni. Þú ættir að heimila þetta á næsta skjá til þess að halda áfram með uppsetninguna.</string>
+    <string name="send_installed_apps_csv">Forrit uppsett af pretix Marketplace Client sem CSV-skrá</string>
+</resources>

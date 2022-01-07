@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">על אודות pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client מוכנה להחלפה</string>
+    <string name="swap_nfc_description">אם לחברך יש pretix Marketplace Client ו־NFC פעיל הצמידו את המכשירים שלכם.</string>
+    <string name="swap_welcome">ברוך בואך ל־pretix Marketplace Client!</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_send_fdroid">שליחת pretix Marketplace Client</string>
+    <string name="crash_dialog_title">‏pretix Marketplace Client קרסה</string>
+    <string name="app_permission_storage">ל־pretix Marketplace Client נדרשת הרשאה לגשת לאחסון כדי להתקין זאת לאחסון. נא להרשות זאת במסך הבא כדי להמשיך בהתקנה.</string>
+    <string name="send_installed_apps_csv">יישומונים שהותקנו דרך pretix Marketplace Client כקובץ CSV</string>
+    <string name="send_to_fdroid_metrics_summary">שליחת נתונים אלמוניים למדדי pretix Marketplace Client מדי שבוע (מחייב שמירה על היסטוריית ההתקנות)</string>
+</resources>

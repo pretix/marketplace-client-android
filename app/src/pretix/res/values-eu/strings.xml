@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">pretix Marketplace Client-i buruz</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client partekatzeko prest dago</string>
+    <string name="empty_installed_app_list">Ez da aplikaziorik instalatu.\n\nAplikazioak daude zure gailuan baina ez
+        daude pretix Marketplace Client bitartez eskuragarri. Biltegiak eguneratu behar dituzulako izan daiteke, edo benetan biltegiek ez
+        dituzte zure aplikazioak eskuragarri.
+    </string>
+    <string name="crash_dialog_title">pretix Marketplace Client kraskatu da</string>
+    <string name="app_permission_storage">pretix Marketplace Clientek biltegira sarbidea behar du hau bertan instalatzeko. Eman baimena hurrengo pantailan instalazioarekin jarraitzeko.</string>
+    <string name="send_installed_apps_csv">pretix Marketplace Client-ek instalatutako aplikazioak CSV fitxategi gisa</string>
+</resources>

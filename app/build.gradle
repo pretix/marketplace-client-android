@@ -23,7 +23,7 @@ def getVersionName = { ->
 }
 
 // yes, this actually needs both quotes https://stackoverflow.com/a/41391841
-def privilegedExtensionApplicationId = '"org.fdroid.fdroid.privileged"'
+def privilegedExtensionApplicationId = '"eu.pretix.marketplace.client.android.privileged"'
 
 android {
     namespace "org.fdroid.fdroid"
@@ -32,9 +32,9 @@ android {
     compileSdk 34
 
     defaultConfig {
-        versionCode 1021000
+        versionCode 102100001 // (last two digits are pretix version, other digits are fdroid version)
         versionName getVersionName()
-        applicationId "org.fdroid"
+        applicationId "eu.pretix.marketplace.client.android"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         minSdkVersion 23
@@ -55,6 +55,35 @@ android {
         APP_NAME_DEBUG = "@string/app_name_debug"
     }
 
+    signingConfigs {
+        pretix {
+            keyAlias 'mca'
+            keyPassword System.getenv("KSTOREPWD")
+            storeFile file('../mca.jks')
+            storePassword System.getenv("KSTOREPWD")
+        }
+    }
+
+    flavorDimensions "base", "pretix"
+    productFlavors {
+        full {
+            getIsDefault().set(true)
+            dimension "base"
+            applicationIdSuffix ""
+        }
+        basic {
+            dimension "base"
+            targetSdkVersion 33
+            applicationIdSuffix ".basic"
+        }
+        pretix {
+            dimension "pretix"
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.resValue "string", "applicationId", variant.applicationId
+    }
+
     buildTypes {
         // use proguard on debug too since we have unknowingly broken
         // release builds before.
@@ -63,7 +92,7 @@ android {
             minifyEnabled true
             shrinkResources true
             buildConfigField "String", "PRIVILEGED_EXTENSION_PACKAGE_NAME", privilegedExtensionApplicationId
-            buildConfigField "String", "ACRA_REPORT_EMAIL", '"reports@f-droid.org"' // String needs both quotes
+            buildConfigField "String", "ACRA_REPORT_EMAIL", '"marketplace@pretix.eu"' // String needs both quotes
             buildConfigField "String", "ACRA_REPORT_FILE_NAME", '"ACRA-report.stacktrace.json"'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'src/androidTest/proguard-rules.pro'
@@ -77,19 +106,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'src/androidTest/proguard-rules.pro'
             println 'buildTypes.debug defaultConfig.versionCode ' + defaultConfig.versionCode
         }
-    }
-
-    flavorDimensions "base"
-    productFlavors {
-        full {
-            getIsDefault().set(true)
-            dimension "base"
-            applicationIdSuffix ".fdroid"
-        }
-        basic {
-            dimension "base"
-            targetSdkVersion 34
-            applicationIdSuffix ".basic"
+        release {
+            productFlavors.pretix.signingConfig signingConfigs.pretix
         }
     }
     applicationVariants.all { variant ->
@@ -239,6 +257,7 @@ dependencies {
 }
 
 // org.fdroid.fdroid.updater.UpdateServiceTest needs app-full-debug.apk
+/*
 android.productFlavors.all { flavor ->
     if (flavor.name == "full") {
         project.afterEvaluate { project ->
@@ -249,5 +268,6 @@ android.productFlavors.all { flavor ->
         }
     }
 }
+ */
 
 apply from: "${rootProject.rootDir}/gradle/ktlint.gradle"

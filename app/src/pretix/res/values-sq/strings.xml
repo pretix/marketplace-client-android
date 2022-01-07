@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="about_title">Mbi pretix Marketplace Client-in</string>
+    <string name="swap_welcome">Mirë se vini në pretix Marketplace Client!</string>
+    <string name="swap_send_fdroid">Dërgoni pretix Marketplace Client</string>
+    <string name="app_permission_storage">pretix Marketplace Client lyp leje depozitimi për të instaluar këtë në depo. Ju lutemi, që të vazhdohet me instalimin, lejojeni në skenën pasuese.</string>
+    <string name="local_repo_running">pretix Marketplace Client-i është gati për shkëmbime</string>
+    <string name="send_installed_apps_csv">Aplikacionet instaluar nga pretix Marketplace Client si kartelë CSV</string>
+    <string name="swap_nfc_description">Nëse shoku juaj ka të aktivizuar pretix Marketplace Client-in dhe NFC-në, prekni pajisjet tuaja me njëra-tjetrën.</string>
+    <string name="crash_dialog_title">pretix Marketplace Client-i u vithis</string>
+    <string name="send_to_fdroid_metrics_summary">Dërgon një herë në javë të dhëna anonime te pretix Marketplace Client Metrics (lyp Ruajtje historiku instalimesh)</string>
+</resources>

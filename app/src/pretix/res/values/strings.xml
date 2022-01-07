@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="app_name">pretix Marketplace Client</string>
+
+    <string name="main_menu__latest_apps">Apps</string>
+
+    <string name="about_title">About pretix Marketplace Client</string>
+    <string name="about_version">Version</string>
+    <string name="site_link">https://marketplace.pretix.eu</string>
+    <string name="forum_link">https://github.com/pretix/marketplace-client-android/issues</string>
+    <string name="source_link">https://github.com/pretix/marketplace-client-android</string>
+
+    <string name="app_permission_storage">pretix Marketplace client needs the storage permission to install this to storage. Please allow it on the next screen to proceed with installation.</string>
+
+    <string name="send_installed_apps_csv">Apps installed by pretix Marketplace client as CSV file</string>
+
+    <string name="empty_installed_app_list">No apps installed.\n\nThere are apps on your device, but they are not
+        available from pretix Marketplace. This could be because you need to update your repositories, or the repositories
+        genuinely don\'t have your apps available.
+    </string>
+    <string name="crash_dialog_title">pretix Marketplace client has crashed</string>
+</resources>

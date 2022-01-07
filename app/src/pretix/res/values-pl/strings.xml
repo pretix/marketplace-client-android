@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">O pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client gotowy do wymiany</string>
+    <string name="swap_welcome">Witaj w pretix Marketplace Client!</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_send_fdroid">Wyślij pretix Marketplace Clienta</string>
+    <string name="crash_dialog_title">pretix Marketplace Client zawiesił się</string>
+    <string name="app_permission_storage">pretix Marketplace Client potrzebuje pozwolenia na przechowywanie, aby zainstalować to w pamięci masowej. Proszę pozwolić na następnym ekranie, aby kontynuować instalację.</string>
+    <string name="send_installed_apps_csv">Aplikacje zainstalowane przez pretix Marketplace Client jako plik CSV</string>
+    <string name="send_to_fdroid_metrics_summary">Wysyła co tydzień anonimowe dane do pretix Marketplace Client Metrics (wymaga Zachowaj historię instalacji)</string>
+</resources>

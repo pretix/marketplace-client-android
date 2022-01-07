@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_permission_storage">దీన్ని నిల్వ చేయడానికి ఇన్‌స్టాల్ చేయడానికి pretix Marketplace Client కి నిల్వ అనుమతి అవసరం. సంస్థాపనతో కొనసాగడానికి దయచేసి తదుపరి స్క్రీన్‌లో దీన్ని అనుమతించండి.</string>
+    <string name="send_to_fdroid_metrics_summary">వారపు అనామక డేటాను pretix Marketplace Client కొలమానాలకు పంపుతుంది (స్థాపన చరిత్రను ఉంచడం అవసరం)</string>
+</resources>

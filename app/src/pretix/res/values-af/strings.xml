@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="about_title">Ietsie oor pretix Marketplace Client</string>
+    <string name="empty_installed_app_list">Geen programme geïnstalleer.
+\n
+\nDaar is programme op jou toestel nie, maar hulle is nie beskikbaar vanaf pretix Marketplace Client nie. Dit kan wees omdat jy jou argiewe moet opdateer, of die argiewe het werklikwaar geen van jou programme beskikbaar nie.</string>
+    <string name="crash_dialog_title">pretix Marketplace Client het ineengestort</string>
+    <string name="app_permission_storage">pretix Marketplace Client het stoor toestemming nodig. Laat dit toe op die volgende skerm om voort te gaan met installasie.</string>
+    <string name="send_installed_apps_csv">Programme geïnstalleer deur pretix Marketplace Client as CSV-lêer</string>
+</resources>

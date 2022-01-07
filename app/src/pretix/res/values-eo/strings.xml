@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Pri pretix Marketplace Client</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client estas preta por interŝanĝo</string>
+    <string name="repo_confirm_delete_body">Forigado de deponejo kaŭzos, ke ĝiaj aplikaĵoj ne plu montriĝos en pretix Marketplace Client.
+\n
+\nRimarko: ĉiuj antaŭe instalitaj aplikaĵoj restos en via aparato.</string>
+    <string name="crash_dialog_title">pretix Marketplace Client kolapsis</string>
+    <string name="send_installed_apps_csv">Aplikaĵoj instalitaj per pretix Marketplace Client kiel CSV-dosiero</string>
+</resources>

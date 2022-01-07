@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Про pretix Marketplace Client</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_welcome">Вітаємо у pretix Marketplace Client!</string>
+    <string name="swap_send_fdroid">Відправити pretix Marketplace Client</string>
+    <string name="swap_nfc_description">Якщо у вашого друга є pretix Marketplace Client і у вас обох включений NFC, прикладіть пристрої один до одного.</string>
+    <string name="local_repo_running">pretix Marketplace Client готовий до обміну</string>
+    <string name="crash_dialog_title">Збій pretix Marketplace Client</string>
+    <string name="app_permission_storage">pretix Marketplace Client потребує дозволу на доступ до сховища для встановлення. Будь ласка, надайте дозвіл на наступному екрані, щоб продовжити встановлення.</string>
+    <string name="send_installed_apps_csv">Застосунки, встановлені через pretix Marketplace Client, як файл CSV</string>
+    <string name="send_to_fdroid_metrics_summary">Щотижня надсилає анонімні дані до pretix Marketplace Client Metrics (потрібно зберігати історію встановлення)</string>
+</resources>

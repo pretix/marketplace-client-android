@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="about_title">O pretix Marketplace Clientu</string>
+    <string name="local_repo_running">pretix Marketplace Client je spreman za razmjenu</string>
+    <string name="empty_installed_app_list">Nema instaliranih aplikacija.\n\nPostoje aplikacije na Vašem uređaju, ali
+        nisu dostupne iz pretix Marketplace Clienta. Možda trebate ažurirati svoje repozitorije, ili ti repozitoriji stvarno nemaju Vaše
+        aplikacije.
+    </string>
+    <string name="swap_nfc_description">Ako Vaš prijatelj ima pretix Marketplace Client i uključen NFC, dodirnite uređaje.</string>
+    <string name="crash_dialog_title">pretix Marketplace Client se srušio</string>
+    <string name="send_installed_apps_csv">Aplikacije instalirane pretix Marketplace Clientom kao CSV datoteka</string>
+    <string name="app_permission_storage">pretix Marketplace Client zahtjeva dopuštenje pristupa pohrani kako bi ovo instalirao u pohranu uređaja. Dopustite pristup pohrani na sljedećem zaslonu kako biste nastavili s instalacijom.</string>
+</resources>

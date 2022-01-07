@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="about_title">Ynghylch pretix Marketplace Client</string>
+    <string name="send_installed_apps_csv">Apiau wedi\'u gosod gan pretix Marketplace Client fel ffeil CSV</string>
+    <string name="local_repo_running">Mae pretix Marketplace Client yn barod i gyfnewid</string>
+    <string name="crash_dialog_title">Mae pretix Marketplace Client wedi chwalu</string>
+    <string name="app_permission_storage">Mae ar pretix Marketplace Client angen caniatâd storfa er mwyn gosod i\'r storfa hon. Galluoga hyn ar y sgrin nesaf i barhau gyda\'r gosod.</string>
+    <string name="empty_installed_app_list">Dim apiau wedi\'u gosod.
+\n
+\nMae yna apiau ar dy ddyfais, ond dydyn nhw ddim o pretix Marketplace Client. Gall hyn fod am fod angen diweddaru dy ystorfeydd neu am nad yw dy apiau ar gael o\'r ystorfeydd.</string>
+</resources>

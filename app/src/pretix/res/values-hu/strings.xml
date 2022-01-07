@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Az pretix Marketplace Client névjegye</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="empty_installed_app_list">Nincsenek telepített alkalmazások.
+\n
+\nVannak alkalmazások a készülékén, de azok nem érhetőek el az pretix Marketplace Clientból. Ez lehet azért, mert frissíteni kell a tárolókat, vagy mert a tárolókban valóban nem szerepelnek az alkalmazásai.</string>
+    <string name="crash_dialog_title">Az pretix Marketplace Client összeomlott</string>
+    <string name="local_repo_running">Az pretix Marketplace Client cserére kész</string>
+    <string name="app_permission_storage">Az pretix Marketplace Clientnak tárhely engedéllyel kell rendelkeznie, hogy erre a tárhelyre telepíthessen. A telepítés folytatásához engedélyezze a következő képernyőn.</string>
+    <string name="send_installed_apps_csv">Az pretix Marketplace Client által telepített alkalmazások CSV fájlként</string>
+</resources>

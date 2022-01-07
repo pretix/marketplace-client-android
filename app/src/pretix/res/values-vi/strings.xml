@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Giới thiệu về pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client đã sẵn sàng để trao đổi</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client đã bị dừng đột ngột</string>
+    <string name="app_permission_storage">pretix Marketplace Client cần quyền truy cập bộ nhớ lưu trữ để cài đặt. Hãy chọn Cho phép trong hộp thoại sau đây để tiếp tục cài đặt.</string>
+    <string name="send_installed_apps_csv">Các ứng dụng được pretix Marketplace Client cài đặt dưới dạng tệp CSV</string>
+    <string name="send_to_fdroid_metrics_summary">Gửi dữ liệu vô danh hàng tuần đến Số liệu pretix Marketplace Client (yêu cầu Giữ lịch sử cài đặt)</string>
+</resources>

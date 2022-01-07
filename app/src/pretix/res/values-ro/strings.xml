@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Despre pretix Marketplace Client</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_welcome">Bine ați venit la pretix Marketplace Client!</string>
+    <string name="swap_send_fdroid">Trimite pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client s-a oprit</string>
+    <string name="local_repo_running">pretix Marketplace Client este gata de schimb</string>
+    <string name="app_permission_storage">pretix Marketplace Client necesită permisiunea de stocare pentru a instala în această locație. Va rugăm sa i-o acordați în ecranul următor pentru a putea continua cu instalarea.</string>
+    <string name="swap_nfc_description">Dacă prietenul tău are pretix Marketplace Client și NFC activat, atingeți-vă dispozitivele.</string>
+    <string name="send_to_fdroid_metrics_summary">Trimite date anonime săptămânal la pretix Marketplace Client Metrics (necesită păstrarea istoricului de instalare)</string>
+</resources>

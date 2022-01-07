@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="about_title">Пра pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client гатовы да абмену</string>
+    <string name="empty_installed_app_list">Усталяваныя праграмы адсутнічаюць.
+\n
+\nНа вашай прыладзе ёсць праграмы, але яны недаступныя ў pretix Marketplace Client. Магчыма вам неабходна абнавіць рэпазіторыі, альбо рэпазіторыі не змяшчаюць гэтых праграм.</string>
+    <string name="crash_dialog_title">pretix Marketplace Client даў хібу</string>
+    <string name="app_permission_storage">pretix Marketplace Client патрабуецца дазвол на ўсталёўку гэтага ў сховішча. Калі ласка, дайце дазвол на наступным экране для працягу ўсталёўкі.</string>
+    <string name="send_installed_apps_csv">Праграмы, усталяваныя pretix Marketplace Client як CSV-файл</string>
+</resources>

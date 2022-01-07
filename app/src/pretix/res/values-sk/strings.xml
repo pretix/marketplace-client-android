@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="system_installer_on">Používať Privilegované Rozšírenie pretix Marketplace Clientu na inštaláciu, aktualizácie a odstránenie balíkov</string>
+    <string name="about_title">O pretix Marketplace Cliente</string>
+    <string name="local_repo_running">pretix Marketplace Client je pripravený na výmenu</string>
+    <string name="swap_nfc_description">Ak má váš kamarát pretix Marketplace Client a zapnuté NFC, dotknite sa zariadeniami.</string>
+    <string name="swap_welcome">Víta vás pretix Marketplace Client!</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_send_fdroid">Poslať pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client spadol</string>
+    <string name="keep_install_history_summary">Uchovávať záznamy o všetkých nainštalovaných a odinštalovaných aplikáciach v pretix Marketplace Client-e</string>
+    <string name="app_permission_storage">pretix Marketplace Client potrebuje povolenie na ukladanie na inštaláciu do úložiska. Pre pokračovanie v inštalácií potvrďte povolenie na ďalšej obrazovke.</string>
+    <string name="send_installed_apps_csv">Zoznam aplikácií nainštalovaných pretix Marketplace Clientom v podobe CSV souboru</string>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="about_title">關於 pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client 隨時可以進行交換</string>
+    <string name="repo_added">已儲存 pretix Marketplace Client 軟件庫 %1$s。</string>
+    <string name="swap_welcome">歡迎使用 pretix Marketplace Client！</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_nfc_description">若您的朋友有 pretix Marketplace Client，並開啟了 NFC 功能，請觸碰您們的裝置。</string>
+    <string name="swap_send_fdroid">傳送 pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client 已崩潰</string>
+    <string name="unsigned_description">這表示 pretix Marketplace Client 未能夠驗證應用程式清單。您要小心使用來自未經簽署的索引的應用程式。</string>
+    <string name="update_auto_download_summary">pretix Marketplace Client 將會自動下載更新，下載完畢後會通知您安裝有關更新</string>
+    <string name="keep_install_history_summary">在 pretix Marketplace Client 中儲存所有安裝及卸載的紀錄</string>
+    <string name="app_permission_storage">若要將應用程式安裝至裝置， pretix Marketplace Client 必須取得「儲存裝置」權限。請於下一個畫面允許權限，以繼續安裝的流程。</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="swap_welcome">Dobrodošli v pretix Marketplace Client!</string>
+    <string name="about_title">Več o pretix Marketplace Client</string>
+    <string name="swap_send_fdroid">Pošlji pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client se je zrušil</string>
+    <string name="local_repo_running">pretix Marketplace Client je pripravljen na zamenjavo</string>
+    <string name="swap_nfc_description">Če ima tvoj prijatelj pretix Marketplace Client in vključen NFC, lahko napravi prislonita skupaj.</string>
+    <string name="app_permission_storage">pretix Marketplace Client potrebuje dostop do shrambe, da se lahko v njo to namesti. Prosimo dovolite to v naslednjem oknu, da lahko nadaljujete z namestitvijo.</string>
+    <string name="send_installed_apps_csv">Aplikacije, nameščene z pretix Marketplace Client kot CSV datoteke</string>
+</resources>

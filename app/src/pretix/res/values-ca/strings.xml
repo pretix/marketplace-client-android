@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">Quant a l\'pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client està a punt per a l\'intercanvi</string>
+    <string name="swap_welcome">Benvingut a pretix Marketplace Client!</string>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="empty_installed_app_list">Cap aplicació instal·lada\n\nTeniu aplicacions al vostre dispositiu, però no
+        estan disponibles a pretix Marketplace Client. Això podria ser perquè necessiteu actualitzar els repositoris o perquè els
+        repositoris no contenen les vostres aplicacions.
+    </string>
+    <string name="crash_dialog_title">Ha fallat l\'pretix Marketplace Client</string>
+    <string name="app_permission_storage">pretix Marketplace Client necessita permisos d\'emmagatzematge per instal·lar. Doneu permisos a la pantalla següent per procedir amb la instal·lació.</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pretix Marketplace Client</string>
+    <string name="about_title">Tentang pretix Marketplace Client</string>
+    <string name="local_repo_running">pretix Marketplace Client siap bertukar</string>
+    <string name="swap_nfc_description">Jika teman Anda memiliki pretix Marketplace Client dan NFC yang aktif, sentuh perangkat secara bersamaan.</string>
+    <string name="swap_welcome">Selamat datang di pretix Marketplace Client!</string>
+    <string name="swap_send_fdroid">Kirimkan pretix Marketplace Client</string>
+    <string name="crash_dialog_title">pretix Marketplace Client telah gagal</string>
+    <string name="app_permission_storage">pretix Marketplace Client membutuhkan izin akses ke penyimpanan untuk memasang aplikasi ke penyimpanan. Izinkan di layar berikutnya untuk melanjutkan pemasangan.</string>
+    <string name="send_installed_apps_csv">Aplikasi terpasang oleh pretix Marketplace Client sebagai berkas CSV</string>
+    <string name="send_to_fdroid_metrics_summary">Kirim data perminggu tanpa nama ke Metrik pretix Marketplace Client (memerlukan Tetapkan riwayat pemasangan)</string>
+</resources>
+

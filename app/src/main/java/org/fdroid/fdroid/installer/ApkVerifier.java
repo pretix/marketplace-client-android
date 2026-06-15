@@ -32,7 +32,9 @@ import org.fdroid.fdroid.Utils;
 import org.fdroid.fdroid.data.Apk;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This ApkVerifier verifies that the downloaded apk corresponds to the Apk information
@@ -82,11 +84,6 @@ class ApkVerifier {
             throw new ApkVerificationException("Apk file has no valid versionCode!");
         }
 
-        // verify permissions, important for unattended installer
-        if (!requestedPermissionsEqual(expectedApk.requestedPermissions, localApkInfo.requestedPermissions)) {
-            throw new ApkPermissionUnequalException("Permissions in APK and index do not match!");
-        }
-
         int localTargetSdkVersion = localApkInfo.applicationInfo.targetSdkVersion;
         int expectedTargetSdkVersion = expectedApk.targetSdkVersion;
         Utils.debugLog(TAG, "localTargetSdkVersion: " + localTargetSdkVersion);
@@ -98,6 +95,19 @@ class ApkVerifier {
             throw new ApkVerificationException(
                     String.format("TargetSdkVersion of apk file (%d) is not the expected targetSdkVersion (%d)!",
                             localTargetSdkVersion, expectedTargetSdkVersion));
+        }
+
+        // verify permissions last, used to be important for unattended installer that had no permission prompts
+        if (!requestedPermissionsEqual(expectedApk.requestedPermissions, localApkInfo.requestedPermissions)) {
+            Set<String> extraPermissions =
+                    getExtraPermissions(expectedApk.requestedPermissions, localApkInfo.requestedPermissions);
+            // we only complain if localApk has more permissions than expected, don't care if it has less
+            if (!extraPermissions.isEmpty()) {
+                for (String p : extraPermissions) {
+                    Log.w(TAG, "App has extra permission: " + p);
+                }
+                throw new ApkPermissionUnequalException(String.join(" ", extraPermissions));
+            }
         }
     }
 
@@ -123,6 +133,13 @@ class ApkVerifier {
         HashSet<String> expectedSet = new HashSet<>(Arrays.asList(expected));
         HashSet<String> actualSet = new HashSet<>(Arrays.asList(actual));
         return expectedSet.equals(actualSet);
+    }
+
+    static Set<String> getExtraPermissions(@Nullable String[] expected, @Nullable String[] actual) {
+        Set<String> expectedSet = expected == null ? Collections.emptySet() : new HashSet<>(Arrays.asList(expected));
+        Set<String> actualSet = actual == null ? Collections.emptySet() : new HashSet<>(Arrays.asList(actual));
+        actualSet.removeAll(expectedSet);
+        return actualSet;
     }
 
     static class ApkVerificationException extends Exception {

@@ -114,7 +114,7 @@
     <string name="antiupstreamnonfreelist">ਅੱਪਸਟ੍ਰੀਮ ਸਰੋਤ ਕੋਡ ਪੂਰੀ ਤਰ੍ਹਾਂ ਮੁਫਤ ਨਹੀਂ ਹੈ</string>
     <string name="theme">ਥੀਮ</string>
     <string name="repo_user_mirrors">ਉਪਭੋਗਤਾ ਮਿਰਰ</string>
-    <string name="nearby_splash__download_apps_from_people_nearby">ਇੰਟਰਨੈੱਟ ਨਹੀਂ ਹੈ\? ਆਪਣੇ ਨੇੜੇ ਦੇ ਲੋਕਾਂ ਤੋਂ ਐਪਸ ਪ੍ਰਾਪਤ ਕਰੋ!</string>
+    <string name="nearby_splash__download_apps_from_people_nearby">ਇੰਟਰਨੈੱਟ ਨਹੀਂ ਹੈ? ਆਪਣੇ ਨੇੜੇ ਦੇ ਲੋਕਾਂ ਤੋਂ ਐਪਸ ਪ੍ਰਾਪਤ ਕਰੋ!</string>
     <string name="notification_title_single_install_error">ਇੰਸਟਾਲ ਅਸਫਲ ਰਿਹਾ</string>
     <string name="notification_action_update">ਅੱਪਡੇਟ ਕਰੋ</string>
     <string name="use_pure_black_dark_theme">ਗੂੜ੍ਹੇ ਥੀਮ ਵਿੱਚ ਸ਼ੁੱਧ ਕਾਲੇ ਬੈਕਗ੍ਰਾਊਂਡ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
@@ -198,7 +198,7 @@
     <string name="force_touch_apps_on">ਹਾਰਡਵੇਅਰ ਸਮਰਥਨ ਦੀ ਪਰਵਾਹ ਕੀਤੇ ਬਿਨਾਂ ਉਹਨਾਂ ਐਪਾਂ ਨੂੰ ਦਿਖਾਓ ਜਿਨ੍ਹਾਂ ਨੂੰ ਟੱਚਸਕ੍ਰੀਨ ਦੀ ਲੋੜ ਹੁੰਦੀ ਹੈ</string>
     <string name="antitrack">ਟਰੈਕਿੰਗ</string>
     <string name="antinonfreead">ਗੈਰ-ਮੁਫ਼ਤ ਐਡਆਨ</string>
-    <string name="repo_confirm_delete_title">ਕੀ ਰਿਪੋਜ਼ਟਰੀ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ\?</string>
+    <string name="repo_confirm_delete_title">ਕੀ ਰਿਪੋਜ਼ਟਰੀ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?</string>
     <string name="menu_opencollective">OpenCollective</string>
     <string name="antiads">ਵਿਗਿਆਪਨ</string>
     <string name="antinonfreedep">ਗੈਰ-ਮੁਕਤ ਨਿਰਭਰਤਾ</string>
@@ -226,7 +226,7 @@
     <string name="hiding_calculator">ਕੈਲਕੂਲੇਟਰ</string>
     <string name="hiding_dialog_warning">ਚੇਤਾਵਨੀ: ਹੋਮ ਸਕ੍ਰੀਨ \'ਤੇ ਕੋਈ ਵੀ ਐਪ ਸ਼ਾਰਟਕੱਟ ਵੀ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ ਅਤੇ ਇਸਨੂੰ ਹੱਥੀਂ ਦੁਬਾਰਾ ਜੋੜਨ ਦੀ ਲੋੜ ਹੈ।</string>
     <string name="hide_on_long_search_press_summary">ਖੋਜ ਬਟਨ ਨੂੰ ਦੇਰ ਤੱਕ ਦਬਾਉਣ ਨਾਲ ਐਪ ਲੁਕ ਜਾਵੇਗਾ</string>
-    <string name="warning_no_internet">ਅੱਪਡੇਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ, ਕੀ ਤੁਸੀਂ ਇੰਟਰਨੈੱਟ ਨਾਲ ਕਨੈਕਟ ਹੋ\?</string>
+    <string name="warning_no_internet">ਅੱਪਡੇਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ, ਕੀ ਤੁਸੀਂ ਇੰਟਰਨੈੱਟ ਨਾਲ ਕਨੈਕਟ ਹੋ?</string>
     <string name="unsigned">ਅਣਹਸਤਾਖਰਿਤ</string>
     <string name="global_error_updating_repos">ਅੱਪਡੇਟ ਦੌਰਾਨ ਤਰੁੱਟੀ: %s</string>
     <string name="no_handler_app">ਤੁਹਾਡੇ ਕੋਲ ਕੋਈ ਵੀ ਉਪਲਬਧ ਐਪ ਨਹੀਂ ਹੈ ਜੋ %s ਨੂੰ ਸੰਭਾਲ ਸਕੇ।</string>
@@ -530,4 +530,14 @@
     <string name="antinsfwlist">ਇਸ ਐਪ ਵਿੱਚ ਅਜਿਹੀ ਸਮੱਗਰੀ ਹੈ ਜਿਸਦਾ ਪ੍ਰਚਾਰ ਨਹੀਂ ਕੀਤਾ ਜਾਣਾ ਚਾਹੀਦਾ ਜਾਂ ਹਰ ਥਾਂ ਦਿਖਾਈ ਨਹੀਂ ਦੇਣਾ ਚਾਹੀਦਾ</string>
     <string name="category_Nightly">ਨਾਈਟਲੀ</string>
     <string name="app_error_open">ਐਪਲੀਕੇਸ਼ਨ ਨੂੰ ਲਾਂਚ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ।</string>
+    <string name="pref_export_log_summary">ਜਾਂਚ ਵਿੱਚ ਮਦਦ ਲਈ logcat ਆਊਟਪੁੱਟ ਨਾਲ ਇਕ ਫਾਇਲ ਬਣਾਈ ਜਾਵੇਗੀ। ਸਾਵਧਾਨ, ਇਸ ਵਿੱਚ ਸੰਵੇਦਨਸ਼ੀਲ ਜਾਣਕਾਰੀ ਹੋ ਸਕਦੀ ਹੈ!</string>
+    <string name="export_log_success">ਲੋਗਕੈਟ ਸਫਲਤਾਪੂਰਵਕ ਸੁਰੱਖਿਅਤ</string>
+    <string name="export_log_error">logcat ਸੁਰੱਖਿਅਤ ਕਰਨ ਵਿੱਚ ਅਸਫਲ</string>
+    <string name="app_details_repository">ਰਿਪੋਜ਼ਟਰੀ</string>
+    <string name="app_details_repository_button_prefer">ਰਿਪੋਜ਼ਟਰੀ ਨੂੰ ਤਰਜੀਹ</string>
+    <string name="app_details_repositories">ਰਿਪੋਜ਼ਟਰੀਆਂ</string>
+    <string name="app_details_repository_preferred">(ਤਰਜੀਹੀ)</string>
+    <string name="app_details_repository_expand">repository list ਨੂੰ ਫੈਲਾਓ</string>
+    <string name="force_old_installer_title">ਧੱਕੇ ਨਾਲ ਪੁਰਾਣਾ ਇੰਸਟਾਲਰ ਵਰਤੋ</string>
+    <string name="force_old_installer_summary">ਸੈਸ਼ਨ ਇੰਸਟਾਲਰ ਅਯੋਗ ਕਰੋ, ਆਟੋਮੈਟਿਕ ਬੈਕਗ੍ਰਾਊਂਡ ਅੱਪਡੇਟ ਲਈ ਸਮਰਥਨ ਸਮੇਤ।</string>
 </resources>

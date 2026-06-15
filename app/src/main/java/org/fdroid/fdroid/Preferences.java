@@ -126,6 +126,8 @@ public final class Preferences implements SharedPreferences.OnSharedPreferenceCh
     public static final String PREF_LANGUAGE = "language";
     public static final String PREF_USE_DNS_CACHE = "useDnsCache";
     public static final String PREF_DNS_CACHE = "dnsCache";
+    public static final String PREF_MIRROR_ERROR_DATA = "mirrorErrorData";
+    public static final String PREF_PREFER_FOREIGN = "preferForeign";
     public static final String PREF_USE_TOR = "useTor";
     public static final String PREF_ENABLE_PROXY = "enableProxy";
     public static final String PREF_PROXY_HOST = "proxyHost";
@@ -529,17 +531,6 @@ public final class Preferences implements SharedPreferences.OnSharedPreferenceCh
         return preferences.getBoolean(PREF_USE_DNS_CACHE, false);
     }
 
-    public void updateDnsCache(String urlString, List<InetAddress> ipList) {
-        // existing list is replaced, so make sure new list has values
-        if (ipList == null || ipList.isEmpty()) {
-            return;
-        } else {
-            HashMap<String, List<InetAddress>> dnsMap = getDnsCache();
-            dnsMap.put(urlString, ipList);
-            setDnsCache(dnsMap);
-        }
-    }
-
     public void setDnsCache(HashMap<String, List<InetAddress>> dnsMap) {
         HashMap<String, List<String>> stringMap = new HashMap<String, List<String>>();
         for (String url : dnsMap.keySet()) {
@@ -550,16 +541,6 @@ public final class Preferences implements SharedPreferences.OnSharedPreferenceCh
             stringMap.put(url, stringList);
         }
         preferences.edit().putString(PREF_DNS_CACHE, listMapToString(stringMap)).apply();
-    }
-
-    public List<InetAddress> queryDnsCache(String urlString) {
-        HashMap<String, List<InetAddress>> dnsMap = getDnsCache();
-        if (dnsMap.containsKey(urlString)) {
-            return dnsMap.get(urlString);
-        } else {
-            // returns empty list to avoid null issues
-            return new ArrayList<InetAddress>();
-        }
     }
 
     public HashMap<String, List<InetAddress>> getDnsCache() {
@@ -577,7 +558,7 @@ public final class Preferences implements SharedPreferences.OnSharedPreferenceCh
                     ipList.add(InetAddress.getByName(ip));
                 } catch (UnknownHostException e) {
                     // should not occur, if an ip address is supplied only the format is checked.
-                    Log.e("Preferences", "Exception thrown when converting " + ip, e);
+                    Log.e(TAG, "Exception thrown when converting " + ip, e);
                 }
             }
             dnsMap.put(url, ipList);
@@ -611,6 +592,73 @@ public final class Preferences implements SharedPreferences.OnSharedPreferenceCh
             output.put(key, list);
         }
         return output;
+    }
+
+    private String intMapToString(Map<String, Integer> intMap) {
+        String output = "";
+        for (String key : intMap.keySet()) {
+            Integer value = intMap.get(key);
+            if (key == null || key.isEmpty()) {
+                Utils.debugLog(TAG, "Don't serialize record with null key");
+            } else if (value == null) {
+                Utils.debugLog(TAG, "Don't serialize null value for: " + key);
+            } else {
+                if (!output.isEmpty()) {
+                    output = output + "\n";
+                }
+                output = output + key + " " + value;
+            }
+        }
+        return output;
+    }
+
+    private Map<String, Integer> stringToIntMap(String mapString) {
+        HashMap<String, Integer> output = new HashMap<String, Integer>();
+        for (String line : mapString.split("\n")) {
+            String[] pair = line.split(" ");
+            // values may be missing or unparseable
+            String key = pair[0];
+            Integer value = 0;
+            if (key != null && !key.isEmpty()) {
+                if (pair.length > 1) {
+                    try {
+                        value = Integer.valueOf(pair[1]);
+                    } catch (NumberFormatException e) {
+                        // use default value if stored value can't be parsed
+                        Utils.debugLog(TAG, "Serialized map entry value can't be parsed: " + line);
+                    }
+                } else {
+                    Utils.debugLog(TAG, "Serialized map entry value is missing: " + line);
+                }
+                output.put(key, value);
+            } else {
+                Utils.debugLog(TAG, "Serialized map entry key is missing: " + line);
+            }
+        }
+        return output;
+    }
+
+    public void setPreferForeignValue(boolean newValue) {
+        preferences.edit().putBoolean(PREF_PREFER_FOREIGN, newValue).apply();
+    }
+
+    public boolean isPreferForeignSet() {
+        return preferences.getBoolean(PREF_PREFER_FOREIGN, false);
+    }
+
+    public void setMirrorErrorData(Map<String, Integer> mirrorErrorMap) {
+        preferences.edit().putString(PREF_MIRROR_ERROR_DATA, intMapToString(mirrorErrorMap)).apply();
+    }
+
+    public Map<String, Integer> getMirrorErrorData() {
+        Map<String, Integer> mirrorDataMap = new HashMap<String, Integer>();
+        String mapString = preferences.getString(PREF_MIRROR_ERROR_DATA, "");
+        if (mapString == null || mapString.isEmpty()) {
+            // no-op, return empty map to avoid null issues
+        } else {
+            mirrorDataMap = stringToIntMap(mapString);
+        }
+        return mirrorDataMap;
     }
 
     /**

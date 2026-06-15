@@ -108,6 +108,7 @@ import info.guardianproject.netcipher.NetCipher;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.internal.functions.Functions;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import vendored.org.apache.commons.codec.binary.Hex;
 import vendored.org.apache.commons.codec.digest.DigestUtils;
@@ -170,10 +171,8 @@ public final class Utils {
         // check if we need to account for non-HTTP mirrors
         String nonHttpUri = null;
         for (Mirror m : mirrors) {
-            if (ContentResolver.SCHEME_CONTENT.equals(m.getUrl().getProtocol().getName())) {
-                nonHttpUri = m.getBaseUrl();
-                break;
-            } else if (ContentResolver.SCHEME_FILE.equals(m.getUrl().getProtocol().getName())) {
+            if (ContentResolver.SCHEME_CONTENT.equals(m.getUrl().getProtocol().getName())
+                    || ContentResolver.SCHEME_FILE.equals(m.getUrl().getProtocol().getName())) {
                 nonHttpUri = m.getBaseUrl();
                 break;
             }
@@ -745,10 +744,11 @@ public final class Utils {
      * an {@code int} value that is a percentage, suitable for things like
      * {@link android.widget.ProgressBar#setMax(int)} or
      * {@link androidx.core.app.NotificationCompat.Builder#setProgress(int, int, boolean)}.
-     * {@code total} must never be zero!
+     * @param current should be smaller than {@link Long#MAX_VALUE} / 100
+     * @param total must never be zero!
      */
     public static int getPercent(long current, long total) {
-        return (int) ((100L * current + total / 2) / total);
+        return (int) (100L * current / total);
     }
 
     @SuppressWarnings("unused")
@@ -810,9 +810,8 @@ public final class Utils {
     public static Single<Bitmap> generateQrBitmap(@NonNull final AppCompatActivity activity,
                                                   @NonNull final String qrData) {
         return Single.fromCallable(() -> {
-            // TODO: Use DisplayCompat.getMode() once it becomes available in Core 1.6.0.
-            final DisplayCompat.ModeCompat displayMode = DisplayCompat.getSupportedModes(activity,
-                    activity.getWindowManager().getDefaultDisplay())[0];
+            final DisplayCompat.ModeCompat displayMode = DisplayCompat.getMode(activity,
+                    activity.getWindowManager().getDefaultDisplay());
             final int qrCodeDimension = Math.min(displayMode.getPhysicalWidth(),
                     displayMode.getPhysicalHeight());
             debugLog(TAG, "generating QRCode Bitmap of " + qrCodeDimension + "x" + qrCodeDimension);
@@ -832,8 +831,7 @@ public final class Utils {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(throwable -> Log.e(TAG, "Error running off UiThread", throwable))
                 .subscribe(consumer::accept, e -> {
-                    Log.e(TAG, "Could not run off UI thread: ", e);
-                    consumer.accept(null);
+                    throw e; // pass this through to ACRA
                 });
     }
 
@@ -845,7 +843,9 @@ public final class Utils {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(throwable -> Log.e(TAG, "Error running off UiThread", throwable))
-                .subscribe();
+                .subscribe(Functions.emptyConsumer(), e -> {
+                    throw e; // pass this through to ACRA
+                });
     }
 
     public static <T> void observeOnce(LiveData<T> liveData, LifecycleOwner lifecycleOwner, Consumer<T> consumer) {

@@ -1,13 +1,6 @@
-* Přepracován způsob představení repozitářů uživateli, aby bylo jasné, kdy aplikace pochází z jiného zdroje než z f-droid.org
-
-* Přidána možnost změny priority repozitářů (globálně i individuálně)
-
-* Vlastní anti-vlastnosti jsou nyní ve výchozím nastavení povoleny
-
-* Podpora získání URL repozitářů z nabídky Sdílení
-
-* Všechny aktivity respektují denní/noční motiv
-
-* Upraveno použití externích úložišť pro podporu targetSdkVersion 29
-
-* F-Droid Basic aktualizován s podporou targetSdkVersion 34
+* material design 3 (s podporou edge-to-edge, ale bez dynamických barev) (díky, proletariusi!)
+* redesign obrazovky s podrobnostmi o repozitáři (díky, Thore!)
+* přidán export protokolu v pokročilých nastaveních
+* aktualizováno cílové SDK (Android 15 pro Basic a Android 11 pro klasický klient)
+* přidán zpětný odkaz ze stránky aplikace v systémových nastaveních (díky, j-m4!)
+* použit výběr aplikace pro sdílení nainstalovaných aplikací a historie instalací (díky, Thore!)

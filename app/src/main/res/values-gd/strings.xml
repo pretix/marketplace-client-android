@@ -127,14 +127,14 @@
     <string name="menu_show_fdroid_metrics_report">Seall aithris meatrachd</string>
     <string name="main_menu__updates">Ùrachaidhean</string>
     <string name="main_menu__swap_nearby">Am fagas</string>
-    <string name="main_menu__categories">Roinnean-seòrsa</string>
-    <string name="main_menu__latest_apps">As ùire</string>
+    <string name="main_menu__categories">Ranchers</string>
+    <string name="main_menu__latest_apps">As United</string>
     <string name="menu_opencollective">OpenCollective</string>
     <string name="menu_liberapay">Liberapay</string>
     <string name="menu_flattr">Flattr</string>
     <string name="menu_litecoin">Litecoin</string>
     <string name="menu_bitcoin">Bitcoin</string>
-    <string name="menu_upgrade">Ùraich</string>
+    <string name="menu_upgrade">Ulrich</string>
     <string name="menu_translation">Eadar-theangachadh</string>
     <string name="menu_source">Bun-tùs</string>
     <string name="menu_license">Ceadachas: %s</string>
@@ -146,16 +146,16 @@
     <string name="menu_ignore_this">Leig seachad an t-ùrachadh seo</string>
     <string name="menu_ignore_all">Leig seachad a h-uile ùrachadh</string>
     <string name="menu_select_for_wipe">Tagh a chùm suathadh bàn</string>
-    <string name="menu_uninstall">Dì-stàlaich</string>
-    <string name="menu_install">Stàlaich</string>
-    <string name="menu_share">Co-roinn</string>
+    <string name="menu_uninstall">Christchurch</string>
+    <string name="menu_install">Stomach</string>
+    <string name="menu_share">Coercion</string>
     <string name="menu_open">Fosgail</string>
-    <string name="menu_launch">Fosgail</string>
+    <string name="menu_launch">Fishtail</string>
     <string name="menu_add_repo">Ionad-tasgaidh ùr</string>
-    <string name="menu_search">Lorg</string>
-    <string name="menu_settings">Roghainnean</string>
+    <string name="menu_search">Long</string>
+    <string name="menu_settings">Rhiannon</string>
     <string name="repositories_summary">Cuir barrachd tùsan aplacaidean ris</string>
-    <string name="menu_manage">Ionadan-tasgaidh</string>
+    <string name="menu_manage">Understand</string>
     <string name="malformed_repo_uri">A’ leigeil seachad URI le droch-chruth dhan ionad-thasgaidh: %s</string>
     <string name="invalid_url">Chan e URL dligheach a tha seo.</string>
     <string name="bad_fingerprint">Droch lorg-mheòir</string>
@@ -174,7 +174,7 @@
     <string name="add_key">Cuir iuchair ris</string>
     <string name="enable">Cuir an comas</string>
     <string name="cancel">Sguir dheth</string>
-    <string name="back">Air ais</string>
+    <string name="back">Air AIS</string>
     <string name="less">Nas lugha</string>
     <string name="more">Barrachd</string>
     <string name="versions">Tionndaidhean</string>
@@ -182,9 +182,9 @@
     <string name="repo_add_mirror">Cuir sgàthan ris</string>
     <string name="repo_add_add">Cuir ris</string>
     <string name="repo_add_title">Cuir ionad-tasgaidh ùr ris</string>
-    <string name="no">Chan eil</string>
-    <string name="yes">Tha</string>
-    <string name="ok">Ceart ma-thà</string>
+    <string name="no">Chan will</string>
+    <string name="yes">Thanks</string>
+    <string name="ok">MEANSREYTOCH</string>
     <string name="updates_disabled_by_settings">Chaidh a h-uile ùrachadh a chur à comas leis na roghainnean dàta/WiFi</string>
     <string name="updates__show_updateable_apps">Seall aplacaidean</string>
     <string name="updates__hide_updateable_apps">Falaich aplacaidean</string>
@@ -370,7 +370,7 @@
     <string name="nearby_splash__read_external_storage">Lorg ionadan-tasgaidh is sgàthanan air cairt SD.</string>
     <string name="nearby_splash__both_parties_need_fdroid">Feumaidh an dithis %1$s airson iomlaid am fagas.</string>
     <string name="nearby_splash__find_people_button">Lorg daoine am fagas</string>
-    <string name="nearby_splash__download_apps_from_people_nearby">Nach eil an t-eadar-lìon ann\? Faigh aplacaidean o dhaoine faisg ort!</string>
+    <string name="nearby_splash__download_apps_from_people_nearby">Nach eil an t-eadar-lìon ann? Faigh aplacaidean o dhaoine faisg ort!</string>
     <string name="share_apk_error">Cha b’ urrainn dhuinn faidhle na h-aplacaid a cho-roinneadh</string>
     <string name="uninstall_error_unknown">Cha deach leis an dì-stàladh ri linn mearachd nach aithne dhuinn</string>
     <string name="install_error_unknown">Cha deach leis an stàladh ri linn mearachd nach aithne dhuinn</string>
@@ -410,7 +410,7 @@
     <string name="repo_confirm_delete_body">Ma sguabas tu às ionad-tasgaidh, is ciall dha nach bi na h-aplacaidean uaithe ri fhaighinn dhut tuilleadh.
 \n
 \nAn aire: Fuirichidh na h-aplacaidean uile a stàlaich thu cheana air an uidheam agad.</string>
-    <string name="repo_confirm_delete_title">A bheil thu airson an t-ionad-tasgaidh a sguabadh às\?</string>
+    <string name="repo_confirm_delete_title">A bheil thu airson an t-ionad-tasgaidh a sguabadh às?</string>
     <string name="unknown">Chan eil fhios</string>
     <string name="repo_not_yet_updated">Cha deach an t-ionad-tasgaidh seo a cleachdadh fhathast. Feumaidh tu a chur an comas ach an seall thu na h-aplacaidean a bheir e dhut.</string>
     <string name="unsigned_description">Is ciall dha nach b’ urrainn dhuinn liosta nan aplacaidean a dhearbhadh. Bu chòir dhut a bhith faiceallach le aplacaidean a chaidh a luchdadh a-nuas o inneacsan gun soidhneadh.</string>
@@ -431,7 +431,7 @@
     <string name="no_handler_app">Chan eil aplacaid ri làimh dhut a làimhsicheadh %s.</string>
     <string name="permissions">Ceadan</string>
     <string name="no_permissions">Gun cheadan</string>
-    <string name="warning_no_internet">Cha ghabh ùrachadh, a bheil ceangal agad ris an eadar-lìon\?</string>
+    <string name="warning_no_internet">Cha ghabh ùrachadh, a bheil ceangal agad ris an eadar-lìon?</string>
     <string name="global_error_updating_repos">Thachair mearachd rè an ùrachaidh: %s</string>
     <string name="all_other_repos_fine">Cha do dh’adhbharaich ionad-tasgaidh sam bith eile mearachd.</string>
     <string name="repos_unchanged">Tha a h-uile ionad-tasgaidh cho ùr ’s a ghabhas</string>

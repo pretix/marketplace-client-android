@@ -12,7 +12,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.security.MessageDigest
 
-public abstract class Downloader constructor(
+public abstract class Downloader(
     protected val indexFile: IndexFile,
     @JvmField
     protected val outputFile: File,
@@ -197,6 +197,13 @@ public abstract class Downloader constructor(
     }
 
     /**
+     * Check if the download was cancelled.
+     */
+    public fun wasCancelled(): Boolean {
+        return cancelled
+    }
+
+    /**
      * After every network operation that could take a while, we will check if an
      * interrupt occurred during that blocking operation. The goal is to ensure we
      * don't move onto another slow, network operation if we have cancelled the
@@ -225,8 +232,4 @@ public abstract class Downloader constructor(
         }
     }
 
-}
-
-public fun interface BytesReceiver {
-    public suspend fun receive(bytes: ByteArray, numTotalBytes: Long?)
 }

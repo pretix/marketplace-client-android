@@ -32,7 +32,7 @@ public object FDroidDatabaseHolder {
     // Singleton prevents multiple instances of database opening at the same time.
     @Volatile
     @GuardedBy("lock")
-    private var INSTANCE: FDroidDatabaseInt? = null
+    private var instance: FDroidDatabaseInt? = null
     private val lock = Object()
 
     internal val TAG = FDroidDatabase::class.simpleName
@@ -52,13 +52,13 @@ public object FDroidDatabaseHolder {
     ): FDroidDatabase {
         // if the INSTANCE is not null, then return it,
         // if it is, then create the database
-        return INSTANCE ?: synchronized(lock) {
+        return instance ?: synchronized(lock) {
             val builder = Room.databaseBuilder(
                 context.applicationContext,
                 FDroidDatabaseInt::class.java,
                 name,
             ).apply {
-                addMigrations(MIGRATION_2_3)
+                addMigrations(MIGRATION_2_3, MIGRATION_5_6)
                 // We allow destructive migration (if no real migration was provided),
                 // so we have the option to nuke the DB in production (if that will ever be needed).
                 fallbackToDestructiveMigration()
@@ -66,7 +66,7 @@ public object FDroidDatabaseHolder {
                 if (fixture != null) addCallback(FixtureCallback(fixture))
             }
             val instance = builder.build()
-            INSTANCE = instance
+            this.instance = instance
             // return instance
             instance
         }
@@ -79,7 +79,7 @@ public object FDroidDatabaseHolder {
             GlobalScope.launch(dispatcher) {
                 val database: FDroidDatabase
                 synchronized(lock) {
-                    database = INSTANCE ?: error("DB not yet initialized")
+                    database = instance ?: error("DB not yet initialized")
                 }
                 fixture.prePopulateDb(database)
                 Log.d(TAG, "Loaded fixtures")

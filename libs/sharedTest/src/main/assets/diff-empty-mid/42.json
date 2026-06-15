@@ -16,14 +16,14 @@
         "size": 132352235
       }
     },
-    "address": "https://mid-v1.org",
+    "address": "https://mid-v1.org/repo",
     "description": {
       "en-US": "This is a repo with medium data.",
       "de": "Dies ist ein Repo mit mittlerer Datendichte."
     },
     "mirrors": [
       {
-        "url": "https://mid-v1.com"
+        "url": "https://mid-v1.com/repo"
       }
     ],
     "timestamp": 1337,
@@ -108,7 +108,12 @@
               "sha256": [
                 "824a109b2352138c3699760e1683385d0ed50ce526fc7982f8d65757743374bf"
               ]
-            }
+            },
+            "features": [
+              {
+                "name": "new feature"
+              }
+            ]
           },
           "releaseChannels": [
             "Beta"

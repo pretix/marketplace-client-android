@@ -34,7 +34,6 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.compose.ui.platform.ComposeView;
 import androidx.compose.ui.platform.ViewCompositionStrategy;
 import androidx.core.content.ContextCompat;
@@ -52,6 +51,8 @@ import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.TransitionManager;
 
+import com.google.android.material.color.MaterialColors;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import org.apache.commons.io.FilenameUtils;
@@ -512,7 +513,7 @@ public class AppDetailsRecyclerViewAdapter
                     progressBar.setIndeterminate(true);
                 }
             } else {
-                progressBar.setProgressCompat(Utils.getPercent(Utils.bytesToKb(bytesDownloaded), Utils.bytesToKb(totalBytes)), true);
+                progressBar.setProgressCompat(Utils.getPercent(bytesDownloaded, totalBytes), true);
             }
             progressBar.show();
 
@@ -583,7 +584,7 @@ public class AppDetailsRecyclerViewAdapter
                 warningView.setVisibility(View.VISIBLE);
             } else if (SessionInstallManager.canBeUsed(context) && suggestedApk != null
                     && !SessionInstallManager.isTargetSdkSupported(suggestedApk.targetSdkVersion)) {
-                int color = ContextCompat.getColor(context, R.color.warning);
+                int color = MaterialColors.getColor(warningView, R.attr.warning);
                 warningView.setBackgroundColor(color);
                 warningView.setText(R.string.warning_target_sdk);
                 warningView.setVisibility(View.VISIBLE);
@@ -646,8 +647,17 @@ public class AppDetailsRecyclerViewAdapter
             antiFeaturesListingView.setApp(app);
             updateAntiFeaturesWarning();
 
+            boolean hasCompatibleVersion = false;
+            for (Apk apk : versions) {
+                if (apk.compatible) {
+                    hasCompatibleVersion = true;
+                    break;
+                }
+            }
+            boolean showPrimaryButton = hasCompatibleVersion || app.isInstalled(context);
+
             buttonPrimaryView.setText(R.string.menu_install);
-            buttonPrimaryView.setVisibility(versionsLoading ? View.GONE : View.VISIBLE);
+            buttonPrimaryView.setVisibility(showPrimaryButton ? View.VISIBLE : View.GONE);
             buttonSecondaryView.setText(R.string.menu_uninstall);
             buttonSecondaryView.setVisibility(app.isUninstallable(context) ? View.VISIBLE : View.GONE);
             buttonSecondaryView.setOnClickListener(v -> callbacks.uninstallApk());
@@ -665,7 +675,7 @@ public class AppDetailsRecyclerViewAdapter
                 buttonPrimaryView.setEnabled(true);
                 buttonPrimaryView.setOnClickListener(v -> callbacks.installApk(suggestedApk));
             } else if (app.isInstalled(context)) {
-                if (app.canAndWantToUpdate(suggestedApk) && suggestedApk != null) {
+                if (app.canAndWantToUpdate(suggestedApk)) {
                     buttonPrimaryView.setText(R.string.menu_upgrade);
                     buttonPrimaryView.setOnClickListener(v -> callbacks.installApk(suggestedApk));
                 } else {
@@ -840,14 +850,14 @@ public class AppDetailsRecyclerViewAdapter
 
             donationOptionsLayout.removeAllViews();
 
-            // LiberaPay
-            if (uriIsSetAndCanBeOpened(app.getLiberapayUri())) {
-                addDonateOption(R.layout.donate_liberapay, app.getLiberapayUri());
-            }
-
             // OpenCollective
             if (uriIsSetAndCanBeOpened(app.getOpenCollectiveUri())) {
                 addDonateOption(R.layout.donate_opencollective, app.getOpenCollectiveUri());
+            }
+
+            // LiberaPay
+            if (uriIsSetAndCanBeOpened(app.getLiberapayUri())) {
+                addDonateOption(R.layout.donate_liberapay, app.getLiberapayUri());
             }
 
             // Bitcoin
@@ -984,7 +994,7 @@ public class AppDetailsRecyclerViewAdapter
                 message = showIncompatible;
             }
 
-            new AlertDialog.Builder(context)
+            new MaterialAlertDialogBuilder(context)
                     .setTitle(title)
                     .setMessage(message)
                     .setPositiveButton(R.string.menu_settings, (dialog, which) -> {
@@ -1068,8 +1078,12 @@ public class AppDetailsRecyclerViewAdapter
 
             // License link
             if (!TextUtils.isEmpty(app.license)) {
-                String firstLicense = app.license.split(",")[0];
-                String url = "https://spdx.org/licenses/" + firstLicense + ".html";
+                String url;
+                if (app.license.equals("PublicDomain")) {
+                    url = "https://en.wikipedia.org/wiki/Public_domain";
+                } else {
+                    url = "https://spdx.org/licenses/" + app.license + ".html";
+                }
                 if (uriIsSetAndCanBeOpened(url)) {
                     addLinkItemView(contentView, R.string.menu_license, R.drawable.ic_license, url, app.license);
                 }

@@ -163,6 +163,15 @@
             android:summary="@string/preventScreenshots_summary"
             android:title="@string/preventScreenshots_title" />
 
+        <SwitchPreferenceCompat
+            android:key="preferForeign"
+            android:summary="@string/preferForeignSummary"
+            android:title="@string/preferForeign" />
+        <SwitchPreferenceCompat
+            android:key="useDnsCache"
+            android:summary="@string/useDnsCacheSummary"
+            android:title="@string/useDnsCache" />
+
         <!-- only visible in full flavor -->
         <SwitchPreferenceCompat
             android:defaultValue="false"
@@ -247,6 +256,11 @@
                 android:key="privilegedInstaller"
                 android:persistent="false"
                 android:title="@string/system_installer" />
+            <Preference
+                android:dependency="expert"
+                android:key="debugLog"
+                android:summary="@string/pref_export_log_summary"
+                android:title="@string/pref_export_log_title" />
         </PreferenceCategory>
     </PreferenceCategory>
 

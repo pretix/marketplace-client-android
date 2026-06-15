@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 
@@ -102,6 +103,7 @@ public final class AppUpdateStatusManager {
     public enum Status {
         PendingInstall,
         DownloadInterrupted,
+        DownloadCancelled,
         UpdateAvailable,
         Downloading,
         ReadyToInstall,
@@ -205,6 +207,16 @@ public final class AppUpdateStatusManager {
             copy.progressCurrent = progressCurrent;
             copy.progressMax = progressMax;
             return copy;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o == null || getClass() != o.getClass()) return false;
+            AppUpdateStatus that = (AppUpdateStatus) o;
+            return progressCurrent == that.progressCurrent && progressMax == that.progressMax
+                    && Objects.equals(app, that.app) && Objects.equals(apk, that.apk)
+                    && status == that.status && Objects.equals(intent, that.intent)
+                    && Objects.equals(errorText, that.errorText);
         }
     }
 
@@ -507,6 +519,7 @@ public final class AppUpdateStatusManager {
 
     /**
      * Remove an APK from being tracked, since it is now considered {@link Status#Installed}
+     * or the installation was cancelled (manually or due to an error).
      *
      * @param canonicalUrl the unique ID for the install process
      * @see org.fdroid.fdroid.installer.InstallManagerService
@@ -551,6 +564,19 @@ public final class AppUpdateStatusManager {
             if (entry != null) {
                 entry.status = Status.DownloadInterrupted;
                 entry.errorText = errorText;
+                entry.intent = null;
+                notifyChange(entry, true);
+                removeApk(canonicalUrl);
+            }
+        }
+    }
+
+    public void setDownloadCancelled(String canonicalUrl) {
+        synchronized (appMapping) {
+            AppUpdateStatus entry = appMapping.get(canonicalUrl);
+            if (entry != null) {
+                entry.status = Status.DownloadCancelled;
+                entry.errorText = null;
                 entry.intent = null;
                 notifyChange(entry, true);
                 removeApk(canonicalUrl);

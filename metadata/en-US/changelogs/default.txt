@@ -1,8 +1,6 @@
-* Split up name and summary in app lists for better readability
-* Apps targeting SDK 24 are incompatible with Android 15 devices
-* Handle mirrors in "Add repo" preview better (Thanks Thore!)
-* Enable unattended app updates on Xiaomi devices not running MIUI (Thanks Irate!)
-* Trust user-added root certs (Thanks B.!)
-* Improve localization for less common languages (Thanks Ray!)
-* Don't react to NFC tags as NFC feature was removed (Thanks Thibault!)
-* Show warning when apps can not be updated from preferred repo
+* material design 3 (with edge-to-edge, but without dynamic colors) (Thanks proletarius!)
+* redesign repository details screens (Thanks Thore!)
+* added logcat file export in expert settings
+* update target SDK (Android 15 for basic and Android 11 for full)
+* add backlink from app's page in system settings (Thanks j-m4!)
+* use app chooser for sharing installed apps and install history (Thanks Thore!)

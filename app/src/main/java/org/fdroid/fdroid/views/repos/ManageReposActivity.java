@@ -24,18 +24,22 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.UserManager;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 import androidx.core.app.TaskStackBuilder;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,7 +52,9 @@ import org.fdroid.fdroid.AppUpdateStatusManager;
 import org.fdroid.fdroid.FDroidApp;
 import org.fdroid.fdroid.Preferences;
 import org.fdroid.fdroid.R;
+import org.fdroid.fdroid.UiUtils;
 import org.fdroid.fdroid.Utils;
+import org.fdroid.fdroid.UtilsKt;
 import org.fdroid.fdroid.data.App;
 import org.fdroid.fdroid.work.RepoUpdateWorker;
 import org.fdroid.index.RepoManager;
@@ -119,6 +125,8 @@ public class ManageReposActivity extends AppCompatActivity implements RepoAdapte
         fdroidApp.setSecureWindow(this);
 
         fdroidApp.applyPureBlackBackgroundInDarkTheme(this);
+        // Edge-to-edge has a bug in Android 10 (and lower?) where end of page is overlayed
+        if (Build.VERSION.SDK_INT > 29) EdgeToEdge.enable(this);
         repoManager = FDroidApp.getRepoManager(this);
 
         super.onCreate(savedInstanceState);
@@ -130,14 +138,23 @@ public class ManageReposActivity extends AppCompatActivity implements RepoAdapte
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         long lastUpdate = Preferences.get().getLastUpdateCheck();
         CharSequence lastUpdateStr = lastUpdate < 0 ?
-                getString(R.string.repositories_last_update_never) :
-                DateUtils.getRelativeTimeSpanString(lastUpdate, System.currentTimeMillis(),
-                        DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL);
+                getString(R.string.repositories_last_update_never) : UtilsKt.asRelativeTimeString(lastUpdate);
         getSupportActionBar().setSubtitle(getString(R.string.repositories_last_update, lastUpdateStr));
-        findViewById(R.id.fab).setOnClickListener(view -> {
+        View fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view -> {
             Intent i = new Intent(this, AddRepoActivity.class);
             startActivity(i);
         });
+        ViewCompat.setOnApplyWindowInsetsListener(fab, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            mlp.leftMargin += insets.left;
+            mlp.bottomMargin += insets.bottom;
+            mlp.rightMargin += insets.right;
+            v.setLayoutParams(mlp);
+            return WindowInsetsCompat.CONSUMED;
+        });
+
         toolbar.setNavigationOnClickListener(v -> {
             Intent upIntent = NavUtils.getParentActivityIntent(ManageReposActivity.this);
             if (NavUtils.shouldUpRecreateTask(ManageReposActivity.this, upIntent) || isTaskRoot()) {
@@ -156,6 +173,7 @@ public class ManageReposActivity extends AppCompatActivity implements RepoAdapte
             repoAdapter.updateItems(new ArrayList<>(items)); // copy list, so we don't modify original in adapter
             isItemReorderingEnabled = true;
         });
+        UiUtils.setupEdgeToEdge(repoList, false, true);
     }
 
     @Override
@@ -172,7 +190,7 @@ public class ManageReposActivity extends AppCompatActivity implements RepoAdapte
 
     @Override
     public void onClicked(Repository repo) {
-        RepoDetailsActivity.launch(this, repo.getRepoId());
+        RepoDetailsActivity.Companion.launch(this, repo.getRepoId());
     }
 
     /**
@@ -193,17 +211,15 @@ public class ManageReposActivity extends AppCompatActivity implements RepoAdapte
     @Override
     public void onToggleEnabled(Repository repo) {
         if (repo.getEnabled()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.repo_disable_warning);
-            builder.setPositiveButton(R.string.repo_disable_warning_button, (dialog, id) -> {
-                disableRepo(repo);
-                dialog.dismiss();
-            });
-            builder.setNegativeButton(R.string.cancel, (dialog, id) -> {
-                repoAdapter.updateRepoItem(repo);
-                dialog.cancel();
-            });
-            builder.show();
+            new MaterialAlertDialogBuilder(this)
+                    .setMessage(R.string.repo_disable_warning)
+                    .setPositiveButton(R.string.repo_disable_warning_button, (dialog, id) -> {
+                        disableRepo(repo);
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel())
+                    .setOnCancelListener(dialog -> repoAdapter.updateRepoItem(repo)) // reset toggle
+                    .show();
         } else {
             Utils.runOffUiThread(() -> {
                 repoManager.setRepositoryEnabled(repo.getRepoId(), true);

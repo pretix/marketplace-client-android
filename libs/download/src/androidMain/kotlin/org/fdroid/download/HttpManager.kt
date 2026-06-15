@@ -1,5 +1,6 @@
 package org.fdroid.download
 
+import android.util.Log
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.engine.okhttp.OkHttp
@@ -10,9 +11,9 @@ import okhttp3.ConnectionSpec.Companion.MODERN_TLS
 import okhttp3.ConnectionSpec.Companion.RESTRICTED_TLS
 import okhttp3.Dns
 import okhttp3.internal.tls.OkHostnameVerifier
-import org.fdroid.fdroid.DigestInputStream
 import java.io.InputStream
 import java.net.InetAddress
+import java.security.DigestInputStream
 import java.security.MessageDigest
 
 internal actual fun getHttpClientEngineFactory(customDns: Dns?): HttpClientEngineFactory<*> {
@@ -32,7 +33,13 @@ internal actual fun getHttpClientEngineFactory(customDns: Dns?): HttpClientEngin
                     dns(customDns)
                 }
                 hostnameVerifier { hostname, session ->
-                    session?.sessionContext?.sessionTimeout = 10
+                    try {
+                        session?.sessionContext?.sessionTimeout = 10
+                    } catch (e: NullPointerException) {
+                        // com.android.org.conscrypt.AbstractSessionContext.setSessionTimeout()
+                        // can throw this internally, so let's not crash due to this
+                        Log.e("HttpManager", "Error setting session timeout: ", e)
+                    }
                     // use default hostname verifier
                     OkHostnameVerifier.verify(hostname, session)
                 }

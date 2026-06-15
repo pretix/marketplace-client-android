@@ -1,15 +1,11 @@
-* Récupération et manipulation de miroirs, UX et code
+* Material Design 3 (avec affichage bord à bord, mais sans couleurs dynamiques) (Merci Proletarius !)
 
-* Afficher l'aperçu du nouveau dépôt
+* Refonte des écrans de détails du dépôt (Merci Thore !)
 
-* L'installation avec F-Droid et F-Droid Basic prend en charge les mises à jour automatiques en arrière-plan
+* Ajout de l'exportation du fichier logcat dans les paramètres experts
 
-* Sur Android 14, marquer les applications avec la version SDK non supportée comme incompatibles #2692
+* Mise à jour du SDK cible (Android 15 pour la version basique et Android 11 pour la version complète)
 
-* Clic-long pour copier les Liens, les Permissions et les Versions sur l'écran Détails de l'application (@Tobias_Groza)
+* Ajout d'un lien retour depuis la page de l'application dans les paramètres système (Merci j-m4 !)
 
-* Les applications incompatibles ne sont affichées que dans les paramètres #41 (@pigpig)
-
-* Nouveaux paramètres IPFS
-
-* Sélection de langues par application (@Licaon-Kter)
+* Utilisation du sélecteur d'applications pour partager les applications installées et l'historique des installations (Merci Thore !)

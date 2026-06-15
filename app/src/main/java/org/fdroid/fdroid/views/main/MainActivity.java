@@ -27,19 +27,25 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,7 +63,6 @@ import org.fdroid.fdroid.nearby.TreeUriScannerIntentService;
 import org.fdroid.fdroid.nearby.WifiStateChangeService;
 import org.fdroid.fdroid.views.AppDetailsActivity;
 import org.fdroid.fdroid.views.apps.AppListActivity;
-import org.fdroid.fdroid.work.RepoUpdateWorker;
 
 /**
  * Main view shown to users upon starting F-Droid.
@@ -105,10 +110,18 @@ public class MainActivity extends AppCompatActivity {
         fdroidApp.setSecureWindow(this);
 
         fdroidApp.applyPureBlackBackgroundInDarkTheme(this);
+        EdgeToEdge.enable(this);
 
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        // status bar will be light in light theme, so we need to tell the system about this exception
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        if (nightModeFlags != Configuration.UI_MODE_NIGHT_YES) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(decorView.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
 
         adapter = new MainViewAdapter(this);
 
@@ -116,6 +129,13 @@ public class MainActivity extends AppCompatActivity {
         pager.setHasFixedSize(true);
         pager.setLayoutManager(new NonScrollingHorizontalLayoutManager(this));
         pager.setAdapter(adapter);
+
+        ViewCompat.setOnApplyWindowInsetsListener(pager, (v, windowInsets) -> {
+            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()
+                    | WindowInsetsCompat.Type.displayCutout());
+            v.setPadding(insets.left, insets.top, insets.right, 0);
+            return WindowInsetsCompat.CONSUMED;
+        });
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
         setSelectedMenuInNav(Preferences.get().getBottomNavigationViewName());
@@ -140,8 +160,6 @@ public class MainActivity extends AppCompatActivity {
         });
         updatesBadge = bottomNavigation.getOrCreateBadge(R.id.updates);
         updatesBadge.setVisible(false);
-
-        initialRepoUpdateIfRequired();
 
         AppUpdateStatusManager.getInstance(this).getNumUpdatableApps().observe(this, this::refreshUpdatesBadge);
 
@@ -178,14 +196,6 @@ public class MainActivity extends AppCompatActivity {
             setSelectedMenuInNav(R.id.updates);
         } else if (EXTRA_VIEW_SETTINGS.equals(viewName)) {
             setSelectedMenuInNav(R.id.settings);
-        }
-    }
-
-    private void initialRepoUpdateIfRequired() {
-        if (Preferences.get().isIndexNeverUpdated() &&
-                !FDroidApp.getRepoUpdateManager(this).isUpdating().getValue()) {
-            Utils.debugLog(TAG, "We haven't done an update yet. Forcing repo update.");
-            RepoUpdateWorker.updateNow(this);
         }
     }
 

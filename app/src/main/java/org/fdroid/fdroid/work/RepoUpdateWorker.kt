@@ -49,11 +49,19 @@ class RepoUpdateWorker(
          *
          * @param repoId The optional ID of the repo to update.
          * If no ID is given, all (enabled) repos will be updated.
+         * Also triggers a clean cache job if no ID is given
          */
         @UiThread
         @JvmStatic
         @JvmOverloads
         fun updateNow(context: Context, repoId: Long = -1) {
+            if (repoId < 0) {
+                // Update of all repos also triggers a clean cache job
+                // (even if updates are prohibited by network state)
+                CleanCacheWorker.force(context)
+            }
+
+            Log.i(TAG, "Update repo with ID $repoId now!")
             if (FDroidApp.networkState > 0 && !Preferences.get().isOnDemandDownloadAllowed()) {
                 Toast.makeText(context, R.string.updates_disabled_by_settings, LENGTH_LONG).show()
                 return
@@ -79,6 +87,7 @@ class RepoUpdateWorker(
             val doUpdateChecks = prefs.updateInterval != UPDATE_INTERVAL_DISABLED &&
                 !(prefs.overData == OVER_NETWORK_NEVER && prefs.overWifi == OVER_NETWORK_NEVER)
             if (doUpdateChecks) {
+                Log.i(TAG, "scheduleOrCancel: enqueueUniquePeriodicWork")
                 val networkType = if (prefs.overData == OVER_NETWORK_ALWAYS &&
                     prefs.overWifi == OVER_NETWORK_ALWAYS
                 ) {
@@ -87,7 +96,6 @@ class RepoUpdateWorker(
                     NetworkType.UNMETERED
                 }
                 val constraints = Constraints.Builder()
-                    .setRequiresDeviceIdle(true)
                     .setRequiresBatteryNotLow(true)
                     .setRequiresStorageNotLow(true)
                     .setRequiredNetworkType(networkType)
@@ -101,7 +109,9 @@ class RepoUpdateWorker(
                     .setConstraints(constraints)
                     .build()
                 workManager.enqueueUniquePeriodicWork(
-                    UNIQUE_WORK_NAME_AUTO_UPDATE, UPDATE, workRequest
+                    UNIQUE_WORK_NAME_AUTO_UPDATE,
+                    UPDATE,
+                    workRequest,
                 )
             } else {
                 Log.w(TAG, "Not scheduling job due to settings!")

@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
+import android.content.pm.InstallSourceInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageInstaller;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +32,7 @@ import org.fdroid.fdroid.net.DownloaderService;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.concurrent.TimeUnit;
 
 public class SessionInstallManager extends BroadcastReceiver {
 
@@ -77,6 +80,7 @@ public class SessionInstallManager extends BroadcastReceiver {
     public void install(App app, Apk apk, Uri localApkUri, Uri canonicalUri) {
         DocumentFile documentFile = ObjectsCompat.requireNonNull(DocumentFile.fromSingleUri(context, localApkUri));
         long size = documentFile.length();
+        Log.i(TAG, "Installing " + documentFile.getUri() + " with size " + size + " bytes");
         PackageInstaller.SessionParams params = getSessionParams(app, size);
         PackageInstaller installer = context.getPackageManager().getPackageInstaller();
         try {
@@ -89,7 +93,19 @@ public class SessionInstallManager extends BroadcastReceiver {
                         session.fsync(outputStream);
                     }
                 }
-                session.commit(getInstallIntentSender(sessionId, app, apk, canonicalUri));
+                IntentSender sender = getInstallIntentSender(sessionId, app, apk, canonicalUri);
+                // wait for install constraints, if they can be used
+                if (Build.VERSION.SDK_INT >= 34 && canUseInstallConstraints(app.packageName)) {
+                    // we are allowed, so wait for constraints to do gentle update
+                    PackageInstaller.InstallConstraints constraints =
+                            PackageInstaller.InstallConstraints.GENTLE_UPDATE;
+                    long timeout = TimeUnit.HOURS.toMillis(3);
+                    Log.i(TAG, "Committing session using install constraints...");
+                    installer.commitSessionAfterInstallConstraintsAreMet(sessionId, sender, constraints, timeout);
+                } else {
+                    Log.i(TAG, "Committing session without install constraints...");
+                    session.commit(sender);
+                }
             }
         } catch (Exception e) {
             Log.e(TAG, "I/O Error during install session: ", e);
@@ -105,6 +121,9 @@ public class SessionInstallManager extends BroadcastReceiver {
         params.setAppPackageName(app.packageName);
         params.setSize(size);
         params.setInstallLocation(PackageInfo.INSTALL_LOCATION_AUTO);
+        if (Build.VERSION.SDK_INT >= 26) {
+            params.setInstallReason(PackageManager.INSTALL_REASON_USER);
+        }
         if (Build.VERSION.SDK_INT >= 31) {
             params.setRequireUserAction(PackageInstaller.SessionParams.USER_ACTION_NOT_REQUIRED);
         }
@@ -120,6 +139,25 @@ public class SessionInstallManager extends BroadcastReceiver {
             params.setRequestUpdateOwnership(true);
         }
         return params;
+    }
+
+    private boolean canUseInstallConstraints(String packageName) {
+        // We had too many complaints about gentle updates failing to update apps:
+        // * with running foreground services
+        // * used default keyboards
+        // * being media players
+        // So we'll disable this feature for now until it works properly.
+        if (true) return false;
+
+        String ourPackageName = context.getPackageName();
+        if (Build.VERSION.SDK_INT < 34 || packageName.equals(ourPackageName)) return false;
+        try {
+            InstallSourceInfo sourceInfo = context.getPackageManager().getInstallSourceInfo(packageName);
+            return ourPackageName.equals(sourceInfo.getInstallingPackageName()) ||
+                    ourPackageName.equals(sourceInfo.getUpdateOwnerPackageName());
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 
     @WorkerThread
@@ -197,8 +235,10 @@ public class SessionInstallManager extends BroadcastReceiver {
             String action = Installer.ACTION_INSTALL_USER_INTERACTION;
             Installer.sendBroadcastInstall(context, canonicalUri, action, app, apk, pendingIntent, null);
         } else {
+            // show no message when user actively aborted
+            String m = status == PackageInstaller.STATUS_FAILURE_ABORTED ? null : msg;
             String action = Installer.ACTION_INSTALL_INTERRUPTED;
-            Installer.sendBroadcastInstall(context, canonicalUri, action, app, apk, null, msg);
+            Installer.sendBroadcastInstall(context, canonicalUri, action, app, apk, null, m);
         }
     }
 
@@ -222,8 +262,10 @@ public class SessionInstallManager extends BroadcastReceiver {
             String action = Installer.ACTION_UNINSTALL_USER_INTERACTION;
             sendBroadcastUninstall(packageName, action, pendingIntent, null);
         } else {
+            // show no message when user actively aborted
+            String m = status == PackageInstaller.STATUS_FAILURE_ABORTED ? null : msg;
             String action = Installer.ACTION_UNINSTALL_INTERRUPTED;
-            sendBroadcastUninstall(packageName, action, null, msg);
+            sendBroadcastUninstall(packageName, action, null, m);
         }
     }
 
@@ -286,10 +328,11 @@ public class SessionInstallManager extends BroadcastReceiver {
         if (Build.VERSION.SDK_INT == 31 && targetSdk >= 29) return true;
         if (Build.VERSION.SDK_INT == 32 && targetSdk >= 29) return true;
         if (Build.VERSION.SDK_INT == 33 && targetSdk >= 30) return true;
+        if (Build.VERSION.SDK_INT == 34 && targetSdk >= 31) return true;
         // This needs to be adjusted as new Android versions are released
         // https://developer.android.com/reference/android/content/pm/PackageInstaller.SessionParams#setRequireUserAction(int)
-        // https://cs.android.com/android/platform/superproject/+/android-13.0.0_r42:frameworks/base/services/core/java/com/android/server/pm/PackageInstallerSession.java;l=2095;drc=6aba151873bfae198ef9eceb10f943e18b52d58c
-        // current code requires targetSdk 31 on SDK 34+
-        return Build.VERSION.SDK_INT >= 34 && targetSdk >= 31;
+        // https://cs.android.com/android/platform/superproject/+/android-16.0.0_r2:frameworks/base/services/core/java/com/android/server/pm/PackageInstallerSession.java;l=329;drc=73caa0299d9196ddeefe4f659f557fb880f6536d
+        // current code requires targetSdk 33 on SDK 35+
+        return Build.VERSION.SDK_INT >= 35 && targetSdk >= 33;
     }
 }

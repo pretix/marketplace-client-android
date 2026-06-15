@@ -1,8 +1,9 @@
 package org.fdroid.fdroid
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
-import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.asLiveData
@@ -25,6 +26,7 @@ import org.fdroid.index.v1.IndexV1Updater
 import java.io.File
 
 private val TAG = RepoUpdateManager::class.java.simpleName
+private const val MIN_UPDATE_INTERVAL_MILLIS = 15_000
 
 class RepoUpdateManager @JvmOverloads constructor(
     private val context: Context,
@@ -75,6 +77,14 @@ class RepoUpdateManager @JvmOverloads constructor(
 
     @WorkerThread
     fun updateRepos() {
+        if (isUpdating.value) {
+            Log.w(TAG, "Already updating repositories: updateRepos()")
+        }
+        val timeSinceLastCheck = System.currentTimeMillis() - fdroidPrefs.lastUpdateCheck
+        if (timeSinceLastCheck < MIN_UPDATE_INTERVAL_MILLIS) {
+            Log.i(TAG, "Not updating, only $timeSinceLastCheck ms since last check.")
+            return
+        }
         _isUpdating.value = true
         try {
             var reposUpdated = false
@@ -102,6 +112,7 @@ class RepoUpdateManager @JvmOverloads constructor(
                     repoErrors.add(Pair(repo, result.e))
                 }
             }
+            db.getRepositoryDao().walCheckpoint()
             fdroidPrefs.lastUpdateCheck = System.currentTimeMillis()
             if (repoErrors.isNotEmpty()) showRepoErrors(repoErrors)
             if (reposUpdated) {
@@ -120,6 +131,9 @@ class RepoUpdateManager @JvmOverloads constructor(
 
     @WorkerThread
     fun updateRepo(repoId: Long): IndexUpdateResult {
+        if (isUpdating.value) {
+            Log.w(TAG, "Already updating repositories: updateRepo($repoId)")
+        }
         val repo = repoManager.getRepository(repoId) ?: return IndexUpdateResult.NotFound
         _isUpdating.value = true
         try {
@@ -134,6 +148,7 @@ class RepoUpdateManager @JvmOverloads constructor(
         } finally {
             notificationManager.cancelUpdateRepoNotification()
             _isUpdating.value = false
+            db.getRepositoryDao().walCheckpoint()
         }
     }
 
@@ -149,7 +164,12 @@ class RepoUpdateManager @JvmOverloads constructor(
                 msgBuilder.append("$repoName: ${e.localizedMessage} ${cause.localizedMessage}")
             }
         }
-        Toast.makeText(context, msgBuilder.toString(), LENGTH_LONG).show()
+        // can't show Toast from background thread, so we need to move this to UiThread
+        Handler(Looper.getMainLooper()).post {
+            // can only post toast messages on the ui thread but this may
+            // be called from code that is executed by runOffUiThread()
+            Utils.showToastFromService(context, msgBuilder.toString(), LENGTH_LONG)
+        }
     }
 
     override fun onDownloadProgress(repo: Repository, bytesRead: Long, totalBytes: Long) {

@@ -23,6 +23,7 @@ package org.fdroid.fdroid.views;
 
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -38,8 +40,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.util.ObjectsCompat;
@@ -51,6 +53,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.fdroid.database.AppPrefs;
 import org.fdroid.database.AppVersion;
@@ -60,6 +63,7 @@ import org.fdroid.fdroid.CompatibilityChecker;
 import org.fdroid.fdroid.FDroidApp;
 import org.fdroid.fdroid.Preferences;
 import org.fdroid.fdroid.R;
+import org.fdroid.fdroid.UiUtils;
 import org.fdroid.fdroid.Utils;
 import org.fdroid.fdroid.data.Apk;
 import org.fdroid.fdroid.data.App;
@@ -116,6 +120,8 @@ public class AppDetailsActivity extends AppCompatActivity
         fdroidApp.setSecureWindow(this);
 
         fdroidApp.applyPureBlackBackgroundInDarkTheme(this);
+        // Edge-to-edge has a bug in Android 10 (and lower?) where end of page is overlayed
+        if (Build.VERSION.SDK_INT > 29) EdgeToEdge.enable(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_details2);
@@ -134,6 +140,7 @@ public class AppDetailsActivity extends AppCompatActivity
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
 
         recyclerView = findViewById(R.id.rvDetails);
+        UiUtils.setupEdgeToEdge(recyclerView, false, true);
         adapter = new AppDetailsRecyclerViewAdapter(this, app, this);
         LinearLayoutManager lm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         lm.setStackFromEnd(false);
@@ -158,7 +165,12 @@ public class AppDetailsActivity extends AppCompatActivity
         model.getVersions().observe(this, this::onVersionsChanged);
     }
 
+    @Nullable
     private String getPackageNameFromIntent(Intent intent) {
+        if (Build.VERSION.SDK_INT >= 24 && Intent.ACTION_SHOW_APP_INFO.equals(intent.getAction())) {
+            String packageName = intent.getStringExtra(Intent.EXTRA_PACKAGE_NAME);
+            if (!TextUtils.isEmpty(packageName)) return packageName;
+        }
         if (!intent.hasExtra(EXTRA_APPID)) {
             Log.e(TAG, "No package name found in the intent!");
             return null;
@@ -244,6 +256,12 @@ public class AppDetailsActivity extends AppCompatActivity
         // don't show menu before appPrefs haven't been loaded
         if (prefs == null || app == null) return false;
 
+        MenuItem share = menu.findItem(R.id.action_share);
+        share.setVisible(app.getShareUri(this) != null);
+
+        MenuItem shareApk = menu.findItem(R.id.action_share_apk);
+        shareApk.setVisible(app.isInstalled(getApplicationContext()));
+
         MenuItem itemIgnoreAll = menu.findItem(R.id.action_ignore_all);
         itemIgnoreAll.setChecked(prefs.getIgnoreAllUpdates());
         MenuItem itemIgnoreThis = menu.findItem(R.id.action_ignore_this);
@@ -282,41 +300,34 @@ public class AppDetailsActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_share) {
-            String extraText = String.format("%s (%s)\nhttps://f-droid.org/packages/%s/",
-                    app.name, app.summary, app.packageName);
-
             Intent uriIntent = new Intent(Intent.ACTION_SEND);
-            Uri shareUri = app.getShareUri(this);
-            if (shareUri != null) uriIntent.setData(shareUri);
+            Uri shareUri = ObjectsCompat.requireNonNull(app.getShareUri(this));
+            uriIntent.setType("text/plain");
+            uriIntent.putExtra(Intent.EXTRA_SUBJECT, app.name);
             uriIntent.putExtra(Intent.EXTRA_TITLE, app.name);
+            uriIntent.putExtra(Intent.EXTRA_TEXT, shareUri.toString());
 
-            Intent textIntent = new Intent(Intent.ACTION_SEND);
-            textIntent.setType("text/plain");
-            textIntent.putExtra(Intent.EXTRA_SUBJECT, app.name);
-            textIntent.putExtra(Intent.EXTRA_TITLE, app.name);
-            textIntent.putExtra(Intent.EXTRA_TEXT, extraText);
-
-            if (app.isInstalled(getApplicationContext())) {
-                // allow user to share APK if app is installed
-                Intent streamIntent = PublicSourceDirProvider.getApkShareIntent(this, app.packageName);
-                streamIntent.putExtra(Intent.EXTRA_SUBJECT, "Shared from F-Droid: " + app.name + ".apk");
-                streamIntent.putExtra(Intent.EXTRA_TITLE, app.name + ".apk");
-                streamIntent.putExtra(Intent.EXTRA_TEXT, extraText);
-
-                Intent chooserIntent = Intent.createChooser(streamIntent, getString(R.string.menu_share));
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{
-                        textIntent,
-                        uriIntent,
-                });
+            Intent chooserIntent = Intent.createChooser(uriIntent, getString(R.string.menu_share));
+            try {
                 startActivity(chooserIntent);
-            } else {
-                Intent chooserIntent = Intent.createChooser(textIntent, getString(R.string.menu_share));
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{
-                        uriIntent,
-                });
-                startActivity(chooserIntent);
+            } catch (ActivityNotFoundException ex) {
+                Toast.makeText(this, getString(R.string.no_handler_app, app.name),
+                        Toast.LENGTH_LONG).show();
             }
             return true;
+        } else if (item.getItemId() == R.id.action_share_apk) {
+            // allow user to share APK if app is installed
+            Intent streamIntent = PublicSourceDirProvider.getApkShareIntent(this, app.packageName);
+            streamIntent.putExtra(Intent.EXTRA_SUBJECT, "Shared from F-Droid: " + app.name + ".apk");
+            streamIntent.putExtra(Intent.EXTRA_TITLE, app.name + ".apk");
+
+            Intent chooserIntent = Intent.createChooser(streamIntent, getString(R.string.menu_share));
+            try {
+                startActivity(chooserIntent);
+            } catch (ActivityNotFoundException ex) {
+                Toast.makeText(this, getString(R.string.no_handler_app, app.name),
+                        Toast.LENGTH_LONG).show();
+            }
         } else if (item.getItemId() == R.id.action_ignore_all) {
             model.ignoreAllUpdates();
             return true;
@@ -363,22 +374,20 @@ public class AppDetailsActivity extends AppCompatActivity
         }
 
         if (!apk.compatible) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.installIncompatible);
-            builder.setPositiveButton(R.string.yes, (dialog, whichButton) -> initiateInstall(apk));
-            builder.setNegativeButton(R.string.no, (dialog, whichButton) -> {
-            });
-            AlertDialog alert = builder.create();
-            alert.show();
+            new MaterialAlertDialogBuilder(this)
+                    .setMessage(R.string.installIncompatible)
+                    .setPositiveButton(R.string.yes, (dialog, whichButton) -> initiateInstall(apk))
+                    .setNegativeButton(R.string.no, (dialog, whichButton) -> {
+                    })
+                    .show();
             return;
         }
         if (app.installedSigner != null && apk.signer != null
                 && !apk.signer.equals(app.installedSigner)) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.SignatureMismatch).setPositiveButton(
-                    R.string.ok, (dialog, id) -> dialog.cancel());
-            AlertDialog alert = builder.create();
-            alert.show();
+            new MaterialAlertDialogBuilder(this)
+                    .setMessage(R.string.SignatureMismatch)
+                    .setPositiveButton(R.string.ok, (dialog, id) -> dialog.cancel())
+                    .show();
             return;
         }
         initiateInstall(apk);
@@ -437,7 +446,8 @@ public class AppDetailsActivity extends AppCompatActivity
             // clear progress if the state got removed in the meantime (e.g. download canceled)
             adapter.clearProgress();
         }
-        if (this.currentStatus == newStatus) {
+        if (this.currentStatus == null && newStatus == null
+                || (this.currentStatus != null && this.currentStatus.equals(newStatus))) {
             Utils.debugLog(TAG, "Same app status, not updating.");
             return;
         }
@@ -467,6 +477,10 @@ public class AppDetailsActivity extends AppCompatActivity
                 } else {
                     adapter.clearProgress();
                 }
+                break;
+
+            case DownloadCancelled:
+                adapter.clearProgress();
                 break;
 
             case DownloadInterrupted:
@@ -615,7 +629,9 @@ public class AppDetailsActivity extends AppCompatActivity
                     if (!TextUtils.isEmpty(errorMessage) && !isFinishing()) {
                         Log.e(TAG, "uninstall aborted with errorMessage: " + errorMessage);
 
-                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AppDetailsActivity.this);
+                        MaterialAlertDialogBuilder alertBuilder = new MaterialAlertDialogBuilder(
+                                AppDetailsActivity.this
+                        );
                         Uri uri = intent.getData();
                         if (uri == null) {
                             alertBuilder.setTitle(getString(R.string.uninstall_error_notify_title, ""));

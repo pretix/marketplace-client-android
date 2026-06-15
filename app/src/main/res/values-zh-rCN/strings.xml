@@ -43,14 +43,14 @@
     <string name="menu_ignore_all">忽略所有更新</string>
     <string name="menu_ignore_this">忽略此更新</string>
     <string name="menu_website">网站</string>
-    <string name="menu_issues">错误</string>
+    <string name="menu_issues">问题跟踪器</string>
     <string name="menu_source">源代码</string>
     <string name="menu_upgrade">更新</string>
     <string name="details_notinstalled">未安装</string>
     <string name="antiadslist">此应用包含广告</string>
     <string name="antitracklist">此应用会记录并报告你的活动</string>
     <string name="antinonfreeadlist">此应用推广非自由的附加组件</string>
-    <string name="antinonfreenetlist">此应用推广或完全依赖于不可更改或非自由的网络服务</string>
+    <string name="antinonfreenetlist">此应用推广或完全依赖于非自由的网络服务</string>
     <string name="antinonfreedeplist">此应用依赖于其它非自由应用</string>
     <string name="antiupstreamnonfreelist">上游源代码不是完全自由的</string>
     <string name="display">显示</string>
@@ -93,7 +93,7 @@
     <string name="repo_disabled_notification">已禁用 %1$s。
 \n
 \n需重新启用该存储库才能安装其中的应用。</string>
-    <string name="not_on_same_wifi">你的设备与刚添加的本地存储库不在同一个 Wi-Fi 网络下！请加入此网络：%s</string>
+    <string name="not_on_same_wifi">你的设备与刚添加的本地存储库不在同一个 Wi-Fi 网络！请加入此网络：%s</string>
     <string name="requires_features">需要：%1$s</string>
     <string name="category_Development">开发</string>
     <string name="category_Games">游戏</string>
@@ -229,7 +229,7 @@
     <string name="interval_2w">每两周检查一次更新</string>
     <string name="theme_light">浅色</string>
     <string name="theme_dark">深色</string>
-    <string name="about_license">许可</string>
+    <string name="about_license">许可证</string>
     <string name="empty_search_available_app_list">没有相符的应用。</string>
     <string name="status_inserting_apps">正在保存应用详情</string>
     <string name="menu_email">发邮件给作者</string>
@@ -257,7 +257,7 @@
     <string name="update_auto_install_summary">在后台下载并更新应用，显示通知</string>
     <string name="keep_install_history">保存安装历史</string>
     <string name="keep_install_history_summary">在应用的私有存储内记录所有安装和卸载</string>
-    <string name="warning_no_internet">无法更新，你有可用的网络连接吗？</string>
+    <string name="warning_no_internet">无法更新，你连接到互联网了吗？</string>
     <string name="main_menu__latest_apps">最新</string>
     <string name="main_menu__categories">类别</string>
     <string name="main_menu__swap_nearby">附近</string>
@@ -269,7 +269,7 @@
     <string name="app_list__name__successfully_installed">%1$s 已安装</string>
     <string name="updates__tts__download_app">下载</string>
     <string name="notification_title_single_update_available">有可用更新</string>
-    <string name="notification_title_summary_install_error">安装失败</string>
+    <string name="notification_title_summary_install_error">安装失败了</string>
     <string name="app_details_donate_prompt_unknown_author">给 %1$s 的开发者买一杯咖啡吧！</string>
     <string name="app_details_donate_prompt">%1$s 由 %2$s 开发。给他们买一杯咖啡吧！</string>
     <string name="app_version_x_available">版本 %1$s 可用</string>
@@ -280,7 +280,7 @@
     <string name="app__install_downloaded_update">更新</string>
     <string name="installed_apps__activity_title">已安装的应用</string>
     <string name="installed_app__updates_ignored">已忽略的更新</string>
-    <string name="installed_app__updates_ignored_for_suggested_version">已忽略 %1$s 版本更新</string>
+    <string name="installed_app__updates_ignored_for_suggested_version">已忽略 %1$s 版的更新</string>
     <string name="update_all">全部更新</string>
     <string name="updates__hide_updateable_apps">隐藏应用</string>
     <string name="updates__show_updateable_apps">显示应用</string>
@@ -291,7 +291,7 @@
     <string name="clear_search">清除搜索</string>
     <string name="repositories_summary">添加其他应用来源</string>
     <string name="menu_video">视频</string>
-    <string name="menu_license">许可：%s</string>
+    <string name="menu_license">许可证：%s</string>
     <string name="latest__empty_state__no_recent_apps">未找到最近的应用</string>
     <string name="latest__empty_state__never_updated">应用列表更新之后，最新应用将在这里显示</string>
     <string name="latest__empty_state__no_enabled_repos">启用存储库并对其更新之后，最新应用将在这里显示</string>
@@ -303,7 +303,7 @@
     <plurals name="button_view_all_apps_in_category">
         <item quantity="other">查看全部 %d</item>
     </plurals>
-    <string name="nearby_splash__download_apps_from_people_nearby">没有网络连接？也可以从附近的用户获取应用！</string>
+    <string name="nearby_splash__download_apps_from_people_nearby">没有互联网连接？也可以从附近的用户获取应用！</string>
     <string name="nearby_splash__find_people_button">查找附近的人</string>
     <string name="nearby_splash__both_parties_need_fdroid">双方都需要使用 %1$s 才可以使用附近功能。</string>
     <string name="app__tts__downloading_progress">正在下载，已完成 %1$d%%</string>
@@ -312,7 +312,7 @@
     </plurals>
     <string name="notification_title_single_ready_to_install">准备安装</string>
     <string name="notification_title_single_ready_to_install_update">更新已就绪</string>
-    <string name="notification_title_single_install_error">安装失败</string>
+    <string name="notification_title_single_install_error">安装失败了</string>
     <string name="notification_content_single_downloading">正在下载“%1$s”…</string>
     <string name="notification_content_single_downloading_update">正在下载“%1$s”的更新…</string>
     <string name="notification_content_single_installing">正在安装“%1$s”…</string>
@@ -363,7 +363,7 @@
     <string name="app_list__dismiss_app_update">已忽略更新</string>
     <string name="app_list__dismiss_vulnerable_app">已忽略漏洞</string>
     <string name="app_list__dismiss_downloading_app">已取消下载</string>
-    <string name="updates__app_with_known_vulnerability__prompt_uninstall">我们发现了关于 %1$s 的漏洞，建议你立刻卸载此应用。</string>
+    <string name="updates__app_with_known_vulnerability__prompt_uninstall">我们发现了 %1$s 的漏洞。单击此提示在“负面特征”部分了解更多信息。</string>
     <string name="updates__app_with_known_vulnerability__prompt_upgrade">我们发现了关于 %1$s 的漏洞，建议你立即更新至最新版本。</string>
     <string name="updates__app_with_known_vulnerability__ignore">忽略</string>
     <string name="privacy">隐私</string>
@@ -395,7 +395,7 @@
     <string name="hide_on_long_search_press_summary">长按搜索按钮将隐藏此应用</string>
     <string name="warning_scaning_qr_code">你的相机似乎没有自动对焦。扫描二维码可能较为困难。</string>
     <string name="show_anti_feature_apps">包括带有负面特征的应用</string>
-    <string name="show_anti_feature_apps_on">显示包含负面特征的应用</string>
+    <string name="show_anti_feature_apps_on">显示有已知负面特征的应用</string>
     <string name="repo_add_mirror">添加镜像</string>
     <string name="force_touch_apps">包括触屏应用</string>
     <string name="force_touch_apps_on">显示需要触屏的应用，无论硬件是否支持</string>
@@ -421,7 +421,7 @@
     <string name="hide_all_notifications">隐藏所有通知</string>
     <string name="install_history">安装历史</string>
     <string name="send_version_and_uuid">将版本和 UUID 发送到服务器</string>
-    <string name="antinosourcesince">源代码不再可用，无法更新。</string>
+    <string name="antinosourcesince">源代码不再可用，不可能有更新</string>
     <string name="hide_all_notifications_summary">阻止所有活动在状态栏和通知菜单中显示。</string>
     <string name="send_install_history">发送安装历史</string>
     <string name="send_history_csv">%s 安装历史为 CSV 文件</string>
@@ -488,7 +488,7 @@
     <string name="use_pure_black_dark_theme_summary">仅推荐用于 OLED 屏幕。</string>
     <string name="use_pure_black_dark_theme">在深色主题中使用纯黑色背景</string>
     <string name="banner_no_data_or_wifi">未启用数据或 WiFi 网络</string>
-    <string name="banner_no_internet">无网络</string>
+    <string name="banner_no_internet">无互联网</string>
     <string name="share_apk_error">无法分享应用文件</string>
     <string name="has_disallow_install_unknown_sources">此用户无法添加未知来源，包括新的存储库</string>
     <string name="has_disallow_install_unknown_sources_globally">你的设备管理员不允许安装来自未知来源的应用，其中包括新的存储库</string>
@@ -496,7 +496,7 @@
     <string name="antiknownvuln">含有已知漏洞</string>
     <string name="antiads">广告</string>
     <string name="antinonfreead">非自由附加组件</string>
-    <string name="app_list_results_hidden_antifeature_settings">根据你的负面特征设置，一些结果被隐藏了。</string>
+    <string name="app_list_results_hidden_antifeature_settings">根据你的负面特征设置，一些应用被隐藏了。轻触更改设置。</string>
     <string name="antinonfreenet">非自由网络服务</string>
     <string name="antitrack">追踪用户</string>
     <string name="antinonfreeassets">非自由资产</string>
@@ -537,7 +537,7 @@
     <string name="force_old_installer_summary">禁用会话安装器，包括对自动后台更新的支持。</string>
     <string name="copied_to_clipboard">已复制到剪贴板</string>
     <string name="copied_permission_to_clipboard">已复制权限名到剪贴板</string>
-    <string name="copied_url_to_clipboard">已复制链接到剪贴板</string>
+    <string name="copied_url_to_clipboard">已复制 URL 到剪贴板</string>
     <string name="targetsdk_or_later">目标 SDK 版本 %s</string>
     <string name="repo_num_apps_button">显示应用</string>
     <string name="ipfsgw_caption_official_gateways">官方 IPFS 网关</string>
@@ -561,9 +561,7 @@
     <string name="app_details_repository_expand">展开存储库列表</string>
     <string name="app_list_no_suggested_version">没有推荐安装的版本。</string>
     <string name="repo_error_adding_archive">不能直接添加归档存储库。轻按列表中的存储库并在那儿启用。</string>
-    <string name="repo_list_info_text">存储库是应用源。 词列表显示所有当前添加的存储库。停用的存储库不被使用。
-\n
-\n如果一款应用在多个存储库中，那么将自动优先选择列表内位置靠前的那个（从上到下）。你可以长按列表名并进行拖动来重新排列存储库顺序。</string>
+    <string name="repo_list_info_text">存储库是应用的来源。 此列表显示当前所有添加的存储库。已停用的存储库不会被使用。\n\n如果多个存储库中有同一款应用，那么将自动优先选择列表内位置靠前的存储库。你可以长按列表名并拖动存储库来重新排列顺序。</string>
     <string name="repo_archive_toggle">存储库存档</string>
     <string name="repo_archive_toggle_description">显示已存档应用和应用的过时版本</string>
     <string name="repo_archive_failed">存档存储库当前不可用</string>
@@ -574,11 +572,43 @@
     <string name="repo_disable_warning">停用此存储库会从所有应用去除其“首选”状态。</string>
     <string name="app_details_repository_preferred">（首选）</string>
     <string name="repo_preview_included_apps">包含的应用：</string>
-    <string name="repo_and_mirror_add_both_info">你正尝试添加的 URL (%s）是新存储库的镜像。原始存储库和镜像都将被添加。</string>
+    <string name="repo_and_mirror_add_both_info">你正尝试添加的 URL (%s) 是一个新存储库的镜像。原始存储库和此镜像都将被添加。</string>
     <string name="repo_add_repo_and_mirror">添加存储库和镜像</string>
     <string name="repo_view_repo">查看存储库</string>
     <string name="repo_scan_qr_code">扫描二维码</string>
-    <string name="repo_mirror_exists">此镜像已存在（%s）。</string>
-    <string name="repo_mirror_add_info">你正尝试添加的 URL （%s）是现有存储库的镜像。</string>
+    <string name="repo_mirror_exists">此镜像已存在 (%s)。</string>
+    <string name="repo_mirror_add_info">你正尝试添加的 URL (%s) 是一个现有存储库的镜像。</string>
     <string name="warning_no_compat_versions">所选的存储库没有兼容的应用版本。要接收更新，请首选有兼容版本的存储库。</string>
+    <string name="auto_update_time">下次更新最早时间：%s</string>
+    <string name="auto_update_time_past">条件满足时进行下次更新</string>
+    <string name="antitetherednetlist">此用用完全依赖某一网络服务的特定实例</string>
+    <string name="antitetherednet">和特定网络服务深度捆绑</string>
+    <string name="swap_bluetooth_permissions">请授予蓝牙或附近设备权限！</string>
+    <string name="apk_permissions_mismatch">Apk 有意料之外的权限：%s</string>
+    <string name="menu_share_apk">分享 APK 文件</string>
+    <string name="preferForeign">偏好海外镜像</string>
+    <string name="preferForeignSummary">首先尝试位于你所在国家之外的镜像，如果海外保护更强。</string>
+    <string name="no_handler_app_generic">你没有安装可以处理这个的应用。</string>
+    <string name="repo_archive_unknown">此存储库似乎没有存档。</string>
+    <string name="repo_archive_check">检查存档</string>
+    <plurals name="repo_num_apps_text">
+        <item quantity="other">%d 个应用</item>
+    </plurals>
+    <string name="repo_last_update_index">存储库上次更新：%s</string>
+    <string name="repo_last_update_check">存储库上次更新检查：%s</string>
+    <string name="repo_confirm_delete_mirror_title">删除镜像？</string>
+    <string name="repo_confirm_delete_mirror_body">你可以使用其他镜像继续安装来自此存储库的应用。</string>
+    <string name="share_mirror">分享镜像</string>
+    <string name="show_repository_qr">显示存储库二维码</string>
+    <string name="repo_basic_auth_title">基本身份验证</string>
+    <string name="repo_basic_auth_username">用户名：%s</string>
+    <string name="repo_basic_auth_password">密码：***</string>
+    <string name="repo_basic_auth_edit">编辑</string>
+    <string name="expand">展开</string>
+    <string name="collapse">折叠</string>
+    <string name="repo_details_info_text">存储库是应用源。\n\n镜像用于再多个服务器间分配应用下载的负荷。离你越近的镜像可能速度越快。\n\n官方镜像由存储库所有者定义。它们无法被删除，只能被停用。你可以自定义额外镜像，像正常的存储库一样添加它们。</string>
+    <string name="export_log_success">成功保存了 Logcat</string>
+    <string name="export_log_error">保存 logcat 出错</string>
+    <string name="pref_export_log_title">调试日志</string>
+    <string name="pref_export_log_summary">创建对调试有帮助的 logcat 输出文件。小心，它可能包含敏感信息！</string>
 </resources>

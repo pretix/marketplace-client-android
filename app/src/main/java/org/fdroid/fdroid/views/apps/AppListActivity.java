@@ -33,6 +33,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,6 +53,7 @@ import org.fdroid.database.Repository;
 import org.fdroid.fdroid.FDroidApp;
 import org.fdroid.fdroid.Preferences;
 import org.fdroid.fdroid.R;
+import org.fdroid.fdroid.UiUtils;
 import org.fdroid.fdroid.Utils;
 import org.fdroid.fdroid.compat.LocaleCompat;
 import org.fdroid.fdroid.data.DBHelper;
@@ -106,6 +108,7 @@ public class AppListActivity extends AppCompatActivity implements CategoryTextWa
         fdroidApp.setSecureWindow(this);
 
         fdroidApp.applyPureBlackBackgroundInDarkTheme(this);
+        EdgeToEdge.enable(this);
 
         super.onCreate(savedInstanceState);
 
@@ -188,6 +191,8 @@ public class AppListActivity extends AppCompatActivity implements CategoryTextWa
         appView.setHasFixedSize(true);
         appView.setLayoutManager(new LinearLayoutManager(this));
         appView.setAdapter(appAdapter);
+
+        UiUtils.setupEdgeToEdge(appView, false, true);
 
         // this also causes a load as we set the search terms even for empty intents, thus the query changed
         parseIntentForSearchQuery();
@@ -283,12 +288,12 @@ public class AppListActivity extends AppCompatActivity implements CategoryTextWa
         // The user may not be aware of this, so we force going through app details.
         appAdapter.setHideInstallButton(repoId > 0);
         appAdapter.setItems(items);
-        if (items.size() > 0) {
-            emptyState.setVisibility(View.GONE);
-            appView.setVisibility(View.VISIBLE);
-        } else {
+        if (items.isEmpty()) {
             emptyState.setVisibility(View.VISIBLE);
             appView.setVisibility(View.GONE);
+        } else {
+            emptyState.setVisibility(View.GONE);
+            appView.setVisibility(View.VISIBLE);
         }
     }
 

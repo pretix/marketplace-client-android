@@ -1,13 +1,6 @@
-* Repository-Darstellung für Benutzer überarbeitet, um zu verdeutlichen, wenn eine Installation nicht von f-droid.org kommt
-
-* Benutzer können die Repository-Priorität global und pro App ändern
-
-* Eigene Anti-Features sind nun standardmäßig aktiviert, anstatt deaktiviert
-
-* Empfang von Repository-URLs über Teilen
-
-* Alle Aktivitäten berücksichtigen das Tag/Nacht-Design
-
-* Nutzung von ext. Speicher aktualisiert, wegen targetSdkVersion 29
-
-* F-Droid Basic aktualisiert, wegen targetSdkVersion 34
+* Material Design 3 (mit Rand-zu-Rand, aber ohne dynamische Farben) (Danke proletarius!)
+* Repository-Detailseiten neu gestaltet (Danke Thore!)
+* Logcat-Dateiexport in den Experteneinstellungen hinzugefügt
+* Update des Ziel-SDK (Android 15 für Basic und Android 11 für Vollversion)
+* Rückverweis von der App-Seite zu den Systemeinstellungen hinzugefügt (Danke j-m4!)
+* App-Auswahl für die Freigabe installierter Apps und den Installationsverlauf (Danke Thore!)

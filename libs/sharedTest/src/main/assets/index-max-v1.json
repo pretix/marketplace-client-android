@@ -5,11 +5,11 @@
     "maxage": 2147483647,
     "name": "MaxV1",
     "icon": "max-v1.png",
-    "address": "https://max-v1.org",
+    "address": "https://max-v1.org/repo",
     "description": "This is a repo with maximum data.",
     "mirrors": [
       "https://max-v1.com",
-      "https://max-v1.org"
+      "https://max-v1.org/repo"
     ]
   },
   "requests": {
@@ -228,6 +228,9 @@
         "signer": "824a109b2352138c3699760e1683385d0ed50ce526fc7982f8d65757743374bf",
         "size": 1337,
         "srcname": "org.fdroid.min1_42.zip",
+        "features": [
+          "new feature"
+        ],
         "versionCode": 24,
         "versionName": "24"
       }

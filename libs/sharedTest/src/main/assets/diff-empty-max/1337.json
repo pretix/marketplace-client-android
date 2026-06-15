@@ -18,7 +18,7 @@
         "size": 9223372036854775806
       }
     },
-    "address": "https://max-v1.org",
+    "address": "https://max-v1.org/repo",
     "webBaseUrl": "https://www.max-v1.org",
     "description": {
       "en-US": "This is a repo with maximum data.",
@@ -27,11 +27,11 @@
     "mirrors": [
       {
         "url": "https://max-v1.com",
-        "location": "us"
+        "countryCode": "us"
       },
       {
-        "url": "https://max-v1.org",
-        "location": "nl"
+        "url": "https://max-v1.org/repo",
+        "countryCode": "nl"
       }
     ],
     "timestamp": 9223372036854775807,

@@ -56,7 +56,7 @@
     <string name="antiadslist">Diese App enthält Werbung</string>
     <string name="antitracklist">Diese App verfolgt und versendet Ihre Aktivitäten</string>
     <string name="antinonfreeadlist">Diese App bewirbt nicht-quelloffene Erweiterungen</string>
-    <string name="antinonfreenetlist">Diese App bewirbt einen nicht-änderbaren oder nicht-quelloffenen Netzwerkdienst oder benötigt ihn zwingend</string>
+    <string name="antinonfreenetlist">Diese App bewirbt einen nicht-quelloffenen Netzwerkdienst oder benötigt ihn zwingend</string>
     <string name="antinonfreedeplist">Diese App ist abhängig von anderen nicht-quelloffenen Apps</string>
     <string name="antiupstreamnonfreelist">Der Originalcode ist nicht völlig quelloffen</string>
     <string name="display">Anzeige</string>
@@ -81,9 +81,9 @@
     <string name="enable_proxy_title">HTTP-Proxy aktivieren</string>
     <string name="enable_proxy_summary">HTTP-Proxy für alle Netzwerkanfragen konfigurieren</string>
     <string name="proxy_host">Proxy-Rechner</string>
-    <string name="proxy_host_summary">Ihr Proxy-Rechnername (z. B. 127.0.0.1)</string>
+    <string name="proxy_host_summary">Ihr Proxy-Rechnername (z.B. 127.0.0.1)</string>
     <string name="proxy_port">Proxy-Port</string>
-    <string name="proxy_port_summary">Proxy-Port konfigurieren (z. B. 8818)</string>
+    <string name="proxy_port_summary">Proxy-Port konfigurieren (z.B. 8818)</string>
     <string name="status_download">%2$s / %3$s (%4$d%%) von
 \n%1$s
 \nherunterladen</string>
@@ -105,10 +105,8 @@
     <string name="unsigned_description">Die Liste der Apps konnte nicht überprüft werden. Sie sollten bei Apps vorsichtig sein, die aus nicht signierten Quellen heruntergeladen wurden.</string>
     <string name="repo_not_yet_updated">Diese Paketquelle wurde noch nicht verwendet. Um darin bereitgestellte Apps anzuzeigen, muss sie aktiviert werden.</string>
     <string name="unknown">Unbekannt</string>
-    <string name="repo_confirm_delete_title">Paketquelle löschen\?</string>
-    <string name="repo_confirm_delete_body">Nach Löschen einer Paketquelle können keine Apps mehr aus ihr abgerufen werden.
-\n
-\nHinweis: Alle bisher installierten Apps bleiben auf Ihrem Gerät.</string>
+    <string name="repo_confirm_delete_title">Paketquelle löschen?</string>
+    <string name="repo_confirm_delete_body">Nach dem Löschen einer Paketquelle können keine Apps mehr aus dieser Quelle abgerufen werden.\n\nHinweis: Alle bisher installierten Apps bleiben auf Ihrem Gerät.</string>
     <string name="repo_disabled_notification">»%1$s« deaktiviert.
 \n
 \nSie müssen diese Paketquelle wieder aktivieren, um Apps daraus installieren zu können.</string>
@@ -124,7 +122,7 @@
     <string name="category_Navigation">Navigation</string>
     <string name="category_Phone_SMS">Telefon / SMS</string>
     <string name="category_Reading">Lesen</string>
-    <string name="category_Science_Education">Wissenschaft und Bildung</string>
+    <string name="category_Science_Education">Wissenschaft / Bildung</string>
     <string name="category_Security">Sicherheit</string>
     <string name="category_System">System</string>
     <string name="swap_join_same_wifi">Bitte mit demselben WLAN wie Ihr Freund verbinden</string>
@@ -153,7 +151,7 @@
     <string name="unstable_updates">Instabile Aktualisierungen</string>
     <string name="unstable_updates_summary">Aktualisierungen für instabile Versionen vorschlagen</string>
     <string name="menu_changelog">Änderungen</string>
-    <string name="category_Connectivity">Verbindung</string>
+    <string name="category_Connectivity">Konnektivität</string>
     <string name="category_Sports_Health">Sport / Gesundheit</string>
     <string name="category_Theming">Aussehen</string>
     <string name="category_Writing">Schreiben</string>
@@ -197,7 +195,7 @@
     <string name="swap_dont_show_again">Nicht wieder anzeigen</string>
     <string name="swap_choose_apps">Apps auswählen</string>
     <string name="swap_scan_qr">QR-Code</string>
-    <string name="swap_people_nearby">Leute in Ihrer Nähe</string>
+    <string name="swap_people_nearby">Personen in Ihrer Nähe</string>
     <string name="swap_scanning_for_peers">Nach Tauschpartnern suchen …</string>
     <string name="wifi_ap">Hotspot</string>
     <string name="swap_visible_bluetooth">Über Bluetooth sichtbar</string>
@@ -215,9 +213,7 @@
     <string name="swap_no_peers_nearby">Keinen Tauschpartner gefunden.</string>
     <string name="swap_confirm">Tausch bestätigen</string>
     <string name="swap_qr_isnt_for_swap">Der QR-Code, den Sie eingelesen haben, sieht nicht wie ein Tauschcode aus.</string>
-    <string name="swap_join_same_wifi_desc">Um über WLAN zu tauschen, müssen Sie sich im selben Netzwerk befinden. Wenn
-        Sie keinen gemeinsamen Netzwerkzugang haben, kann einer von Ihnen einen WLAN-Hotspot einrichten.
-    </string>
+    <string name="swap_join_same_wifi_desc">Um über WLAN zu tauschen, müssen Sie sich im selben Netzwerk befinden. Wenn Sie keinen gemeinsamen Netzwerkzugang haben, kann einer von Ihnen einen WLAN-Hotspot einrichten.</string>
     <string name="swap_nearby">Direktübertragung</string>
     <string name="loading">Laden …</string>
     <string name="swap_connection_misc_error">Fehler bei der Verbindungsaufnahme zum Zielgerät. Tausch ist nicht möglich!</string>
@@ -245,7 +241,7 @@
     <string name="crash_dialog_comment_prompt">Sie können zusätzliche Informationen und Kommentare hier einfügen:</string>
     <string name="antinonfreeassetslist">Diese App enthält nicht-quelloffene Bestandteile</string>
     <string name="crash_dialog_text">Die App wurde durch einen unerwarteten Fehler beendet. Möchten Sie die Details als E-Mail versenden, um eine Fehlerbehebung zu unterstützen\?</string>
-    <string name="menu_email">E-Mail an Autor</string>
+    <string name="menu_email">Eine E-Mail an den Autor senden</string>
     <string name="useTor">Tor verwenden</string>
     <string name="useTorSummary">Für einen verbesserten Datenschutz das Herunterladen über Tor erzwingen. Erfordert Orbot</string>
     <string name="swap_stopping_wifi">WLAN anhalten …</string>
@@ -297,7 +293,7 @@
     <string name="main_menu__categories">Kategorien</string>
     <string name="main_menu__updates">Aufgaben</string>
     <string name="main_menu__swap_nearby">Umfeld</string>
-    <string name="app_recommended_version_installed">Version %1$s (Empfohlen)</string>
+    <string name="app_recommended_version_installed">Version %1$s (empfohlen)</string>
     <string name="app_new">Neu</string>
     <string name="installed_apps__activity_title">Installierte Apps</string>
     <string name="installed_app__updates_ignored">Aktualisierungen ignoriert</string>
@@ -332,7 +328,7 @@
         <item quantity="other">Alle %d ansehen</item>
     </plurals>
     <string name="app_list__name__successfully_installed">%1$s installiert</string>
-    <string name="nearby_splash__download_apps_from_people_nearby">Kein Internet\? Apps von Menschen in Ihrer Umgebung erhalten!</string>
+    <string name="nearby_splash__download_apps_from_people_nearby">Kein Internet? Apps von Menschen in Ihrer Umgebung erhalten!</string>
     <string name="nearby_splash__find_people_button">In Ihrer Nähe suchen</string>
     <string name="nearby_splash__both_parties_need_fdroid">Beide benötigen %1$s, um den Direkttausch zu verwenden.</string>
     <string name="latest__empty_state__no_recent_apps">Keine kürzlich aktualisierten Apps gefunden</string>
@@ -383,7 +379,7 @@
     <string name="app_list__dismiss_app_update">Aktualisierung ignoriert</string>
     <string name="app_list__dismiss_vulnerable_app">Sicherheitslücke ignoriert</string>
     <string name="app_list__dismiss_downloading_app">Herunterladen abgebrochen</string>
-    <string name="updates__app_with_known_vulnerability__prompt_uninstall">In »%1$s« wurden Sicherheitslücken festgestellt. Es wird empfohlen, diese App unverzüglich zu deinstallieren.</string>
+    <string name="updates__app_with_known_vulnerability__prompt_uninstall">In »%1$s« wurden Sicherheitslücken festgestellt. Berühren, um mehr im Abschnitt der unerwünschten Merkmale zu lesen.</string>
     <string name="updates__app_with_known_vulnerability__prompt_upgrade">In »%1$s« wurde eine Sicherheitslücke festgestellt. Es wird empfohlen, diese App unverzüglich zu aktualisieren.</string>
     <string name="updates__app_with_known_vulnerability__ignore">Ignorieren</string>
     <string name="privacy">Datenschutz</string>
@@ -419,8 +415,8 @@
     <string name="repo_exists_enable">%1$s ist bereits eingestellt, bestätigen Sie die erneute Aktivierung.</string>
     <string name="repo_exists_and_enabled">%1$s ist bereits eingerichtet und aktiviert.</string>
     <string name="repo_exists_add_mirror">Dies ist eine Kopie von %1$s, als Spiegelserver hinzufügen\?</string>
-    <string name="show_anti_feature_apps">Apps mit unerwünschten Merkmalen</string>
-    <string name="show_anti_feature_apps_on">Apps anzeigen, die unerwünschte Merkmale besitzen</string>
+    <string name="show_anti_feature_apps">Unerwünschte Merkmale einschließen</string>
+    <string name="show_anti_feature_apps_on">Apps anzeigen, die bekannte unerwünschte Merkmale haben</string>
     <string name="force_touch_apps">Touchscreen-Apps einbeziehen</string>
     <string name="force_touch_apps_on">Apps anzeigen, die unabhängig von der Hardwareunterstützung einen Touchscreen benötigen</string>
     <string name="repo_official_mirrors">Offizielle Spiegelserver</string>
@@ -444,13 +440,13 @@
     <string name="send_version_and_uuid">Version und UUID an Server senden</string>
     <string name="prompt_to_send_crash_reports">Absturzbericht anfordern</string>
     <string name="hide_all_notifications_summary">Anzeigen zu Aktivitäten in der Statusleiste und den Benachrichtigungen generell vermeiden.</string>
-    <string name="send_version_and_uuid_summary">Beim Herunterladen die Version dieser App und eine zufällige, eindeutige ID einschließen, wird beim nächsten App-Start wirksam.</string>
+    <string name="send_version_and_uuid_summary">Beim Herunterladen von Apps, die Version dieser App und eine zufällige, eindeutige ID senden. Wird beim nächsten App-Start wirksam.</string>
     <string name="share_repository">Paketquelle teilen</string>
-    <string name="antinosourcesince">Der Quellcode ist nicht mehr erhältlich, keine Aktualisierungen möglich.</string>
+    <string name="antinosourcesince">Der Quellcode ist nicht mehr erhältlich, keine Aktualisierungen möglich</string>
     <string name="send_install_history">Installationsverlauf senden</string>
     <string name="updates_disabled_by_settings">Mobilfunk-/WLAN-Einstellungen verhindern sämtliche Aktualisierungen</string>
     <string name="send_history_csv">%s Installationsverlauf als CSV-Datei</string>
-    <string name="send_installed_apps">Installierte Apps freigeben</string>
+    <string name="send_installed_apps">Installierte Apps teilen</string>
     <string name="send_installed_apps_csv">Von F-Droid installierte Apps als CSV-Datei</string>
     <string name="menu_open">Öffnen</string>
     <string name="about_forum">Support-Forum</string>
@@ -519,7 +515,7 @@
     <string name="antinosource">Quellcode nicht mehr verfügbar</string>
     <string name="antiupstreamnonfree">Originalcode nicht-quelloffen</string>
     <string name="antinonfreedep">Nicht-quelloffene Abhängigkeiten</string>
-    <string name="app_list_results_hidden_antifeature_settings">Einige Ergebnisse wurden aufgrund Ihrer Einstellungen zu unerwünschten Merkmalen ausgeblendet.</string>
+    <string name="app_list_results_hidden_antifeature_settings">Einige Apps wurden aufgrund Ihrer Einstellungen zu unerwünschten Merkmalen ausgeblendet. Berühren zum Ändern.</string>
     <string name="antiads">Werbung</string>
     <string name="antitrack">Tracking</string>
     <string name="antidisabledalgorithm">Mit einem unsicheren Algorithmus signiert</string>
@@ -601,4 +597,37 @@
     <string name="repo_mirror_add_info">Die URL, die Sie hinzufügen möchten (%s), ist ein Spiegelserver eines bestehenden Repositorys.</string>
     <string name="repo_and_mirror_add_both_info">Die URL, die Sie hinzufügen möchten (%s), ist ein Spiegelserver eines neuen Repositorys. Sowohl das ursprüngliche Repository als auch der Spiegelserver werden hinzugefügt.</string>
     <string name="warning_no_compat_versions">Die ausgewählte Paketquelle hat keine kompatiblen App-Versionen. Um Aktualisierungen zu erhalten, sollten Sie eine Paketquelle mit kompatiblen Versionen vorziehen.</string>
+    <string name="auto_update_time">Früheste nächste Aktualisierung: %s</string>
+    <string name="auto_update_time_past">Nächste Aktualisierung, wenn die Bedingungen erfüllt sind</string>
+    <string name="antitetherednet">Tethering-Netzwerkdienste</string>
+    <string name="antitetherednetlist">Diese App hängt vollständig von einer bestimmten Instanz eines Netzwerkdienstes ab</string>
+    <string name="swap_bluetooth_permissions">Bitte Berechtigung für Bluetooth oder benachbarte Geräte erteilen!</string>
+    <string name="apk_permissions_mismatch">App hat unerwartete Berechtigung: %s</string>
+    <string name="menu_share_apk">APK-Datei teilen</string>
+    <string name="preferForeign">Ausländische Spiegelserver bevorzugen</string>
+    <string name="preferForeignSummary">Zuerst Spiegelserver verwenden, die sich außerhalb Ihres Landes befinden, z.B. wenn die Schutzmaßnahmen im Ausland stärker sind.</string>
+    <string name="no_handler_app_generic">Es ist keine App installiert, die damit umgehen kann.</string>
+    <plurals name="repo_num_apps_text">
+        <item quantity="one">1 App</item>
+        <item quantity="other">%d Apps</item>
+    </plurals>
+    <string name="repo_archive_unknown">Diese Paketquelle scheint kein Archiv zu haben.</string>
+    <string name="repo_archive_check">Auf Archiv prüfen</string>
+    <string name="repo_last_update_index">Letzte Paketquellenaktualisierung: %s</string>
+    <string name="repo_last_update_check">Letzte Prüfung auf Paketquellenaktualisierung: %s</string>
+    <string name="repo_details_info_text">Eine Paketquelle ist eine Quelle für Apps.\n\nSpiegelserver werden verwendet, um die Last des Herunterladens von Apps auf mehrere Server zu verteilen. Spiegelserver in Ihrer Nähe können schneller sein.\n\nOffizielle Spiegelserver werden vom Eigentümer der Paketquelle definiert. Sie können nicht gelöscht, sondern nur deaktiviert werden. Sie können zusätzliche benutzerdefinierte Spiegelserver definieren, indem Sie sie genau wie eine normale Paketquelle hinzufügen.</string>
+    <string name="share_mirror">Spiegelserver teilen</string>
+    <string name="show_repository_qr">QR-Code der Paketquelle anzeigen</string>
+    <string name="repo_basic_auth_title">Basis-Authentifizierung</string>
+    <string name="repo_basic_auth_username">Benutzername: %s</string>
+    <string name="repo_basic_auth_password">Passwort: ***</string>
+    <string name="repo_basic_auth_edit">Bearbeiten</string>
+    <string name="expand">Ausklappen</string>
+    <string name="collapse">Einklappen</string>
+    <string name="repo_confirm_delete_mirror_title">Spiegelserver löschen?</string>
+    <string name="repo_confirm_delete_mirror_body">Sie können weiterhin Apps von dieser Paketquelle über die anderen Spiegelserver installieren.</string>
+    <string name="pref_export_log_title">Debug-Log</string>
+    <string name="export_log_success">Logcat erfolgreich gespeichert</string>
+    <string name="export_log_error">Fehler beim Speichern des Logcats</string>
+    <string name="pref_export_log_summary">Erzeugt eine Datei mit Logcat-Ausgaben, die für die Fehlersuche nützlich sind. Vorsicht, sie könnte sensible Informationen enthalten!</string>
 </resources>

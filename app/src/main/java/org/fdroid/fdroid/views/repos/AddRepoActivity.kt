@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.collectAsState
 import androidx.core.content.ContextCompat
@@ -19,8 +20,8 @@ import kotlinx.coroutines.launch
 import org.fdroid.fdroid.FDroidApp
 import org.fdroid.fdroid.Preferences
 import org.fdroid.fdroid.R
-import org.fdroid.fdroid.compose.ComposeUtils.FDroidContent
 import org.fdroid.fdroid.nearby.SwapService
+import org.fdroid.fdroid.ui.theme.FDroidContent
 import org.fdroid.fdroid.views.apps.AppListActivity
 import org.fdroid.fdroid.views.apps.AppListActivity.EXTRA_REPO_ID
 import org.fdroid.fdroid.work.RepoUpdateWorker
@@ -36,6 +37,7 @@ class AddRepoActivity : AppCompatActivity() {
     private val repoManager: RepoManager get() = FDroidApp.getRepoManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
             repeatOnLifecycle(STARTED) {
@@ -104,7 +106,7 @@ class AddRepoActivity : AppCompatActivity() {
     }
 
     private fun onFetchRepo(uriStr: String) {
-        val uri = Uri.parse(uriStr)
+        val uri = Uri.parse(uriStr.trim())
         if (repoManager.isSwapUri(uri)) {
             val i = Intent(this, SwapService::class.java).apply {
                 data = uri
@@ -112,7 +114,7 @@ class AddRepoActivity : AppCompatActivity() {
             ContextCompat.startForegroundService(this, i)
         } else {
             repoManager.abortAddingRepository()
-            repoManager.fetchRepositoryPreview(uriStr, proxy = NetCipher.getProxy())
+            repoManager.fetchRepositoryPreview(uri.toString(), proxy = NetCipher.getProxy())
         }
     }
 

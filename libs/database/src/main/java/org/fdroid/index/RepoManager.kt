@@ -22,6 +22,7 @@ import org.fdroid.database.Repository
 import org.fdroid.database.RepositoryDaoInt
 import org.fdroid.download.DownloaderFactory
 import org.fdroid.download.HttpManager
+import org.fdroid.download.Mirror
 import org.fdroid.repo.AddRepoState
 import org.fdroid.repo.RepoAdder
 import org.fdroid.repo.RepoUriGetter
@@ -105,23 +106,46 @@ public class RepoManager @JvmOverloads constructor(
     }
 
     /**
-     * Enables or disables the repository with the given [repoId].
+     * Enables or disables the repository with the given [repoId]
+     * and also the corresponding archive repo if existing.
      * Data from disabled repositories is ignored in many queries.
      */
     @WorkerThread
-    public fun setRepositoryEnabled(repoId: Long, enabled: Boolean): Unit =
-        repositoryDao.setRepositoryEnabled(repoId, enabled)
+    public fun setRepositoryEnabled(repoId: Long, enabled: Boolean) {
+        if (enabled) {
+            repositoryDao.setRepositoryEnabled(repoId, true)
+        } else {
+            db.runInTransaction {
+                // find and also disable archive repo if existing
+                val repository = repositoryDao.getRepository(repoId) ?: return@runInTransaction
+                val archiveRepoId = repositoryDao.getArchiveRepoId(repository.certificate)
+                if (archiveRepoId != null) {
+                    repositoryDao.setRepositoryEnabled(archiveRepoId, false)
+                }
+                // disable main repo
+                repositoryDao.setRepositoryEnabled(repoId, false)
+            }
+        }
+    }
 
     /**
-     * Removes a Repository with the given repoId with all associated data from the database.
+     * Removes a Repository (and also the corresponding archive repo if existing)
+     * with the given repoId with all associated data from the database.
      */
     @WorkerThread
     public fun deleteRepository(repoId: Long) {
-        repositoryDao.deleteRepository(repoId)
-        // while this gets updated automatically, getting the update may be slow,
-        // so to speed up the UI, we emit the state change right away
-        _repositoriesState.value = _repositoriesState.value.filter { repository ->
-            repository.repoId == repoId
+        db.runInTransaction {
+            // find and remove archive repo if existing
+            val repository = repositoryDao.getRepository(repoId) ?: return@runInTransaction
+            val archiveRepoId = repositoryDao.getArchiveRepoId(repository.certificate)
+            if (archiveRepoId != null) repositoryDao.deleteRepository(archiveRepoId)
+            // delete main repo
+            repositoryDao.deleteRepository(repoId)
+            // while this gets updated automatically, getting the update may be slow,
+            // so to speed up the UI, we emit the state change right away
+            _repositoriesState.value = _repositoriesState.value.filter { repo ->
+                repo.repoId == repoId
+            }
         }
     }
 
@@ -238,4 +262,51 @@ public class RepoManager @JvmOverloads constructor(
         return uri != null && RepoUriGetter.isSwapUri(uri)
     }
 
+    @WorkerThread
+    public fun updateUsernameAndPassword(repoId: Long, username: String?, password: String?) {
+        repositoryDao.updateUsernameAndPassword(repoId, username, password)
+    }
+
+    @WorkerThread
+    public fun setMirrorEnabled(repoId: Long, mirror: Mirror, enabled: Boolean) {
+        val repo = repositoryDao.getRepository(repoId) ?: return
+
+        // Run as transaction to avoid race conditions between getting the mirrors and setting them
+        db.runInTransaction {
+            val disabled = repo.disabledMirrors.toMutableList()
+
+            if (enabled) {
+                if (disabled.contains(mirror.baseUrl)) {
+                    disabled.remove(mirror.baseUrl)
+                    repositoryDao.updateDisabledMirrors(repoId, disabled)
+                }
+            } else {
+                if (!disabled.contains(mirror.baseUrl)) {
+                    disabled.add(mirror.baseUrl)
+
+                    if (disabled.size == repo.getAllMirrors().size) {
+                        // if all mirrors are disabled, re-enable canonical repo as mirror
+                        disabled.remove(repo.address)
+                    }
+
+                    repositoryDao.updateDisabledMirrors(repoId, disabled)
+                }
+            }
+        }
+    }
+
+    @WorkerThread
+    public fun deleteUserMirror(repoId: Long, mirror: Mirror) {
+        val repo = repositoryDao.getRepository(repoId) ?: return
+
+        // Run as transaction to avoid race conditions between getting the mirrors and setting them
+        db.runInTransaction {
+            val user = repo.userMirrors.toMutableList()
+
+            if (user.contains(mirror.baseUrl)) {
+                user.remove(mirror.baseUrl)
+                repositoryDao.updateUserMirrors(repoId, user)
+            }
+        }
+    }
 }

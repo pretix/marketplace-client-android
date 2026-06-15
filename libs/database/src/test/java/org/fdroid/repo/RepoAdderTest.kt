@@ -29,12 +29,12 @@ import org.fdroid.database.Repository
 import org.fdroid.database.RepositoryDaoInt
 import org.fdroid.database.RepositoryPreferences
 import org.fdroid.database.toCoreRepository
+import org.fdroid.database.toMirrors
 import org.fdroid.download.Downloader
 import org.fdroid.download.DownloaderFactory
 import org.fdroid.download.HttpManager
 import org.fdroid.download.NotFoundException
 import org.fdroid.download.getDigestInputStream
-import org.fdroid.fdroid.DigestInputStream
 import org.fdroid.index.IndexFormatVersion
 import org.fdroid.index.IndexParser.json
 import org.fdroid.index.SigningException
@@ -45,6 +45,10 @@ import org.fdroid.repo.AddRepoError.ErrorType.INVALID_FINGERPRINT
 import org.fdroid.repo.AddRepoError.ErrorType.INVALID_INDEX
 import org.fdroid.repo.AddRepoError.ErrorType.IO_ERROR
 import org.fdroid.repo.AddRepoError.ErrorType.UNKNOWN_SOURCES_DISALLOWED
+import org.fdroid.repo.FetchResult.IsNewMirror
+import org.fdroid.repo.FetchResult.IsNewRepoAndNewMirror
+import org.fdroid.repo.FetchResult.IsNewRepository
+import org.fdroid.test.TestDataMidV2
 import org.fdroid.test.TestDataMinV2
 import org.fdroid.test.TestUtils.decodeHex
 import org.fdroid.test.TestUtils.getRandomString
@@ -55,6 +59,7 @@ import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import java.io.ByteArrayInputStream
 import java.io.IOException
+import java.security.DigestInputStream
 import java.security.MessageDigest
 import java.util.concurrent.Callable
 import kotlin.test.assertEquals
@@ -135,39 +140,64 @@ internal class RepoAdderTest {
 
     @Test
     fun testAddingMinRepo() = runTest {
-        val url = "https://example.org/repo/"
-        val urlTrimmed = url.trimEnd('/')
+        val url = TestDataMinV2.repo.address
+        testAddingMinRepoInt(url, IsNewRepository)
+    }
+
+    @Test
+    fun testAddingMinRepoByUserMirror() = runTest {
+        val url = "https://user-mirror-of-min-v1.org/repo"
+        testAddingMinRepoInt(url, IsNewRepoAndNewMirror)
+    }
+
+    private suspend fun testAddingMinRepoInt(
+        url: String,
+        expectedResult: FetchResult,
+    ) {
         val repoName = TestDataMinV2.repo.name.getBestLocale(localeList)
 
-        expectDownloadOfMinRepo(url)
+        mockMinRepoDownload(url)
 
         // repo not in DB
         every { repoDao.getRepository(any<String>()) } returns null
 
-        expectMinRepoPreview(repoName, FetchResult.IsNewRepoAndNewMirror) {
-            repoAdder.fetchRepository(url = url, proxy = null)
-        }
+        expectMinRepoPreview(repoName, url, expectedResult)
 
         val newRepo: Repository = mockk()
-        val txnSlot = slot<Callable<Repository>>()
-        every { db.runInTransaction(capture(txnSlot)) } answers {
-            assertTrue(txnSlot.isCaptured)
-            txnSlot.captured.call()
-        }
-        every {
-            repoDao.insert(match<NewRepository> {
-                // Note that we are not using the url the user used to add the repo,
-                // but what the repo tells us to use
-                it.address == TestDataMinV2.repo.address &&
-                    it.formatVersion == IndexFormatVersion.TWO &&
-                    it.name.getBestLocale(localeList) == repoName
-            })
-        } returns 42L
-        every { repoDao.getRepository(42L) } returns newRepo
-        every { repoDao.updateUserMirrors(42L, listOf(urlTrimmed)) } just Runs
+        mockNewRepoDbInsertion(repoName, TestDataMinV2.repo.address, newRepo, url)
 
         repoAdder.addRepoState.test {
-            assertIs<Fetching>(awaitItem()) // still Fetching from last call
+            val fetching: Fetching = awaitItem() as Fetching // still Fetching from last call
+            assertEquals(expectedResult, fetching.fetchResult)
+
+            repoAdder.addFetchedRepository()
+
+            assertIs<Adding>(awaitItem()) // now moved to Adding
+
+            val addedState = awaitItem()
+            assertIs<Added>(addedState)
+            assertEquals(newRepo, addedState.repo)
+        }
+    }
+
+    @Test
+    fun testAddingMidRepoByOfficialMirror() = runTest {
+        val url = "https://mid-v1.com/repo" // official mirror
+        val repoName = TestDataMidV2.repo.name.getBestLocale(localeList)
+
+        mockMidRepoDownload(url)
+
+        // repo not in DB
+        every { repoDao.getRepository(any<String>()) } returns null
+
+        expectMidRepoPreview(repoName, url, IsNewRepository)
+
+        val newRepo: Repository = mockk()
+        mockNewRepoDbInsertion(repoName, TestDataMidV2.repo.address, newRepo)
+
+        repoAdder.addRepoState.test {
+            val fetching: Fetching = awaitItem() as Fetching // still Fetching from last call
+            assertIs<IsNewRepository>(fetching.fetchResult)
 
             repoAdder.addFetchedRepository()
 
@@ -178,17 +208,17 @@ internal class RepoAdderTest {
             assertEquals(newRepo, addedState.repo)
         }
 
-        verify {
-            repoDao.updateUserMirrors(42L, listOf(urlTrimmed))
+        verify(exactly = 0) {
+            repoDao.updateUserMirrors(42L, listOf(url))
         }
     }
 
     @Test
-    fun testAddingMirrorForMinRepo() = runTest {
-        val url = "https://example.com/repo/"
+    fun testAddingUserMirrorForExistingMinRepo() = runTest {
+        val url = "https://user-mirror-of-min-v1.org/repo"
         val repoName = TestDataMinV2.repo.name.getBestLocale(localeList)
 
-        expectDownloadOfMinRepo(url)
+        mockMinRepoDownload(url)
 
         // repo is already in the DB
         val existingRepo = Repository(
@@ -206,9 +236,7 @@ internal class RepoAdderTest {
         )
         every { repoDao.getRepository(any<String>()) } returns existingRepo
 
-        expectMinRepoPreview(repoName, FetchResult.IsNewMirror(42L)) {
-            repoAdder.fetchRepository(url = url, proxy = null)
-        }
+        expectMinRepoPreview(repoName, url, IsNewMirror(42L))
 
         val transactionSlot = slot<Callable<Repository>>()
         every {
@@ -218,7 +246,9 @@ internal class RepoAdderTest {
         every { repoDao.updateUserMirrors(42L, listOf(url.trimEnd('/'))) } just Runs
 
         repoAdder.addRepoState.test {
-            assertIs<Fetching>(awaitItem()) // still Fetching from last call
+            val fetching: Fetching = awaitItem() as Fetching // still Fetching from last call
+            assertIs<IsNewMirror>(fetching.fetchResult)
+            assertEquals(existingRepo.repoId, fetching.fetchResult.existingRepoId)
 
             repoAdder.addFetchedRepository()
 
@@ -236,7 +266,7 @@ internal class RepoAdderTest {
 
     @Test
     fun testRepoAlreadyExists() = runTest {
-        val url = "https://min-v1.org/repo/"
+        val url = "https://min-v1.org/repo"
 
         // repo is already in the DB
         val existingRepo = Repository(
@@ -245,7 +275,7 @@ internal class RepoAdderTest {
                 version = 1337L,
                 formatVersion = IndexFormatVersion.TWO,
                 certificate = "cert",
-            ).copy(address = url), // change address, because TestDataMinV2 misses /repo
+            ),
             mirrors = emptyList(),
             antiFeatures = emptyList(),
             categories = emptyList(),
@@ -256,8 +286,9 @@ internal class RepoAdderTest {
     }
 
     @Test
-    fun testRepoAlreadyExistsWithMirror() = runTest {
-        val url = "https://example.org/repo/"
+    fun testRepoAlreadyExistsWithOfficialMirror() = runTest {
+        val url = "https://min-v1.org.org/repo"
+        val mirrorUrl = "https://official-mirror-of-min-v1.org.org/repo"
 
         // repo is already in the DB
         val existingRepo = Repository(
@@ -267,63 +298,20 @@ internal class RepoAdderTest {
                 formatVersion = IndexFormatVersion.TWO,
                 certificate = "cert",
             ),
-            mirrors = listOf(Mirror(REPO_ID, url), Mirror(REPO_ID, "http://example.org")),
+            mirrors = listOf(Mirror(REPO_ID, url), Mirror(REPO_ID, mirrorUrl)),
             antiFeatures = emptyList(),
             categories = emptyList(),
             releaseChannels = emptyList(),
             preferences = RepositoryPreferences(REPO_ID, 23),
         )
-        testRepoAlreadyExists(url, existingRepo)
-    }
 
-    @Test
-    fun testRepoAlreadyExistsWithFingerprint() = runTest {
-        val url = "https://example.org/repo?fingerprint=${VerifierConstants.FINGERPRINT}"
-
-        // repo is already in the DB
-        val existingRepo = Repository(
-            repository = TestDataMinV2.repo.toCoreRepository(
-                repoId = REPO_ID,
-                version = 1337L,
-                formatVersion = IndexFormatVersion.TWO,
-                certificate = VerifierConstants.CERTIFICATE,
-            ),
-            mirrors = listOf(Mirror(REPO_ID, "https://example.org/repo/")),
-            antiFeatures = emptyList(),
-            categories = emptyList(),
-            releaseChannels = emptyList(),
-            preferences = RepositoryPreferences(REPO_ID, 23),
-        )
-        testRepoAlreadyExists(url, existingRepo, "https://example.org/repo")
-    }
-
-    @Test
-    fun testRepoAlreadyExistsWithFingerprintTrailingSlash() = runTest {
-        val url = "https://example.org/repo/?fingerprint=${VerifierConstants.FINGERPRINT}"
-
-        // repo is already in the DB
-        val existingRepo = Repository(
-            repository = TestDataMinV2.repo.toCoreRepository(
-                repoId = REPO_ID,
-                version = 1337L,
-                formatVersion = IndexFormatVersion.TWO,
-                certificate = VerifierConstants.CERTIFICATE,
-            ),
-            mirrors = listOf(
-                Mirror(REPO_ID, "https://example.org/repo"),
-                Mirror(REPO_ID, "http://example.org"),
-            ),
-            antiFeatures = emptyList(),
-            categories = emptyList(),
-            releaseChannels = emptyList(),
-            preferences = RepositoryPreferences(REPO_ID, 23),
-        )
-        testRepoAlreadyExists(url, existingRepo, "https://example.org/repo")
+        testRepoAlreadyExists(mirrorUrl, existingRepo)
     }
 
     @Test
     fun testRepoAlreadyExistsUserMirror() = runTest {
-        val url = "https://example.net/repo/"
+        val url = "https://min-v1.org.org/repo"
+        val mirrorUrl = "https://user-mirror-of-min-v1.org.org/repo"
 
         // repo is already in the DB
         val existingRepo = Repository(
@@ -333,39 +321,84 @@ internal class RepoAdderTest {
                 formatVersion = IndexFormatVersion.TWO,
                 certificate = "cert",
             ),
-            mirrors = emptyList(),
+            mirrors = listOf(Mirror(REPO_ID, url)),
             antiFeatures = emptyList(),
             categories = emptyList(),
             releaseChannels = emptyList(),
             preferences = RepositoryPreferences(
                 repoId = REPO_ID,
                 weight = 23,
-                userMirrors = listOf(url, "http://example.org"),
+                userMirrors = listOf(url, mirrorUrl),
             ),
         )
-        testRepoAlreadyExists(url, existingRepo)
+        testRepoAlreadyExists(mirrorUrl, existingRepo)
+    }
+
+    @Test
+    fun testRepoAlreadyExistsWithFingerprint() = runTest {
+        val url = "https://min-v1.org/repo?fingerprint=${VerifierConstants.FINGERPRINT}"
+        val downloadUrl = "https://min-v1.org/repo"
+
+        // repo is already in the DB
+        val existingRepo = Repository(
+            repository = TestDataMinV2.repo.toCoreRepository(
+                repoId = REPO_ID,
+                version = 1337L,
+                formatVersion = IndexFormatVersion.TWO,
+                certificate = VerifierConstants.CERTIFICATE,
+            ),
+            mirrors = listOf(Mirror(REPO_ID, downloadUrl)),
+            antiFeatures = emptyList(),
+            categories = emptyList(),
+            releaseChannels = emptyList(),
+            preferences = RepositoryPreferences(REPO_ID, 23),
+        )
+        testRepoAlreadyExists(url, existingRepo, downloadUrl)
+    }
+
+    @Test
+    fun testRepoAlreadyExistsWithFingerprintTrailingSlash() = runTest {
+        val url = "https://min-v1.org/repo/?fingerprint=${VerifierConstants.FINGERPRINT}"
+        val downloadUrl = "https://min-v1.org/repo"
+
+        // repo is already in the DB
+        val existingRepo = Repository(
+            repository = TestDataMinV2.repo.toCoreRepository(
+                repoId = REPO_ID,
+                version = 1337L,
+                formatVersion = IndexFormatVersion.TWO,
+                certificate = VerifierConstants.CERTIFICATE,
+            ),
+            mirrors = listOf(Mirror(REPO_ID, downloadUrl)),
+            antiFeatures = emptyList(),
+            categories = emptyList(),
+            releaseChannels = emptyList(),
+            preferences = RepositoryPreferences(REPO_ID, 23),
+        )
+        testRepoAlreadyExists(url, existingRepo, downloadUrl)
     }
 
     private suspend fun testRepoAlreadyExists(
+        // The URL that the user "entered" and that is passed to repoAdder.fetchRepository()
         url: String,
         existingRepo: Repository,
+        // The "normalized" URL that the HTTP stack will end up requesting (i.e., without username/password/fingerprint)
         downloadUrl: String = url,
     ) {
         val repoName = TestDataMinV2.repo.name.getBestLocale(localeList)
 
-        expectDownloadOfMinRepo(downloadUrl)
+        mockMinRepoDownload(downloadUrl)
 
         // repo is already in the DB
         every { repoDao.getRepository(any<String>()) } returns existingRepo
 
-        val isRepo = existingRepo.address == url
+        val isRepo = existingRepo.address == downloadUrl
         val expectedFetchResult =
             if (isRepo) FetchResult.IsExistingRepository(existingRepo.repoId)
             else FetchResult.IsExistingMirror(existingRepo.repoId)
 
-        expectMinRepoPreview(repoName, expectedFetchResult) {
-            repoAdder.fetchRepository(url = downloadUrl, proxy = null)
-        }
+        expectMinRepoPreview(repoName, url, expectedFetchResult)
+
         assertFailsWith<IllegalStateException> {
             repoAdder.addFetchedRepository()
         }
@@ -433,7 +466,8 @@ internal class RepoAdderTest {
         coEvery {
             httpManager.getDigestInputStream(match {
                 it.indexFile.name == "../index-min-v2.json" &&
-                    it.mirrors.size == 1 && it.mirrors[0].baseUrl == urlTrimmed
+                    it.mirrors.size == 1 &&
+                    it.mirrors[0].baseUrl == urlTrimmed
             })
         } returns indexStream
         every {
@@ -550,7 +584,8 @@ internal class RepoAdderTest {
         coEvery {
             httpManager.getDigestInputStream(match {
                 it.indexFile.name == "../index-min-v2.json" &&
-                    it.mirrors.size == 1 && it.mirrors[0].baseUrl == repoAddress
+                    it.mirrors.size == 1 &&
+                    it.mirrors[0].baseUrl == repoAddress
             })
         } returns indexStream
         every {
@@ -610,7 +645,8 @@ internal class RepoAdderTest {
         coEvery {
             httpManager.getDigestInputStream(match {
                 it.indexFile.name == "/index-v2.json" &&
-                    it.mirrors.size == 1 && it.mirrors[0].baseUrl == "https://example.org/repo"
+                    it.mirrors.size == 1 &&
+                    it.mirrors[0].baseUrl == "https://example.org/repo"
             })
         } returns indexStream
         every {
@@ -648,9 +684,10 @@ internal class RepoAdderTest {
     fun testFallbackToV1() = runTest {
         val url = "http://testy.at.or.at/fdroid/repo/"
         val urlTrimmed = "http://testy.at.or.at/fdroid/repo"
-        val jarFile = folder.newFile()
 
+        val jarFile = folder.newFile()
         every { tempFileProvider.createTempFile() } returns jarFile
+
         every {
             downloaderFactory.create(
                 repo = match {
@@ -662,6 +699,7 @@ internal class RepoAdderTest {
             )
         } returns downloader
         every { downloader.download() } throws NotFoundException()
+
         val downloaderV1 = mockk<Downloader>()
         every {
             downloaderFactory.create(
@@ -696,7 +734,7 @@ internal class RepoAdderTest {
         }
         val addRepoState = repoAdder.addRepoState.value
         assertIs<Fetching>(addRepoState)
-        assertIs<FetchResult.IsNewRepository>(addRepoState.fetchResult)
+        assertIs<IsNewRepository>(addRepoState.fetchResult)
         assertEquals(63, addRepoState.apps.size)
     }
 
@@ -746,49 +784,18 @@ internal class RepoAdderTest {
     fun testAddingMinRepoWithBasicAuth() = runTest {
         val username = getRandomString()
         val password = getRandomString()
-        val url = "https://$username:$password@example.org/repo/"
+        val url = "https://$username:$password@min-v1.org/repo/"
+        val urlTrimmed = TestDataMinV2.repo.address
         val repoName = TestDataMinV2.repo.name.getBestLocale(localeList)
 
-        val urlTrimmed = "https://example.org/repo"
-        val jarFile = folder.newFile()
-        val indexFile = assets.open("index-min-v2.json")
-        val index = indexFile.use { it.readBytes() }
-        val indexStream = DigestInputStream(ByteArrayInputStream(index), digest)
-
-        every { tempFileProvider.createTempFile() } returns jarFile
-        every {
-            downloaderFactory.create(
-                repo = match {
-                    it.address == urlTrimmed && it.formatVersion == IndexFormatVersion.TWO
-                },
-                uri = Uri.parse("$urlTrimmed/entry.jar"),
-                indexFile = any(),
-                destFile = jarFile,
-            )
-        } returns downloader
-        every { downloader.download() } answers {
-            jarFile.outputStream().use { outputStream ->
-                assets.open("diff-empty-min/entry.jar").use { inputStream ->
-                    inputStream.copyTo(outputStream)
-                }
-            }
-        }
-        coEvery {
-            httpManager.getDigestInputStream(match {
-                it.indexFile.name == "../index-min-v2.json" &&
-                    it.mirrors.size == 1 && it.mirrors[0].baseUrl == urlTrimmed
-            })
-        } returns indexStream
-        every {
-            digest.digest() // sha256 from entry.json
-        } returns "851ecda085ed53adab25f761a9dbf4c09d59e5bff9c9d5530814d56445ae30f2".decodeHex()
+        // The URL to be downloaded does not contain the username+password,
+        // they are passed via headers by the HttpManager.
+        mockMinRepoDownload()
 
         // repo not in DB
         every { repoDao.getRepository(any<String>()) } returns null
 
-        expectMinRepoPreview(repoName, FetchResult.IsNewRepoAndNewMirror) {
-            repoAdder.fetchRepository(url = url, proxy = null)
-        }
+        expectMinRepoPreview(repoName, url, IsNewRepository)
 
         val newRepo: Repository = mockk()
         val txnSlot = slot<Callable<Repository>>()
@@ -803,7 +810,8 @@ internal class RepoAdderTest {
                 it.address == TestDataMinV2.repo.address &&
                     it.formatVersion == IndexFormatVersion.TWO &&
                     it.name.getBestLocale(localeList) == repoName &&
-                    it.username == username && it.password == password // this is the important bit
+                    it.username == username &&
+                    it.password == password // this is the important bit
             })
         } returns 42L
         every { repoDao.updateUserMirrors(42L, listOf(urlTrimmed)) } just Runs
@@ -822,46 +830,153 @@ internal class RepoAdderTest {
         }
     }
 
-    private fun expectDownloadOfMinRepo(url: String) {
-        val urlTrimmed = url.trimEnd('/')
+    private fun mockMinRepoDownload(
+        // Override the URL to download, e.g., when adding via a user mirror
+        downloadUrl: String = TestDataMinV2.repo.address,
+    ) {
+        mockRepoDownload(
+            downloadUrl,
+            "index-min-v2.json",
+            "diff-empty-min/entry.jar",
+            "851ecda085ed53adab25f761a9dbf4c09d59e5bff9c9d5530814d56445ae30f2",
+        )
+    }
+
+    private fun mockMidRepoDownload(
+        // Override the URL to download, e.g., when adding via a user/official mirror
+        downloadUrl: String = TestDataMidV2.repo.address,
+    ) {
+        mockRepoDownload(
+            downloadUrl,
+            "index-mid-v2.json",
+            "diff-empty-mid/entry.jar",
+            "561630a90ec9bcc29bc133cbd14b2d14d94124bb043c8d48effbad9d18d482fb",
+        )
+    }
+
+    private fun mockRepoDownload(
+        downloadUrlTrimmed: String,
+        indexFile: String,
+        entryJar: String,
+        digestHex: String, // sha256 of index-v2.json from entry.json
+    ) {
+        assert(!downloadUrlTrimmed.endsWith("/")) // otherwise you are using this helper wrong
+
         val jarFile = folder.newFile()
-        val indexFile = assets.open("index-min-v2.json")
-        val index = indexFile.use { it.readBytes() }
-        val indexStream = DigestInputStream(ByteArrayInputStream(index), digest)
+
+        val indexInputStream = assets.open(indexFile)
+        val indexDigestStream = DigestInputStream(indexInputStream, digest)
 
         every { tempFileProvider.createTempFile() } returns jarFile
         every {
             downloaderFactory.create(
                 repo = match {
-                    it.address == urlTrimmed && it.formatVersion == IndexFormatVersion.TWO
+                    it.address == downloadUrlTrimmed && it.formatVersion == IndexFormatVersion.TWO
                 },
-                uri = Uri.parse("$urlTrimmed/entry.jar"),
+                uri = Uri.parse("$downloadUrlTrimmed/entry.jar"),
                 indexFile = any(),
                 destFile = jarFile,
             )
         } returns downloader
         every { downloader.download() } answers {
             jarFile.outputStream().use { outputStream ->
-                assets.open("diff-empty-min/entry.jar").use { inputStream ->
+                assets.open(entryJar).use { inputStream ->
                     inputStream.copyTo(outputStream)
                 }
             }
         }
         coEvery {
             httpManager.getDigestInputStream(match {
-                it.indexFile.name == "../index-min-v2.json" &&
-                    it.mirrors.size == 1 && it.mirrors[0].baseUrl == urlTrimmed
+                it.indexFile.name == "../$indexFile" &&
+                    it.mirrors.size == 1 &&
+                    it.mirrors[0].baseUrl == downloadUrlTrimmed
             })
-        } returns indexStream
+        } returns indexDigestStream
         every {
-            digest.digest() // sha256 from entry.json
-        } returns "851ecda085ed53adab25f761a9dbf4c09d59e5bff9c9d5530814d56445ae30f2".decodeHex()
+            digest.digest()
+        } returns digestHex.decodeHex()
+    }
+
+    private fun mockNewRepoDbInsertion(
+        repoName: String?,
+        repoAddress: String,
+        newRepo: Repository,
+        userMirrorUrl: String? = null,
+    ) {
+        val txnSlot = slot<Callable<Repository>>()
+        every { db.runInTransaction(capture(txnSlot)) } answers {
+            assertTrue(txnSlot.isCaptured)
+            txnSlot.captured.call()
+        }
+
+        every {
+            repoDao.insert(match<NewRepository> {
+                // Note that we are not using the url the user used to add the repo,
+                // but what the repo tells us to use
+                it.address == repoAddress &&
+                    it.formatVersion == IndexFormatVersion.TWO &&
+                    it.name.getBestLocale(localeList) == repoName
+            })
+        } returns 42L
+        every { repoDao.getRepository(42L) } returns newRepo
+
+        if (userMirrorUrl != null && userMirrorUrl != repoAddress) {
+            every { repoDao.updateUserMirrors(42L, listOf(userMirrorUrl)) } just Runs
+        }
     }
 
     private suspend fun expectMinRepoPreview(
         repoName: String?,
+        url: String,
         expectedFetchResult: FetchResult,
-        block: suspend () -> Unit = {},
+    ) {
+        expectRepoPreview(
+            repoName,
+            url,
+            expectedFetchResult,
+            TestDataMinV2.repo,
+        ) { awaitItem ->
+            val state = awaitItem()
+            assertIs<Fetching>(state)
+            assertEquals(TestDataMinV2.packages.size, state.apps.size)
+            assertEquals(TestDataMinV2.PACKAGE_NAME, state.apps[0].packageName)
+            assertFalse(state.done)
+        }
+    }
+
+    private suspend fun expectMidRepoPreview(
+        repoName: String?,
+        url: String,
+        expectedFetchResult: FetchResult,
+    ) {
+        expectRepoPreview(
+            repoName,
+            url,
+            expectedFetchResult,
+            TestDataMidV2.repo,
+        ) { awaitItem ->
+            val state = awaitItem()
+            assertIs<Fetching>(state)
+            assertEquals(1, state.apps.size)
+            assertEquals(TestDataMidV2.PACKAGE_NAME_1, state.apps[0].packageName)
+            assertFalse(state.done)
+
+            // onAppReceived (second app)
+            val stateNext = awaitItem()
+            assertIs<Fetching>(stateNext)
+            assertEquals(TestDataMidV2.packages.size, stateNext.apps.size)
+            assertEquals(TestDataMidV2.PACKAGE_NAME_1, stateNext.apps[0].packageName)
+            assertEquals(TestDataMidV2.PACKAGE_NAME_2, stateNext.apps[1].packageName)
+            assertFalse(stateNext.done)
+        }
+    }
+
+    private suspend fun expectRepoPreview(
+        repoName: String?,
+        url: String,
+        expectedFetchResult: FetchResult,
+        expectedRepo: RepoV2,
+        onAppsReceived: suspend (suspend () -> AddRepoState) -> Unit,
     ) {
         repoAdder.addRepoState.test {
             assertIs<None>(awaitItem())
@@ -870,7 +985,7 @@ internal class RepoAdderTest {
                 // FIXME executing this block may emit items too fast, so we might miss one
                 //  causing flaky tests. A short delay may fix it, let's see.
                 delay(250)
-                block()
+                repoAdder.fetchRepository(url = url, proxy = null)
             }
 
             // early empty state
@@ -884,19 +999,16 @@ internal class RepoAdderTest {
             val state2 = awaitItem()
             assertIs<Fetching>(state2)
             val repo = state2.receivedRepo ?: fail()
-            assertEquals(TestDataMinV2.repo.address, repo.address)
+            assertEquals(expectedRepo.address, repo.address)
             assertEquals(repoName, repo.getName(localeList))
+            assertEquals(expectedRepo.mirrors.toMirrors(0L), repo.mirrors)
             val result = state2.fetchResult ?: fail()
             assertEquals(expectedFetchResult, result)
             assertTrue(state2.apps.isEmpty())
             assertFalse(state2.done)
 
-            // onAppReceived
-            val state3 = awaitItem()
-            assertIs<Fetching>(state3)
-            assertEquals(TestDataMinV2.packages.size, state3.apps.size)
-            assertEquals(TestDataMinV2.packageName, state3.apps[0].packageName)
-            assertFalse(state3.done)
+            // onAppReceived (state3)
+            onAppsReceived(::awaitItem)
 
             // final result
             val state4 = awaitItem()

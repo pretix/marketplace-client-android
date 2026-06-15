@@ -1,5 +1,8 @@
 package org.fdroid.database
 
+import android.net.Uri
+import android.util.Log
+import androidx.annotation.WorkerThread
 import androidx.core.os.LocaleListCompat
 import androidx.room.Embedded
 import androidx.room.Entity
@@ -18,6 +21,9 @@ import org.fdroid.index.v2.LocalizedTextV2
 import org.fdroid.index.v2.MirrorV2
 import org.fdroid.index.v2.ReleaseChannelV2
 import org.fdroid.index.v2.RepoV2
+import java.util.concurrent.TimeUnit
+
+private const val TAG = "Repository"
 
 @Entity(tableName = CoreRepository.TABLE)
 internal data class CoreRepository(
@@ -197,6 +203,12 @@ public data class Repository internal constructor(
         }.ifEmpty { listOf(org.fdroid.download.Mirror(address)) }
     }
 
+    public val allUserMirrors: List<org.fdroid.download.Mirror>
+        get() = userMirrors.map { org.fdroid.download.Mirror(it) }
+
+    public val allOfficialMirrors: List<org.fdroid.download.Mirror>
+        get() = getAllMirrors(false)
+
     /**
      * Returns all mirrors, including [disabledMirrors].
      */
@@ -214,7 +226,33 @@ public data class Repository internal constructor(
             add(0, org.fdroid.download.Mirror(address))
         }
     }
+
+    val shareUri: String
+        @WorkerThread
+        get() {
+            var uri = Uri.parse(address)
+            fingerprint?.let {
+                try {
+                    uri = uri.buildUpon().appendQueryParameter("fingerprint", it).build()
+                } catch (e: UnsupportedOperationException) {
+                    Log.e(TAG, "Failed to append fingerprint to URI: $e")
+                }
+            }
+            return uri.toString()
+        }
 }
+
+// Dummy repo to use in Compose Previews and in tests
+public val DUMMY_TEST_REPO: Repository = Repository(
+    repoId = 1L,
+    address = "https://example.com/fdroid/repo",
+    timestamp = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(2),
+    formatVersion = IndexFormatVersion.TWO,
+    certificate = "abc",
+    version = 1L,
+    weight = 1,
+    lastUpdated = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(1),
+)
 
 /**
  * A database table to store repository mirror information.
@@ -232,7 +270,7 @@ public data class Repository internal constructor(
 internal data class Mirror(
     val repoId: Long,
     val url: String,
-    val location: String? = null,
+    val countryCode: String? = null,
 ) {
     internal companion object {
         const val TABLE = "Mirror"
@@ -240,15 +278,19 @@ internal data class Mirror(
 
     fun toDownloadMirror(): org.fdroid.download.Mirror = org.fdroid.download.Mirror(
         baseUrl = url,
-        location = location,
+        countryCode = countryCode,
     )
 }
 
 internal fun MirrorV2.toMirror(repoId: Long) = Mirror(
     repoId = repoId,
     url = url,
-    location = location,
+    countryCode = countryCode,
 )
+
+internal fun List<MirrorV2>.toMirrors(repoId: Long): List<Mirror> {
+    return this.map { it.toMirror(repoId) }
+}
 
 /**
  * An attribute belonging to a [Repository].
@@ -284,9 +326,9 @@ public abstract class RepoAttribute {
 public data class AntiFeature internal constructor(
     internal val repoId: Long,
     internal val id: String,
-    override val icon: LocalizedFileV2,
+    override val icon: LocalizedFileV2 = emptyMap(),
     override val name: LocalizedTextV2,
-    override val description: LocalizedTextV2,
+    override val description: LocalizedTextV2 = emptyMap(),
 ) : RepoAttribute() {
     internal companion object {
         const val TABLE = "AntiFeature"
@@ -319,9 +361,9 @@ internal fun Map<String, AntiFeatureV2>.toRepoAntiFeatures(repoId: Long) = map {
 public data class Category internal constructor(
     public val repoId: Long,
     public val id: String,
-    override val icon: LocalizedFileV2,
+    override val icon: LocalizedFileV2 = emptyMap(),
     override val name: LocalizedTextV2,
-    override val description: LocalizedTextV2,
+    override val description: LocalizedTextV2 = emptyMap(),
 ) : RepoAttribute() {
     internal companion object {
         const val TABLE = "Category"
@@ -356,7 +398,7 @@ public data class ReleaseChannel(
     internal val id: String,
     override val icon: LocalizedFileV2 = emptyMap(),
     override val name: LocalizedTextV2,
-    override val description: LocalizedTextV2,
+    override val description: LocalizedTextV2 = emptyMap(),
 ) : RepoAttribute() {
     internal companion object {
         const val TABLE = "ReleaseChannel"

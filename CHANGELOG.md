@@ -1,3 +1,75 @@
+### 1.23.1 (2025-07-11)
+
+* Disable edge-to-edge for Android 10 and below since it caused issues there
+* Fix top app bar background in OLED black theme
+* Fix implied POST_NOTIFICATIONS permission mismatch
+* Fix minimum installable target SDK for Android 16 (marks apps as incompatible again)
+* Fix index diff bug when removing icons
+* Fix cash when setting session timeout with conscrypt installed
+
+### 1.23.0 (2025-05-22)
+
+* Updated app screenshots for Material 3 (Thanks Thore!)
+* Last material design adaptions: rounder cards
+* Don't add official mirror as user mirror (Thanks Thore!)
+* Fix user mirror UI bug (Thanks oldherl!)
+* Respect preferred repo for counting apps in categories
+* Fixed crash on started (Thanks Matthew!)
+
+### 1.23.0-alpha0 (2025-04-01)
+
+* material design 3 (with edge-to-edge, but without dynamic colors) (Thanks proletarius!)
+* redesign repository details screens (Thanks Thore!)
+* added logcat file export in expert settings
+* update target SDK (Android 15 for basic and Android 11 for full)
+* add backlink from app's page in system settings (Thanks j-m4)
+* wording improvements (Thanks Lucas!)
+* bug fixes related to deleting repositories (Thanks Matthew and Thore!)
+* use app chooser for sharing installed apps and install history (Thanks Thore!)
+* do not show "download failed" toast if download was cancelled manually (Thanks Tobias!)
+
+### 1.22.0 (2025-01-16)
+
+* automatically add newly installed apps to home-screen for most launchers (Thanks Dhina!)
+* disable gentle app updates again because of update issues 
+* some bug fixes
+
+### 1.22.0-alpha0 (2024-12-17)
+
+* use "gentle update" API so apps don't get killed while in use
+* experimental support for un-archiving apps on Android 15
+* separate share link and share file actions in app details
+* clean internal caches more often to free up space (Thanks DerGenaue!)
+* don't update repos if they already have been updated in last 15sec
+* re-order donation badges to match website (Thanks Leo!)
+* show toast when APK has more permissions than expected
+* add settings toggle to prefer foreign mirrors
+* verify hash of downloaded image resources and reject invalid ones
+* don't show apps with "bad" anti-features in category view
+* don't show error dialog for (un)installs when user actively aborted
+* don't update repos twice on fresh/clean app start
+* auto fallback to other installer if priv-ext doesn't have permissions
+* reduce DB size by checkpointing more frequently (Thanks DerGenaue!)
+* fix a crash when a repo removed
+
+### 1.21.0 (2024-10-10)
+
+* Fix race conditions when repositories are updated at the same time
+* Don't crash when Bluetooth permissions are missing
+* Fix launching panic settings from Panic app (e.g. Ripple)
+* Fix permission issue that prevented full and basic installed at same time
+* Update UI if the repository disable warning is canceled
+
+### 1.21.0-alpha1 (2024-09-17)
+
+* Rewritten repo updater to make background updates more reliable
+* Time of next scheduled update visible in settings
+* Fix case insensitive search containing diacritics (Thanks Tobias!)
+* Fix crash when deleting repo from repo details screen
+* Update anti-feature descriptions (Thanks Licaon!)
+* Add tethered net anti-feature (Thanks linsui!)
+* Ignore whitespaces when adding mirror repos (Thanks Tobias!)
+
 ### 1.21.0-alpha0 (2024-07-09)
 
 * Split up name and summary in app lists for better readability

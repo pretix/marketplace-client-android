@@ -18,6 +18,7 @@
 
 package org.fdroid.fdroid.views.appdetails;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -106,7 +108,13 @@ public class AntiFeaturesListingView extends RecyclerView {
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
                     i.setData(Uri.parse("https://f-droid.org/docs/Anti-Features#" + antiFeatureId));
-                    getContext().startActivity(i);
+                    try {
+                        getContext().startActivity(i);
+                    } catch (ActivityNotFoundException ex) {
+                        Toast.makeText(getContext(),
+                                getContext().getString(R.string.no_handler_app, antiFeatureId),
+                                Toast.LENGTH_LONG).show();
+                    }
                 });
             }
 
@@ -140,6 +148,8 @@ public class AntiFeaturesListingView extends RecyclerView {
             return context.getString(R.string.antitracklist);
         } else if (antiFeatureName.equals(context.getString(R.string.antinonfreenet_key))) {
             return context.getString(R.string.antinonfreenetlist);
+        } else if (antiFeatureName.equals(context.getString(R.string.antitetherednet_key))) {
+            return context.getString(R.string.antitetherednetlist);
         } else if (antiFeatureName.equals(context.getString(R.string.antinonfreead_key))) {
             return context.getString(R.string.antinonfreeadlist);
         } else if (antiFeatureName.equals(context.getString(R.string.antinonfreedep_key))) {
@@ -168,6 +178,8 @@ public class AntiFeaturesListingView extends RecyclerView {
             return R.drawable.ic_antifeature_tracking;
         } else if (antiFeatureName.equals(context.getString(R.string.antinonfreenet_key))) {
             return R.drawable.ic_antifeature_nonfreenet;
+        } else if (antiFeatureName.equals(context.getString(R.string.antitetherednet_key))) {
+            return R.drawable.ic_antifeature_tetherednet;
         } else if (antiFeatureName.equals(context.getString(R.string.antinonfreead_key))) {
             return R.drawable.ic_antifeature_nonfreeadd;
         } else if (antiFeatureName.equals(context.getString(R.string.antinonfreedep_key))) {

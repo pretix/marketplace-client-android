@@ -3,6 +3,7 @@ package org.fdroid.database
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase.CONFLICT_FAIL
+import androidx.room.RenameColumn
 import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -113,5 +114,48 @@ internal class MultiRepoMigration : AutoMigrationSpec {
 internal val MIGRATION_2_3 = object : Migration(2, 3) {
     override fun migrate(db: SupportSQLiteDatabase) {
         db.delete(CoreRepository.TABLE, "certificate IS NULL", null)
+    }
+}
+
+/**
+ * The tokenizer of the FTS4 table for the app metadata was modified.
+ * This migration is needed to recreate the FTS table to respect the new tokenizer.
+ */
+internal val MIGRATION_5_6 = object : Migration(5, 6) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("DROP TABLE `AppMetadataFts`")
+        // table creation taken from auto-generated code:
+        // build/generated/source/kapt/debug/org/fdroid/database/FDroidDatabaseInt_Impl.java
+        // the corresponding triggers are added automatically
+        db.execSQL("CREATE VIRTUAL TABLE IF NOT EXISTS `AppMetadataFts`" +
+            "USING FTS4(`repoId` INTEGER NOT NULL, `packageName` TEXT NOT NULL, " +
+            "`localizedName` TEXT, `localizedSummary` TEXT, " +
+            "tokenize=unicode61 \"remove_diacritics=0\", content=`AppMetadata`)")
+        // rebuild the FTS table to populate it with the new tokenizer
+        db.execSQL("INSERT INTO AppMetadataFts(AppMetadataFts) VALUES('rebuild')")
+    }
+}
+
+/**
+ * Somebody changed the initial IndexV2 definition of MirrorV2.location to MirrorV2.countryCode
+ * in fdroidserver and doesn't want to undo this rename.
+ * So now we need to handle this in the client to be in line with the index format produced.
+ */
+@RenameColumn(
+    tableName = Mirror.TABLE,
+    fromColumnName = "location",
+    toColumnName = "countryCode",
+)
+internal class CountryCodeMigration : AutoMigrationSpec {
+    override fun onPostMigrate(db: SupportSQLiteDatabase) {
+        // reset timestamps and etags so next repo updates pull full index, refresh all data
+        db.beginTransaction()
+        try {
+            db.execSQL("UPDATE ${CoreRepository.TABLE} SET timestamp = -1")
+            db.execSQL("UPDATE ${RepositoryPreferences.TABLE} SET lastETag = NULL")
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
+        }
     }
 }

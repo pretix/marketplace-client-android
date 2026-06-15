@@ -64,8 +64,9 @@
 
     <!-- Permission used to externally trigger repository updates -->
     <permission
-        android:name="org.fdroid.permission.UPDATE_REPOS"
+        android:name="${applicationId}.permission.UPDATE_REPOS"
         android:protectionLevel="signature|privileged" />
+    <uses-permission android:name="${applicationId}.permission.UPDATE_REPOS" />
 
     <application
         android:name=".FDroidApp"
@@ -261,7 +262,11 @@
             android:configChanges="layoutDirection|locale"
             android:exported="true"
             android:label="@string/app_details"
-            android:parentActivityName=".views.main.MainActivity"></activity>
+            android:parentActivityName=".views.main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SHOW_APP_INFO" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".views.ScreenShotsActivity" />
 
@@ -271,10 +276,10 @@
 
         <activity
             android:name=".installer.DefaultInstallerActivity"
-            android:theme="@style/AppThemeTransparent" />
+            android:theme="@style/Theme.App.Transparent" />
         <activity
             android:name=".installer.ErrorDialogActivity"
-            android:theme="@style/AppThemeTransparent" />
+            android:theme="@style/Theme.App.Transparent" />
 
         <activity
             android:name=".views.main.MainActivity"
@@ -284,7 +289,9 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.APP_MARKET" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             android:
                 android:enabled="false"
@@ -443,7 +450,7 @@
 
         <activity
             android:name=".installer.FileInstallerActivity"
-            android:theme="@style/AppThemeTransparent" />
+            android:theme="@style/Theme.App.Transparent" />
 
         <provider
             android:name="org.fdroid.fdroid.installer.ApkFileProvider"
@@ -492,9 +499,16 @@
         </receiver>
         <receiver android:name=".receiver.RepoUpdateReceiver"
             android:exported="true"
-            android:permission="org.fdroid.permission.UPDATE_REPOS">
+            android:permission="${applicationId}.permission.UPDATE_REPOS">
             <intent-filter>
                 <action android:name="org.fdroid.action.UPDATE_REPOS" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receiver.UnarchivePackageReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.UNARCHIVE_PACKAGE" />
             </intent-filter>
         </receiver>
 

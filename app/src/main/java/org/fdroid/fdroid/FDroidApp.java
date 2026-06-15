@@ -70,6 +70,7 @@ import org.fdroid.fdroid.nearby.PublicSourceDirProvider;
 import org.fdroid.fdroid.nearby.SDCardScannerService;
 import org.fdroid.fdroid.nearby.WifiStateChangeService;
 import org.fdroid.fdroid.net.ConnectivityMonitorService;
+import org.fdroid.fdroid.net.DnsCache;
 import org.fdroid.fdroid.net.DownloaderFactory;
 import org.fdroid.fdroid.panic.HidingManager;
 import org.fdroid.fdroid.receiver.DeviceStorageReceiver;
@@ -202,8 +203,7 @@ public class FDroidApp extends Application implements androidx.work.Configuratio
      * The built-in BouncyCastle was stripped down in {@link Build.VERSION_CODES#S}
      * so that {@code SHA1withRSA} and {@code SHA256withRSA} are no longer included.
      *
-     * @see
-     * <a href="https://gitlab.com/fdroid/fdroidclient/-/issues/2338">Nearby Swap Crash on Android 12: no such algorithm: SHA1WITHRSA for provider BC</a>
+     * @see <a href="https://gitlab.com/fdroid/fdroidclient/-/issues/2338">Nearby Swap Crash on Android 12: no such algorithm: SHA1WITHRSA for provider BC</a>
      */
     private static void enableBouncyCastle() {
         if (Build.VERSION.SDK_INT >= 31) {
@@ -234,7 +234,7 @@ public class FDroidApp extends Application implements androidx.work.Configuratio
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         Languages.setLanguage(this);
         App.systemLocaleList = null;
@@ -298,6 +298,7 @@ public class FDroidApp extends Application implements androidx.work.Configuratio
                     .build());
         }
         Preferences.setup(this);
+        DnsCache.setup();
         Languages.setLanguage(this);
         Preferences preferences = Preferences.get();
 
@@ -336,9 +337,10 @@ public class FDroidApp extends Application implements androidx.work.Configuratio
                                     .build()
                     )
             );
-            if (isAcraProcess() || HidingManager.isHidden(this)) {
-                return;
-            }
+        }
+        if (isAcraProcess() || HidingManager.isHidden(this)) {
+            Log.i(TAG, "This is the ACRA process (or we are hidden), not starting...");
+            return;
         }
 
         // register broadcast receivers
@@ -363,6 +365,7 @@ public class FDroidApp extends Application implements androidx.work.Configuratio
         // force setting network state to ensure it is set before UpdateService checks it
         networkState = ConnectivityMonitorService.getNetworkState(this);
         ConnectivityMonitorService.registerAndStart(this);
+        Utils.debugLog(TAG, "RepoUpdateWorker.scheduleOrCancel()");
         RepoUpdateWorker.scheduleOrCancel(getApplicationContext());
 
         FDroidApp.initWifiSettings();
@@ -544,8 +547,9 @@ public class FDroidApp extends Application implements androidx.work.Configuratio
         return instance;
     }
 
-    public static RepoManager getRepoManager(Context context) {
+    public static RepoManager getRepoManager(Context c) {
         if (repoManager == null) {
+            Context context = c.getApplicationContext();
             final RepoUriBuilder repoUriBuilder = (repository, pathElements) -> {
                 String address1 = Utils.getRepoAddress(repository);
                 return Utils.getUri(address1, pathElements);
@@ -556,8 +560,9 @@ public class FDroidApp extends Application implements androidx.work.Configuratio
         return repoManager;
     }
 
-    public static RepoUpdateManager getRepoUpdateManager(Context context) {
+    public static RepoUpdateManager getRepoUpdateManager(Context c) {
         if (repoUpdateManager == null) {
+            Context context = c.getApplicationContext();
             repoUpdateManager = new RepoUpdateManager(context, DBHelper.getDb(context), getRepoManager(context));
         }
         return repoUpdateManager;

@@ -19,12 +19,16 @@
 
 package org.fdroid.fdroid.views.installed;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ShareCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,6 +41,7 @@ import org.fdroid.database.AppPrefsDao;
 import org.fdroid.database.FDroidDatabase;
 import org.fdroid.fdroid.FDroidApp;
 import org.fdroid.fdroid.R;
+import org.fdroid.fdroid.UiUtils;
 import org.fdroid.fdroid.Utils;
 import org.fdroid.fdroid.data.App;
 import org.fdroid.fdroid.data.DBHelper;
@@ -56,6 +61,7 @@ public class InstalledAppsActivity extends AppCompatActivity {
         fdroidApp.setSecureWindow(this);
 
         fdroidApp.applyPureBlackBackgroundInDarkTheme(this);
+        EdgeToEdge.enable(this);
 
         super.onCreate(savedInstanceState);
 
@@ -76,6 +82,8 @@ public class InstalledAppsActivity extends AppCompatActivity {
 
         db = DBHelper.getDb(this);
         db.getAppDao().getInstalledAppListItems(getPackageManager()).observe(this, this::onLoadFinished);
+
+        UiUtils.setupEdgeToEdge(appList, false, true);
     }
 
     private void onLoadFinished(List<AppListItem> items) {
@@ -118,12 +126,18 @@ public class InstalledAppsActivity extends AppCompatActivity {
                             .append(app.installedVersionName).append('\n');
                 }
             }
+            String title = getString(R.string.send_installed_apps);
             ShareCompat.IntentBuilder intentBuilder = new ShareCompat.IntentBuilder(this)
-                    .setSubject(getString(R.string.send_installed_apps))
-                    .setChooserTitle(R.string.send_installed_apps)
+                    .setSubject(title)
+                    .setChooserTitle(title)
                     .setText(stringBuilder.toString())
                     .setType("text/csv");
-            startActivity(intentBuilder.getIntent());
+            try {
+                Intent chooserIntent = Intent.createChooser(intentBuilder.getIntent(), title);
+                startActivity(chooserIntent);
+            } catch (ActivityNotFoundException ex) {
+                Toast.makeText(this, R.string.no_handler_app_generic, Toast.LENGTH_LONG).show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }

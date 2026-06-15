@@ -124,6 +124,11 @@
         </PreferenceScreen>
         <SwitchPreferenceCompat
             android:enabled="false"
+            android:key="useDnsCache"
+            android:summary="@string/useDnsCacheSummary"
+            android:title="@string/useDnsCache" />
+        <SwitchPreferenceCompat
+            android:enabled="false"
             android:key="useTor"
             android:summary="@string/useTorSummary"
             android:title="@string/useTor" />

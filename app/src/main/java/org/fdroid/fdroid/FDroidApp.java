@@ -403,26 +403,9 @@ public class FDroidApp extends Application implements androidx.work.Configuratio
         }
 
         final String queryStringKey = "http-downloader-query-string";
-        if (preferences.sendVersionAndUUIDToServers()) {
-            queryString = atStartTime.getString(queryStringKey, null);
-            if (queryString == null) {
-                UUID uuid = UUID.randomUUID();
-                ByteBuffer buffer = ByteBuffer.allocate(Long.SIZE / Byte.SIZE * 2);
-                buffer.putLong(uuid.getMostSignificantBits());
-                buffer.putLong(uuid.getLeastSignificantBits());
-                String id = Base64.encodeToString(buffer.array(),
-                        Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING);
-                StringBuilder builder = new StringBuilder("id=").append(id);
-                String versionName = Uri.encode(Utils.getVersionName(this));
-                if (versionName != null) {
-                    builder.append("&client_version=").append(versionName);
-                }
-                queryString = builder.toString();
-                atStartTime.edit().putString(queryStringKey, queryString).apply();
-            }
-        } else {
-            atStartTime.edit().remove(queryStringKey).apply();
-        }
+        /* BEGIN PRETIX MODIFICATION */
+        queryString = PretixUtilsKt.pretixQueryString(this);
+        /* END PRETIX MODIFICATION */
 
         if (Preferences.get().isScanRemovableStorageEnabled()) {
             SDCardScannerService.scan(this);

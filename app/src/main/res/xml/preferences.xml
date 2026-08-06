@@ -57,6 +57,13 @@
             android:defaultValue="true"
             android:key="updateNotify"
             android:title="@string/notify" />
+        <!-- START PRETIX MODIFICATION -->
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="pretixUpdateAtNight"
+            android:summary="@string/pretix_update_at_night_summary"
+            android:title="@string/pretix_update_at_night" />
+        <!-- END PRETIX MODIFICATION -->
     </PreferenceCategory>
 
     <PreferenceCategory

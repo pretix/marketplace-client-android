@@ -147,7 +147,7 @@ class RepoUpdateWorker(
         if (Preferences.get().pretixUpdateAtNight) {
             val now = Calendar.getInstance()
             val hour = now.get(Calendar.HOUR_OF_DAY)
-            if (hour < 2 || hour >= 6) {
+            if (hour !in 2..<6) {
                 return Result.retry()
             }
         }

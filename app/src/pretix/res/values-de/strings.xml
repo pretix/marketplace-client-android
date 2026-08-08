@@ -12,4 +12,7 @@
     <string name="send_to_fdroid_metrics_summary">Sendet anonymisierte Daten wöchentlich zu pretix Marketplace Client Metriken (erfordert das Behalten des Installationsverlaufes)</string>
     <string name="main_menu__latest_apps">Apps</string>
     <string name="main_menu__updates">Updates</string>
+
+    <string name="pretix_update_at_night">Updates nachts installieren</string>
+    <string name="pretix_update_at_night_summary">Ausschließlich zwischen 02:00–06:00 Uhr</string>
 </resources>

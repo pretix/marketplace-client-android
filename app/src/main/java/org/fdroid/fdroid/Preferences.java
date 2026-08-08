@@ -772,7 +772,9 @@ public final class Preferences implements SharedPreferences.OnSharedPreferenceCh
      * to the server when downloading from it.
      */
     boolean sendVersionAndUUIDToServers() {
-        return preferences.getBoolean(PREF_SEND_VERSION_AND_UUID_TO_SERVERS, IGNORED_B);
+        /* BEGIN PRETIX MODIFICATION */
+        return preferences.getBoolean(PREF_SEND_VERSION_AND_UUID_TO_SERVERS, true);
+        /* END PRETIX MODIFICATION */
     }
 
     /**

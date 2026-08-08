@@ -921,4 +921,11 @@ public final class Preferences implements SharedPreferences.OnSharedPreferenceCh
         }
         return instance;
     }
+
+    /**
+     * Get the update interval in milliseconds.
+     */
+    public boolean getPretixUpdateAtNight() {
+        return preferences.getBoolean("pretixUpdateAtNight", true);
+    }
 }

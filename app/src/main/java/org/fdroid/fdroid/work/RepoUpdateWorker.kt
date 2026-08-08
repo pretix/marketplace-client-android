@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.annotation.UiThread
+import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy.UPDATE
@@ -31,6 +32,9 @@ import org.fdroid.fdroid.Preferences.UPDATE_INTERVAL_DISABLED
 import org.fdroid.fdroid.R
 import org.fdroid.fdroid.net.ConnectivityMonitorService.FLAG_NET_UNAVAILABLE
 import org.fdroid.fdroid.net.ConnectivityMonitorService.getNetworkState
+import java.time.LocalTime
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeUnit.MINUTES
 
@@ -107,6 +111,16 @@ class RepoUpdateWorker(
                     flexTimeIntervalUnit = MINUTES,
                 )
                     .setConstraints(constraints)
+                    /* BEGIN PRETIX MODIFICATION */
+                    .setBackoffCriteria(
+                        BackoffPolicy.LINEAR,
+                        // Retry is only triggered if we run outside of night ours but only want
+                        // to run at night. Our night window is 4h long, so a 2h backoff is always
+                        // safe.
+                        2 * 60 * 60 * 1000L,
+                        TimeUnit.MILLISECONDS
+                    )
+                    /* END PRETIX MODIFICATION */
                     .build()
                 workManager.enqueueUniquePeriodicWork(
                     UNIQUE_WORK_NAME_AUTO_UPDATE,
@@ -130,6 +144,13 @@ class RepoUpdateWorker(
     private val repoUpdateManager = FDroidApp.getRepoUpdateManager(appContext)
 
     override suspend fun doWork(): Result {
+        if (Preferences.get().pretixUpdateAtNight) {
+            val now = Calendar.getInstance()
+            val hour = now.get(Calendar.HOUR_OF_DAY)
+            if (hour !in 2..<6) {
+                return Result.retry()
+            }
+        }
         try {
             setForeground(getForegroundInfo())
         } catch (e: Exception) {

@@ -20,4 +20,7 @@
         genuinely don\'t have your apps available.
     </string>
     <string name="crash_dialog_title">pretix Marketplace client has crashed</string>
+
+    <string name="pretix_update_at_night">Install updates during the night</string>
+    <string name="pretix_update_at_night_summary">Between 02:00–06:00 only</string>
 </resources>

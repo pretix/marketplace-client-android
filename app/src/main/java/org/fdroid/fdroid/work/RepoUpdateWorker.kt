@@ -32,7 +32,6 @@ import org.fdroid.fdroid.Preferences.UPDATE_INTERVAL_DISABLED
 import org.fdroid.fdroid.R
 import org.fdroid.fdroid.net.ConnectivityMonitorService.FLAG_NET_UNAVAILABLE
 import org.fdroid.fdroid.net.ConnectivityMonitorService.getNetworkState
-import java.time.LocalTime
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeUnit.MILLISECONDS
@@ -120,6 +119,7 @@ class RepoUpdateWorker(
                         2 * 60 * 60 * 1000L,
                         TimeUnit.MILLISECONDS
                     )
+                    .addTag("updateAtNight")
                     /* END PRETIX MODIFICATION */
                     .build()
                 workManager.enqueueUniquePeriodicWork(
@@ -144,7 +144,7 @@ class RepoUpdateWorker(
     private val repoUpdateManager = FDroidApp.getRepoUpdateManager(appContext)
 
     override suspend fun doWork(): Result {
-        if (Preferences.get().pretixUpdateAtNight) {
+        if (Preferences.get().pretixUpdateAtNight && tags.contains("updateAtNight")) {
             val now = Calendar.getInstance()
             val hour = now.get(Calendar.HOUR_OF_DAY)
             if (hour !in 2..<6) {

@@ -32,7 +32,7 @@ android {
     compileSdk libs.versions.compileSdk.get().toInteger()
 
     defaultConfig {
-        versionCode 102305103 // (last two digits are pretix version, other digits are fdroid version)
+        versionCode 102305104 // (last two digits are pretix version, other digits are fdroid version)
         versionName getVersionName()
         applicationId "eu.pretix.marketplace.client.android"
 

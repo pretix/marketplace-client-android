@@ -80,11 +80,13 @@ class RepoUpdateManager @JvmOverloads constructor(
         if (isUpdating.value) {
             Log.w(TAG, "Already updating repositories: updateRepos()")
         }
-        val timeSinceLastCheck = System.currentTimeMillis() - fdroidPrefs.lastUpdateCheck
-        if (timeSinceLastCheck < MIN_UPDATE_INTERVAL_MILLIS) {
-            Log.i(TAG, "Not updating, only $timeSinceLastCheck ms since last check.")
-            return
-        }
+        /* BEGIN PRETIX MODIFICATION */
+//        val timeSinceLastCheck = System.currentTimeMillis() - fdroidPrefs.lastUpdateCheck
+//        if (timeSinceLastCheck < MIN_UPDATE_INTERVAL_MILLIS) {
+//            Log.i(TAG, "Not updating, only $timeSinceLastCheck ms since last check.")
+//            return
+//        }
+        /* END PRETIX MODIFICATION */
         _isUpdating.value = true
         try {
             var reposUpdated = false

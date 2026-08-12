@@ -2,6 +2,14 @@
 
 <manifest xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- These permissions are not allowed on Google Play, but we can't install this app on Google Play
+     anyways. Even on non Google Play, it won't work, since it only works for preloaded apps,
+     which means we can only *use* the permission on pretix-built android images. Still, it appears
+     to be harmless ot add it here for all devices, which means we do not need two builds.
+     See also https://source.android.com/docs/core/connect/device-identifiers#device-identifiers-implementation -->
+
     <uses-permission android:name="android.permission.INSTALL_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
         tools:ignore="ProtectedPermissions" />
 </manifest>

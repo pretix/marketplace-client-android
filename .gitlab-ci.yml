@@ -8,7 +8,11 @@ stages:
 test:
   stage: test
   script:
-    - GRADLE_USER_HOME=/cache ANDROID_HOME=/android-sdk-linux ./gradlew --no-daemon assembleBasicPretixDebug --stacktrace
+    - GRADLE_USER_HOME=/cache ANDROID_HOME=/android-sdk-linux ./gradlew --no-daemon assembleBasicPretixDebug cyclonedxBom --stacktrace
+  artifacts:
+    paths:
+      - build/reports/cyclonedx/bom.json
+    expire_in: '6 days'
 release:
   stage: release
   script:
@@ -22,3 +26,18 @@ release:
     - '/^v.*$/'
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
+sbom upload:
+  stage: release
+  image:
+    name: python:3.13
+  dependencies:
+    - test
+  before_script:
+    - pip install prisma-sbom-submit
+  script:
+    - prisma-sbom-submit upload --server https://prisma.pretix.com build/reports/cyclonedx/bom.json
+  only:
+    - pretix
+    - sbom
+    - '/^.*\..*$/'
+
